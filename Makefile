@@ -1,12 +1,14 @@
-NAME		= minishell
+NAME		:= minishell
 CC			:= gcc 
-FLAGS		:= -I$(INCDIR) -Wall -Wextra -Werror
+FLAGS		:= -Wall -Wextra -Werror
 RM			:= rm -rf
 
 
 SRCDIR		:= src
 INCDIR		:= inc
 OBJDIR		:= obj
+LIBDIR		:= lib/
+LIBFT		:= libft.a
 SRC			:= $(wildcard $(SRCDIR)/*.c)
 OBJ			:= $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
@@ -18,7 +20,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 all:		$(NAME)
 
 $(NAME): 	$(OBJ)
-			@$(CC) $^ $(FLAGS) -lreadline -o $(NAME)
+			@$(CC) $(FLAGS) -o $@ $^ -L$(LIBDIR) -lft -lreadline
 
 clean:
 			@$(RM) $(OBJDIR)
