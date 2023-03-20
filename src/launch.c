@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/20 17:21:00 by fcullen          ###   ########.fr       */
+/*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
+/*   Updated: 2023/03/20 17:20:06 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(void)
+void	launch_msh(void)
 {
-	launch_msh();
-	// terminate_msh();
-	return (0);
+	char	*input;
+
+	while (input != NULL)
+	{
+		input = readline("minishell: ");
+		// parse_input(input);
+		printf("%s\n", input);
+	}
+	add_history(input);
 }
