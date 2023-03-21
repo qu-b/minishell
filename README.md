@@ -15,3 +15,7 @@
 ### Shell Command Language
 
 [https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+
+### Bash Reference Manual
+
+[https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/index.html#SEC_Contents](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/index.html#SEC_Contents)
