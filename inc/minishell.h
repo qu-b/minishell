@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 16:44:50 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/22 23:43:41 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <ctype.h>
 # include "../inc/lexer.h"
+# include "../inc/builtins.h"
 # include "../lib/inc/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>

@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 23:42:52 by kpawlows         ###   ########.fr       */
+/*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
+/*   Updated: 2023/03/22 23:24:44 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/builtins.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_cd(char **args)
 {
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	// launch_msh();
-	// terminate_msh();
-	test_builtins(argc, argv, envp);
-	return (0);
+	DIR *dir;
+	(void) args;
+	// ft_printf("%s\n", args[1]);
+	dir = opendir(args[1]);
+	if (!dir)
+		return ;
+	readdir(dir);
+	// ??
+	return ;
+}
+
+void	test_ft_cd(int argc, char **argv)
+{
+	char	**args;
+	int		i;
+
+	i = 1;
+	args = malloc(sizeof(char *) * (argc + 2));
+	args[0] = ft_strdup("cd");
+	// while (++i < argc)
+		args[i] = ft_strdup(argv[i]);
+	ft_cd(args);
 }

@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 23:42:52 by kpawlows         ###   ########.fr       */
+/*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
+/*   Updated: 2023/03/22 23:31:19 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/builtins.h"
 
-int	main(int argc, char **argv, char **envp)
+
+
+void	ft_env(char **args)
 {
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	// launch_msh();
-	// terminate_msh();
-	test_builtins(argc, argv, envp);
-	return (0);
+	int	i;
+
+	i = -1;
+	while (args[++i] != NULL)
+		ft_printf("%s\n", args[i]);
+	return ;
 }

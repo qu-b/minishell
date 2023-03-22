@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 23:42:52 by kpawlows         ###   ########.fr       */
+/*   Created: 2023/03/22 23:25:56 by kpawlows          #+#    #+#             */
+/*   Updated: 2023/03/22 23:31:21 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/builtins.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_pwd(char **args)
 {
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	// launch_msh();
-	// terminate_msh();
-	test_builtins(argc, argv, envp);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (args[i] != NULL)
+	{
+		if (ft_strncmp(args[i], "PWD=", 4) == 0)
+		{
+			ft_printf("%s\n", &args[i][4]);
+			break ;
+		}
+		i++;
+	}
 }
