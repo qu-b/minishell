@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 16:44:50 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/22 17:41:37 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 void	launch_msh(void);
 
-t_token	*tokenize(char *input);
+t_token	*lexer(char *input);
 
 void	redirect(char *cmd, char **env, int fdin);
 

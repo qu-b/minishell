@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 16:44:25 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/22 21:25:03 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,37 @@
 
 // }
 
-t_token *tokenize(char *input)
+
+t_token	*lex_cmd(t_token* tokens, char* input, int* num_tokens, int c) 
+{
+	int		i;
+	int		j;
+	int		len;
+	int		n;
+	char*	command;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	n = 0;
+	if (ft_isalpha(input[c])) 
+	{
+		j = c + 1;
+		while (ft_isalpha(input[j]))
+			j++;
+		len = j - c;
+		command = malloc(sizeof(char) * (len + 2));
+		ft_strlcpy(command, &input[c], len + 1);
+		command[len] = '\0';
+		tokens[n].type = TOK_COMMAND;
+		tokens[n].value = command;
+		n++;
+	}
+	*num_tokens = n;
+	return tokens;
+}
+
+t_token *lexer(char *input)
 {
 	int		i;
 	int		n;
@@ -31,10 +61,18 @@ t_token *tokenize(char *input)
 	while (input[i])
 	{
 		// Skip whitespace
-		if (ft_isspace(input[i++]))
-			continue;
-		// Check operators
-		if (input[i] == '>' || input[i] == '<') 
+		while (ft_isspace(input[i]))
+			i++;
+		// Check Command
+		if (ft_isalpha(input[i]) || (input[i - 1] && (input[i - 1] != '\'' || input[i - 1] != '\"'))) 
+		{
+				lex_cmd(&tokens[n], input, &n, i);
+				while (ft_isalpha(input[i]))
+					i++;
+		}
+		// Check Arg
+		// Check Redirections
+		else if (input[i] == '>' || input[i] == '<') 
 		{
 			tokens[n].type = TOK_REDIRECTION;
 			tokens[n].value = malloc(sizeof(char) * 2);
@@ -42,8 +80,13 @@ t_token *tokenize(char *input)
 			tokens[n].value[1] = '\0';
 			n++;
 			i++;
-			continue;
+			// continue;
 		}
+		// Check Pipe
+		// Check Env Var
+		if (input[i] == '\0')
+			break ;
+		i++;
 	}
 	return (tokens);
 }
