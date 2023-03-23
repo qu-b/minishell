@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/23 19:27:32 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/23 19:31:48 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ t_token	*lexer(char *input)
 		// Check IO + pipe
 		else if (*input == '<' || *input == '>' || is_pipe(*input))
 		{
-			tokens[n].type = IO;
+			if (is_pipe(*input))
+				tokens[n].type = PIPE;
+			else
+				tokens[n].type = IO;
 			tokens[n].value = malloc(sizeof(char) * 2);
 			tokens[n].value[0] = *input;
 			tokens[n].value[1] = '\0';
