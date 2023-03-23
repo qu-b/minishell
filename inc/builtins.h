@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/23 02:47:50 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/23 05:18:42 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ void	ft_env(char **env);
 // args is **envp from main
 void	ft_pwd(char **env);
 
-// export just adds strings to **env_mod, need to manage existing env vars etc
-// depends on input, ex if args will first be expanded from $PATH to the actual PATH value
-// wonky to export without the "$PATH" keyword somewher in args though
+// ugly but works, would be better to use a struct
+// works only with one env variable check og
 char	**ft_export(char **env, char **args, int envnb);
+void	ft_replace_env(char **args, char ***new_env, int replace);
+char	**ft_add_env(char **env, char **args, char **new_env, int replace);
+int		ft_find_env_var(char **env, char **args);
 
 // ??
 void	ft_cd(char **args);
@@ -57,5 +59,6 @@ void	test_ft_echo(int argc, char **argv);
 void	test_ft_cd(int argc, char **argv);
 char	**ft_ptrdup(char **s, int n);
 char	**ft_ptrdup_free(char **s, int n);
+int		ft_strchr_idx(const char *s, int c);
 
 #endif

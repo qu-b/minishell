@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/23 03:09:21 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/23 03:57:41 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,22 @@ char	**ft_ptrdup_free(char **s, int n)
 	out[i] = NULL;
 	ft_freeptr(s);
 	return (out);
+}
+
+int	ft_strchr_idx(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+	{
+		if (s[i] == (char) c)
+			return (i);
+		i++;
+	}
+	if (s[i] == (char) c)
+		return (i);
+	return (0);
 }
