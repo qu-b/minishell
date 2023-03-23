@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/23 03:57:41 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/23 10:59:17 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**ft_ptrdup_free(char **s, int n)
 	char	**out;
 
 	i = -1;
-	out = malloc(sizeof(char *) * n);
+	out = malloc(sizeof(char *) * (n + 1));
 	if (!out)
 		return (NULL);
 	while (++i < n)
