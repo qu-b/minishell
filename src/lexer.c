@@ -6,48 +6,50 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 21:25:03 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/23 19:27:32 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// void	check_token(t_token	token, char c)
-// {
-
-// }
-
-
-t_token	*lex_cmd(t_token* tokens, char* input, int* num_tokens, int c) 
+// Checks string for argument
+t_token	*lex_arg(t_token *token, char *input)
 {
-	int		i;
 	int		j;
-	int		len;
-	int		n;
-	char*	command;
+	char	*arg;
 
-	i = 0;
-	j = 0;
-	len = 0;
-	n = 0;
-	if (ft_isalpha(input[c])) 
-	{
-		j = c + 1;
-		while (ft_isalpha(input[j]))
-			j++;
-		len = j - c;
-		command = malloc(sizeof(char) * (len + 2));
-		ft_strlcpy(command, &input[c], len + 1);
-		command[len] = '\0';
-		tokens[n].type = TOK_COMMAND;
-		tokens[n].value = command;
-		n++;
-	}
-	*num_tokens = n;
-	return tokens;
+	j = 1;
+	while (ft_isalpha(input[j]) && input[j])
+		j++;
+	arg = malloc(sizeof(char) * (j + 2));
+	ft_strlcpy(arg, input, j + 1);
+	arg[j] = '\0';
+	token->type = ARG;
+	token->value = arg;
+	return (token);
 }
 
-t_token *lexer(char *input)
+// Checks string for a command
+t_token	*lex_cmd(t_token *token, char *input)
+{
+	int		j;
+	char	*command;
+
+	j = 0;
+	if (ft_isalpha(*input))
+	{
+		while (ft_isalpha(input[j]) && input[j])
+			j++;
+		command = malloc(sizeof(char) * (j + 1));
+		ft_strlcpy(command, input, j + 1);
+		command[j] = '\0';
+		token->type = CMD;
+		token->value = command;
+	}
+	return (token);
+}
+
+t_token	*lexer(char *input)
 {
 	int		i;
 	int		n;
@@ -58,35 +60,56 @@ t_token *lexer(char *input)
 	n = 0;
 	len = ft_strlen(input);
 	tokens = malloc(sizeof(t_token) * len);
-	while (input[i])
+	while (input)
 	{
+		if (*input == '\0')
+			break ;
 		// Skip whitespace
-		while (ft_isspace(input[i]))
-			i++;
-		// Check Command
-		if (ft_isalpha(input[i]) || (input[i - 1] && (input[i - 1] != '\'' || input[i - 1] != '\"'))) 
+		while (is_space(*input))
+			input++;
+		// Check IO
+		if ((*input == '<' && *input + 1 == '<')
+			|| (*input == '>' && *input + 1 == '>'))
 		{
-				lex_cmd(&tokens[n], input, &n, i);
-				while (ft_isalpha(input[i]))
-					i++;
+			tokens[n].type = IO;
+			tokens[n].value = malloc(sizeof(char) * 3);
+			tokens[n].value[0] = *input;
+			tokens[n].value[1] = *input + 1;
+			tokens[n].value[2] = '\0';
+			input += 2;
+			n++;
+		}
+		// Check IO + pipe
+		else if (*input == '<' || *input == '>' || is_pipe(*input))
+		{
+			tokens[n].type = IO;
+			tokens[n].value = malloc(sizeof(char) * 2);
+			tokens[n].value[0] = *input;
+			tokens[n].value[1] = '\0';
+			input += 1;
+			n++;
+		}
+		// Check Command
+		else if (ft_isalpha(*input))
+		{
+			lex_cmd(&tokens[n], input);
+			n++;
+			while (ft_isalpha(*input))
+				input++;
 		}
 		// Check Arg
-		// Check Redirections
-		else if (input[i] == '>' || input[i] == '<') 
+		else if (*input == '-')
 		{
-			tokens[n].type = TOK_REDIRECTION;
-			tokens[n].value = malloc(sizeof(char) * 2);
-			tokens[n].value[0] = input[i];
-			tokens[n].value[1] = '\0';
+			lex_arg(&tokens[n], input);
+			input++;
+			while (ft_isalpha(*input))
+					input++;
 			n++;
-			i++;
-			// continue;
 		}
 		// Check Pipe
 		// Check Env Var
-		if (input[i] == '\0')
-			break ;
-		i++;
+		else
+			input++;
 	}
 	return (tokens);
 }

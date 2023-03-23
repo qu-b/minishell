@@ -6,28 +6,38 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 17:03:46 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/23 18:14:19 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#ifndef LEXER_H
+# define LEXER_H
+# include "../inc/minishell.h"
 
 // Define Tokens
-#define TOK_COMMAND 1
-#define TOK_ARGUMENT 2
-#define TOK_OPERATOR 3
-#define TOK_REDIRECTION 4
-#define TOK_PIPE 5
-#define TOK_BACKGROUND 6
-#define TOK_NEWLINE 7
-#define TOK_EOF 8
+enum e_token_type {
+	CMD,
+	ARG,
+	PATH,
+	SQSTR,
+	DQSTR,
+	IO,
+	PIPE,
+	ENV_VAR,
+	EXIT
+};
 
 typedef struct s_token
 {
-	int type;
-	char *value;
-} t_token;
-
+	enum e_token_type	type;
+	char				*value;
+}	t_token;
 
 // Utils
-int	ft_isspace(char c);
+int	is_space(char c);
+int	is_io(char *s);
+int is_pipe(char c);
+int	ft_is_builtin(char *command);
+int	ft_is_valid_command(char *command);
+
+#endif
