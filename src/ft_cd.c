@@ -6,11 +6,11 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/22 23:24:44 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/23 01:07:51 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/builtins.h"
+#include "../inc/minishell.h"
 
 void	ft_cd(char **args)
 {

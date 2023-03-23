@@ -6,22 +6,11 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:37:50 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/22 23:48:49 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/23 02:02:32 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../inc/minishell.h"
-#include "../inc/builtins.h"
-
-int	ft_argcount(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i] != NULL)
-		i++;
-	return (i);
-}
+#include "../inc/minishell.h"
 
 int	ft_echo_find_opt(char **args, int argnb)
 {
@@ -38,6 +27,8 @@ int	ft_echo_find_opt(char **args, int argnb)
 			while (args[i][j] && args[i][j] == 'n')
 				j++;
 		}
+		if (j == 1 && args[i][0] != '-')
+			j++;
 		if (j == ft_strlen(args[i]))
 			i++;
 		else
@@ -52,6 +43,7 @@ void	ft_echo(char **args)
 	int		argnb;
 	int		nl;
 
+	nl = 0;
 	argnb = ft_argcount(args);
 	if (argnb < 2)
 		return ;
@@ -61,10 +53,12 @@ void	ft_echo(char **args)
 	while (++i < argnb)
 	{
 		ft_printf("%s", args[i]);
-		if (i != argnb - 1)
+		if (i < argnb - 1)
 			ft_printf(" ");
 	}
-	if (nl == 0)
+	if  (argnb == 2 )
+		i = 0;
+	if (nl == 0 || (argnb == 2 && args[1][0] == '-'))
 		ft_printf("\n");
 }
 
