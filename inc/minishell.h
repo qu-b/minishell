@@ -32,7 +32,7 @@
 
 void	launch_msh(void);
 
-t_token	*tokenize(char *input);
+t_token	*lexer(char *input);
 
 void	redirect(char *cmd, char **env, int fdin);
 

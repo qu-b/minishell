@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/22 16:47:19 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:07:52 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,22 @@ int	check_builtin(char *input)
 	return (1);
 }
 
-// int	parse_input(char *input)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (check_builtin(input))
-// 	{
-// 		while (input[i])
-// 		{
-// 		}
-// 	}
-// 	return (1);
-// }
-
 void	launch_msh(void)
 {
 	char	*input;
-	t_token	*token;
+	t_token	*tokens;
 
 	input = "";
 	while (input != NULL)
 	{
 		input = readline("minishell: ");
-		check_builtin(input);
-		token = tokenize(input);
-		printf("%s\n", token[0].value);
-		printf("%s\n", token[1].value);
-		printf("%s\n", token[2].value);
+		input[ft_strlen(input)] = '\0';
 		add_history(input);
+		check_builtin(input);
+		tokens = lexer(input);
+		int i = -1;
+		while (tokens[++i].value)
+			printf("%s : %d\n", tokens[i].value, tokens[i].type);
 		// parse_input(input);
 		// printf("%s\n", input);
 	}
