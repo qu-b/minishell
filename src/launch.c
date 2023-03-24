@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/23 19:16:11 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:07:52 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,9 @@ void	launch_msh(void)
 		add_history(input);
 		check_builtin(input);
 		tokens = lexer(input);
-		printf("%s : ", tokens[0].value);
-		printf("%d\n", tokens[0].type);
-		printf("%s : ", tokens[1].value);
-		printf("%d\n", tokens[1].type);
-		printf("%s : ", tokens[2].value);
-		printf("%d\n", tokens[2].type);
+		int i = -1;
+		while (tokens[++i].value)
+			printf("%s : %d\n", tokens[i].value, tokens[i].type);
 		// parse_input(input);
 		// printf("%s\n", input);
 	}
