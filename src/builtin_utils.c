@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/23 10:59:17 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/24 17:05:31 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_strchr_idx(const char *s, int c)
 
 	i = 0;
 	if (!s)
-		return (0);
+		return (-1);
 	while (s[i])
 	{
 		if (s[i] == (char) c)
@@ -78,5 +78,5 @@ int	ft_strchr_idx(const char *s, int c)
 	}
 	if (s[i] == (char) c)
 		return (i);
-	return (0);
+	return (-1);
 }

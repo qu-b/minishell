@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   builtin_env_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/23 01:07:51 by kpawlows         ###   ########.fr       */
+/*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
+/*   Updated: 2023/03/24 17:09:58 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_cd(char **args)
+void	ft_env(char **env)
 {
-	DIR *dir;
-	(void) args;
-	// ft_printf("%s\n", args[1]);
-	dir = opendir(args[1]);
-	if (!dir)
-		return ;
-	readdir(dir);
-	// ??
+	int	i;
+
+	i = -1;
+	while (env[++i] != NULL)
+		ft_printf("%s\n", env[i]);
 	return ;
 }
 
-void	test_ft_cd(int argc, char **argv)
+void	ft_pwd(char **env)
 {
-	char	**args;
-	int		i;
+	int	i;
 
-	i = 1;
-	args = malloc(sizeof(char *) * (argc + 2));
-	args[0] = ft_strdup("cd");
-	// while (++i < argc)
-		args[i] = ft_strdup(argv[i]);
-	ft_cd(args);
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], "PWD=", 4) == 0)
+		{
+			ft_printf("%s\n", &env[i][4]);
+			break ;
+		}
+		i++;
+	}
 }
