@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/24 15:15:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/24 19:50:58 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_token	*lexer(char *input)
 	t_token	*tokens;
 
 	i = 0;
+	(void) i;
+	(void) type;
 	n = 0;
 	len = ft_strlen(input);
 	tokens = malloc(sizeof(t_token) * len);

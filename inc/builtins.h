@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/24 17:06:05 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:52:33 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ int		ft_replace_env(t_export *exp, char **env, char **args);
 int		ft_append_env(t_export *exp, char **env, char **args);
 int		ft_export_init(t_export *exp, char **env, char **args);
 char	**ft_export(char **env, char **args);
+
+int		ft_remove_env(t_export *exp, char **env, char **args);
+int		ft_unset_init(t_export *exp, char **env, char **args);
+char	**ft_unset(char **env, char **args);
 
 // ??
 void	ft_cd(char **args);

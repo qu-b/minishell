@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 05:12:37 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/24 17:05:58 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:29:41 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ int	ft_append_env(t_export *exp, char **env, char **args)
 {
 	int	eq;
 	int	envi;
-	int	appi;
 	int	argi;
 	
 	argi = -1;
-	appi = exp->envnb;
 	while (++argi < exp->argnb)
 	{
 		envi = -1;
@@ -64,10 +62,9 @@ int	ft_append_env(t_export *exp, char **env, char **args)
 				return (0);
 			if (ft_strncmp(env[envi], args[argi], eq) != 0)
 			{
-				exp->new_env[appi] = ft_strdup(args[argi]);
-				if (exp->new_env[appi] == NULL)
+				exp->new_env[exp->env_max] = ft_strdup(args[argi]);
+				if (exp->new_env[exp->env_max] == NULL)
 					return (-1);
-				appi++;
 				exp->env_max++;
 				break ;
 			}
@@ -89,7 +86,11 @@ int	ft_export_init(t_export *exp, char **env, char **args)
 		return (-1);
 	i = -1;
 	while (++i < exp->envnb)
+	{
 		new_env[i] = ft_strdup(env[i]);
+		if (!new_env[i])
+			return (-1);
+	}
 	new_env[i] = NULL;
 	exp->new_env = new_env;
 	return (0);
@@ -109,7 +110,6 @@ char	**ft_export(char **env, char **args)
 	}
 	if (ft_replace_env(exp, env, args) < 0 || ft_append_env(exp, env, args) < 0)
 	{
-		exp->new_env[exp->env_max] = NULL;
 		ft_freeptr(exp->new_env);
 		free(exp);
 		return (env);
@@ -120,5 +120,6 @@ char	**ft_export(char **env, char **args)
 	free(exp);
 	if (!new_env)
 		return (env);
+	ft_freeptr(env);
 	return (new_env);
 }

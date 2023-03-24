@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_builtins.c                                    :+:      :+:    :+:   */
+/*   builtin_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/23 11:01:24 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:58:05 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int	test_builtins(int argc, char **argv, char **envp)
 	else if (ft_strncmp(argv[1], "export", 6) == 0)
 	{
 		env_mod = ft_export(env_mod, ++argv);
+		ft_env(env_mod);
+	}
+	else if (ft_strncmp(argv[1], "unset", 5) == 0)
+	{
+		env_mod = ft_unset(env_mod, ++argv);
 		ft_env(env_mod);
 	}
 	ft_freeptr(env_mod);
