@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/25 02:09:17 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 05:15:32 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,18 @@ char	*ft_get_env_var(char **env, char *var)
 			return (&env[i][eq + 1]);
 	}
 	return (NULL);
+}
+
+char	**ft_export_string(char **env, char *name, char *value)
+{
+	char	**new_env;
+	char	**tmp;
+
+	tmp = malloc(sizeof(char *) * 3);
+	tmp[0] = ft_strdup("export");
+	tmp[1] = ft_strjoin(name, value);
+	tmp[2] = NULL;
+	new_env = ft_export(env, tmp);
+	ft_freeptr(tmp);
+	return (new_env);
 }

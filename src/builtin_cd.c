@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/25 03:50:06 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 05:16:33 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ char	*ft_cd_change(char *path)
 
 	full_path = NULL;
 	if (access(path, R_OK) < 0)
+	{
+		write(2, "Error : invalid path\n", 22);
 		return (NULL);
+	}
 	// change dir here
 	chdir(path);
 	full_path = getcwd(full_path, 0);
@@ -80,25 +83,18 @@ char	*ft_cd_change(char *path)
 // updates PWD and OLDPWD in env
 int	ft_cd_update_env(t_export *cd, char **env, char **args)
 {
-	char	**tmpwd;
 	char	*cwd;
 	char	*full_path;
 
 	cwd = NULL;
 	cwd = getcwd(cwd, 0);
-
 	full_path = ft_cd_change(args[1]);
 	if (full_path == NULL)
 		return (-1);
-	tmpwd = malloc(sizeof(char *) * 4);
-	tmpwd[0] = ft_strdup("export");
-	tmpwd[1] = ft_strjoin("PWD=", full_path);
-	tmpwd[2] = ft_strjoin("OLDPWD=", cwd);
-	tmpwd[3] = NULL;
+	cd->new_env = ft_export_string(env, "PWD=", full_path);
+	cd->new_env = ft_export_string(cd->new_env, "OLDPWD=", cwd);
 	free(full_path);
 	free(cwd);
-	cd->new_env = ft_export(env, tmpwd);
-	ft_freeptr(tmpwd);
 	return (0);
 }
 
@@ -112,17 +108,17 @@ char	**ft_cd(char **env, char **args)
 	if (!args || !*args || !env || !*env)
 		return (env);
 	cd = malloc(sizeof(cd));
+	if (ft_cd_update_env(cd, env, args) < 0)
+		return (env);
+	new_env = ft_ptrdup_free(cd->new_env, ft_argcount(cd->new_env));
+	if (new_env == NULL)
+		return (env);
 	(void) dir;
 	(void) current;
 	// dir = opendir(args[1]);
 	// if (!dir)
 	// 	return ;
 	// current = readdir(dir);
-	if (ft_cd_update_env(cd, env, args) < 0)
-		return (env);
-	new_env = ft_ptrdup_free(cd->new_env, ft_argcount(cd->new_env));
-	if (new_env == NULL)
-		return (env);
 	// while(current != NULL)
 	// {
 	// 	printf("dir name = %s\n", current->d_name);

@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/25 03:51:29 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 05:06:00 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_echo_find_opt(char **args, int argnb);
 void	ft_env(char **env);
 void	ft_pwd(char **env);
 char	*ft_get_env_var(char **env, char *var);
+char	**ft_export_string(char **env, char *name, char *value);
 
 // args are variable names, should work like the original
 // returns a copy of env with valid vars replaced or appended
