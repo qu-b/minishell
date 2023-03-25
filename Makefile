@@ -4,13 +4,13 @@ FLAGS		:= -Wall -Wextra -Werror -g3 -fsanitize=address
 RM			:= rm -rf
 
 
-SRCDIR		:= src
+SRCDIR		:= src_builtins src_minishell src_parser
 INCDIR		:= inc
 OBJDIR		:= obj
 LIBDIR		:= lib/
 LIBFT		:= libft.a
-SRC			:= $(wildcard $(SRCDIR)/*.c)
-OBJ			:= $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+SRC			:= $(shell find $(SRCDIR) -name '*.c')
+OBJ			:= $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -20,7 +20,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 all:		$(NAME)
 
 $(NAME): 	$(OBJ)
-			@$(CC) $(FLAGS) -o $@ $^ -L$(LIBDIR) -lft -lreadline
+			@$(CC) $(FLAGS) -o $@ $^ -L$(LIBDIR) -lft -lreadline -I$(INCDIR)
+
+run:		all
+			@./minishell
 
 clean:
 			@$(RM) $(OBJDIR)
