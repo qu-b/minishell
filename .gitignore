@@ -2,3 +2,5 @@ minishell
 obj/
 .vscode/
 lexer
+.DS_Store
+minishell.dSYM

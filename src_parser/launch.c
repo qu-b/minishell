@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/24 15:07:52 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/25 15:10:13 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	launch_msh(void)
 	{
 		input = readline("minishell: ");
 		input[ft_strlen(input)] = '\0';
+		// printf("%s\n", input);
 		add_history(input);
 		check_builtin(input);
 		tokens = lexer(input);

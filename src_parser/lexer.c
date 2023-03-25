@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/24 15:15:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/25 15:11:43 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_token	*lexer(char *input)
 	i = 0;
 	n = 0;
 	len = ft_strlen(input);
-	tokens = malloc(sizeof(t_token) * len);
+	// printf("%d\n", is_io(&input[i]));
+	tokens = malloc(sizeof(t_token) * (len + 1));
 	type = CMD;
 	while (input && n < len)
 	{

@@ -6,11 +6,11 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 10:03:05 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/24 15:34:52 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/25 14:45:37 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	simple_word_length(const char *s)
 {
@@ -26,7 +26,7 @@ int	get_word_length(const char *s)
 {
 	int	i;
 	int	insq; // single quote flag
-    int	indq; // double quote flag
+	int	indq; // double quote flag
 
 	i = 0;
 	insq = 0;
