@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/25 05:06:00 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 15:06:06 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,31 @@ int		ft_echo_find_opt(char **args, int argnb);
 
 void	ft_env(char **env);
 void	ft_pwd(char **env);
+
+// returns a malloced string with env var value matching var
 char	*ft_get_env_var(char **env, char *var);
+// returns a malloced env with exported vars of NAME and VALUE, frees env
 char	**ft_export_string(char **env, char *name, char *value);
 
-// args are variable names, should work like the original
-// returns a copy of env with valid vars replaced or appended
-// og env is freed on success exit
+// returns a malloced copy of env, frees old env
 // returns og env if fail
-// maybe env should be in a struct or global
-int		ft_replace_env(t_export *exp, char **env, char **args);
-int		ft_append_env(t_export *exp, char **env, char **args);
-int		ft_export_init(t_export *exp, char **env, char **args);
+// maybe env should be in a struct
 char	**ft_export(char **env, char **args);
+int		ft_export_init(t_export *exp, char **env, char **args);
+int		ft_append_env(t_export *exp, char **env, char **args);
+int		ft_replace_env(t_export *exp, char **env, char **args);
 
 // same as export
-int		ft_remove_env(t_export *exp, char **env, char **args);
-int		ft_unset_init(t_export *exp, char **env, char **args);
 char	**ft_unset(char **env, char **args);
+int		ft_unset_init(t_export *exp, char **env, char **args);
+int		ft_remove_env(t_export *exp, char **env, char **args);
 
 // same as export
-// modifies PWD and OLDPWD in env
+// updates PWD and OLDPWD in env
 // changes dir for the current process, see with pipes
-char	*ft_cd_change(char *path);
-int		ft_cd_update_env(t_export *cd, char **env, char **args);
 char	**ft_cd(char **env, char **args);
+int		ft_cd_update_env(t_export *cd, char **env, char **args);
+char	*ft_cd_change(char *path);
 
 
 void	ft_freeptr(char **s);

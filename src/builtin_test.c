@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/25 05:25:07 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 14:22:09 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	test_builtins(int argc, char **argv, char **envp)
 	else if (ft_strncmp(argv[1], "cd", 2) == 0)
 	{
 		env_mod = ft_cd(env_mod, ++argv);
-		ft_env(env_mod);
+		ft_printf("PWD=%s\n", ft_get_env_var(env_mod, "PWD"));
+		ft_printf("OLDPWD=%s\n", ft_get_env_var(env_mod, "OLDPWD"));
 	}
 	else if (ft_strncmp(argv[1], "export", 6) == 0)
 	{
