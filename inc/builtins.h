@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/24 20:52:33 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 03:51:29 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,32 @@ int		test_builtins(int argc, char **argv, char **envp);
 void	ft_echo(char **args);
 int		ft_echo_find_opt(char **args, int argnb);
 
-// env is **envp from main
 void	ft_env(char **env);
-
-// env is **envp from main
 void	ft_pwd(char **env);
+char	*ft_get_env_var(char **env, char *var);
 
-// env is **envp from main
 // args are variable names, should work like the original
 // returns a copy of env with valid vars replaced or appended
-// (there might be something to change or add manually in env vars based on cd or other)
+// og env is freed on success exit
+// returns og env if fail
+// maybe env should be in a struct or global
 int		ft_replace_env(t_export *exp, char **env, char **args);
 int		ft_append_env(t_export *exp, char **env, char **args);
 int		ft_export_init(t_export *exp, char **env, char **args);
 char	**ft_export(char **env, char **args);
 
+// same as export
 int		ft_remove_env(t_export *exp, char **env, char **args);
 int		ft_unset_init(t_export *exp, char **env, char **args);
 char	**ft_unset(char **env, char **args);
 
-// ??
-void	ft_cd(char **args);
+// same as export
+// modifies PWD and OLDPWD in env
+// changes dir for the current process, see with pipes
+char	*ft_cd_change(char *path);
+int		ft_cd_update_env(t_export *cd, char **env, char **args);
+char	**ft_cd(char **env, char **args);
+
 
 void	ft_freeptr(char **s);
 int		ft_argcount(char **args);

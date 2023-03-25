@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 05:12:37 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/24 20:29:41 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/25 00:18:20 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ char	**ft_export(char **env, char **args)
 		return (env);
 	}
 	exp->new_env[exp->env_max] = NULL;
-	// ft_printf("envnb = %d\nargnb = %d\nenv_max (NULL) == %d\n", exp->envnb, exp->argnb, exp->env_max);
 	new_env = ft_ptrdup_free(exp->new_env, exp->env_max);
 	free(exp);
 	if (!new_env)
