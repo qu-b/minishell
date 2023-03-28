@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/28 16:36:48 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/28 19:37:07 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	launch_msh(void)
 	while (input != NULL)
 	{
 		input = readline("minishell: ");
-		input[ft_strlen(input)] = '\0';
 		add_history(input);
 		if (parser(input))
 			return (1);
 	}
 	return (0);
 }
+
