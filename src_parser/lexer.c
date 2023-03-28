@@ -5,89 +5,105 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/25 17:05:04 by fcullen          ###   ########.fr       */
+/*   Created: 2023/03/28 16:44:16 by fcullen           #+#    #+#             */
+/*   Updated: 2023/03/28 17:03:36 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-// Checks string for command + argument
-t_token *cmd_arg_lexer(enum e_token_type type, char *input)
+t_token	*create_token(enum e_token_type type, char *value, int len)
 {
-	char	*value;
+	t_token	*new_token;
 
-	value = get_token_value(input);
-	if (!value)
+	if (len < 0)
 		return (NULL);
-	return (create_token(type, value, ft_strlen(value)));
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	new_token->type = type;
+	new_token->value = malloc(sizeof(char) * (ft_strlen(value) + 1));
+	if (!new_token->value)
+	{
+		free(new_token);
+		return (NULL);
+	}
+	ft_strlcpy(new_token->value, value, len + 1);
+	new_token->len = len;
+	new_token->next = NULL;
+	return (new_token);
 }
 
-t_token	*lexer(char *input)
+int	add_token(t_token **head, enum e_token_type type, char *value, int len)
+{
+	t_token	*newtoken;
+	t_token	*current;
+
+	newtoken = create_token(type, value, len);
+	if (!newtoken)
+		return (1);
+	if (!(*head))
+	{
+		*head = newtoken;
+		return (0);
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = newtoken;
+	return (0);
+}
+
+int	tokenizer(t_token **head, char *s, int *i)
+{
+	int	val;
+
+	if (!s)
+		return (add_token(head, 0, 0, 1));
+	else if (is_pipe(*s))
+	{
+		*i += 1;
+		return (add_token(head, PIPE, ft_substr(s, 0, 1), 1));
+	}
+	else if (is_io(s))
+	{
+		*i += is_io(s);
+		return (add_token(head, IO,
+				ft_substr(s, 0, is_io(s)), is_io(s)));
+	}
+	else if (find_space(s))
+	{
+		val = str_length(s);
+		if (val < 0)
+			return (1);
+		*i += val;
+		return (add_token(head, WORD, ft_substr(s, 0, val), val));
+	}
+	return (0);
+}
+
+int	lexer(t_token **head, char *s)
 {
 	int		i;
-	int		n;
-	int		len;
-	enum e_token_type type;
-	t_token	*tokens;
+	int		error;
 
+	*head = NULL;
 	i = 0;
-	(void) i;
-	(void) type;
-	n = 0;
-	len = ft_strlen(input);
-	// printf("%d\n", is_io(&input[i]));
-	tokens = malloc(sizeof(t_token) * (len + 1));
-	type = CMD;
-	while (input && n < len)
+	while (*(s + i) == ' ')
+		i++;
+	error = tokenizer(&(*head), s + i, &i);
+	if (error)
+		return (1);
+	while (i < (int)ft_strlen(s))
 	{
-		if (*input == '\0' )
-			break ;
-		// Skip whitespace
-		while (is_space(*input))
-			input++;
-		// Tokenize IO + pipe
-		if (is_io(input) > 0)
+		if (*(s + i) != ' ')
 		{
-			tokens[n] = *create_token(IO, input, is_io(input));
-			input += is_io(input);
-			n++;
-		}
-		else if (is_pipe(*input))
-		{
-			tokens[n] = *create_token(PIPE, input, 1);
-			input++;
-			n++;
-		}
-		// Tokenize Command + Arg
-		else if (ft_isalpha(*input) || *input == '-' || *input == '\'' || *input == '\"')
-		{
-			if (*input == '-')
-				tokens[n] = *cmd_arg_lexer(ARG, input);
-			else if (*input == '\'' || *input == '\"')
-				tokens[n] = *cmd_arg_lexer(STR, input);
-			else
-				tokens[n] = *cmd_arg_lexer(CMD, input);
-			input += tokens[n].len;
-			n++;
-		}
-		// Tokenize Environment variable
-		else if (*input == '$')
-		{
-			tokens[n] = *create_token(VAR, input + 1, simple_word_length(input + 1));
-			input += tokens[n].len + 1;
-			n++;
-		}
-		// Tokenize Path
-		else if (*input == '/')
-		{
-			tokens[n] = *create_token(PATH, get_token_value(input), simple_word_length(input));
-			input += tokens[n].len;
-			n++;
+			error = tokenizer(&(*head), s + i, &i);
+			if (error)
+				return (1);
 		}
 		else
-			input++;
+			i++;
 	}
-	tokens[n].value = NULL;
-	return (tokens);
+	return (0);
 }

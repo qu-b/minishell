@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/24 15:29:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:54:13 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	is_space(char c)
-{
-	if (c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r' || c == ' ')
-		return (1);
-	else
-		return (0);
-}
 
 int	is_io(char *s)
 {
@@ -30,7 +21,7 @@ int	is_io(char *s)
 	return (0);
 }
 
-int is_pipe(char c)
+int	is_pipe(char c)
 {
 	if (c == '|')
 		return (1);
@@ -50,4 +41,13 @@ int	ft_is_builtin(char *command)
 			return (1);
 	}
 	return (0);
+}
+
+void	print_tokens(t_token *head)
+{
+	while (head)
+	{
+		printf("Token value: [%s]   Type: [%d]\n", head->value, head->type);
+		head = head->next;
+	}
 }

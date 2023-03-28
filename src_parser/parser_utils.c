@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   launch.c                                           :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/28 16:36:48 by fcullen          ###   ########.fr       */
+/*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
+/*   Updated: 2023/03/28 17:03:46 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-int	launch_msh(void)
+int is_valid_variable_char(char c)
 {
-	char	*input;
-	// t_token	*tokens;
+	return (isalnum(c) || c == '_');
+}
 
-	input = "";
-	while (input != NULL)
-	{
-		input = readline("minishell: ");
-		input[ft_strlen(input)] = '\0';
-		add_history(input);
-		if (parser(input))
-			return (1);
-	}
-	return (0);
+char *expand_variable(char *input)
+{
+	char	*end = input;
+	char *name;
+	char *value;
+
+	while (*end && is_valid_variable_char(*end))
+		end++;
+	name = strndup(input, end - input);
+	if (!name)
+		return NULL;
+	value = getenv(name);
+	free(name);
+	return value ? strdup(value) : NULL;
 }
