@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/28 19:37:07 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/29 16:35:02 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	launch_msh(void)
 {
 	char	*input;
-	// t_token	*tokens;
 
 	input = "";
 	while (input != NULL)
