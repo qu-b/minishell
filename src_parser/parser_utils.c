@@ -6,19 +6,32 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/28 19:48:52 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/29 16:25:18 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Double free for split
+void	double_free(char **split)
+{
+	int	i;
+
+	i = -1;
+	while (split[++i])
+		free(split[i]);
+	free(split);
+}
+
 // Function to remove quotes from a string
-char *remove_quotes(char *s)
+char	*remove_quotes(char *s)
 {
 	int		i;
 	char	*value;
 
 	i = 1;
+	if (s[0] != '\'' && s[0] != '\"')
+		return (s);
 	while (s[i] != '\'' && s[i] != '\"' && s[i])
 		i++;
 	value = malloc(i + 1);
@@ -28,85 +41,82 @@ char *remove_quotes(char *s)
 	return (value);
 }
 
-// Function to expand an environment variable such as $USER
-char *expand_var(const char *s)
+// Function to expand an environment variable 
+// such as $USER into its value (Marvin)
+char	*expand_var(char *s)
 {
-	char *value;
-	char *result;
-	char *start;
-	size_t len;
+	char	*variable;
+	char	*value;
+	int		len;
+	int		var_len;
+	char	*result;
 
-	start = ft_strchr(s, '$');
-	if (!start)
-		return (NULL);
-
-	len = 0;
-	// Fix this loop with ft_isalnum & str == '_'
-	while (*start != '\0' && *start != '\"' && *start != '=')
-	{
-		start++;
+	len = 1;
+	while (ft_isalnum(s[len]) || s[len] == '_')
 		len++;
-	}
-	value = (char *) malloc(len + 1);
-	ft_strlcpy(value, s + 1, len);
-	value[len] = '\0';
-	result = getenv(value);
-	free(value);
+	var_len = len;
+	while (s[len])
+		len++;
+	variable = (char *)malloc(var_len + 1);
+	if (!variable)
+		return (NULL);
+	ft_strlcpy(variable, s + 1, var_len);
+	variable[var_len] = '\0';
+	value = getenv(variable);
+	free(variable);
+	result = malloc(ft_strlen(value) + ft_strlen(&s[var_len]) + 1);
+	ft_strlcpy(result, value, ft_strlen(value) + 1);
+	ft_strlcpy(result + ft_strlen(value),
+		s + var_len, ft_strlen(&s[var_len]) + 1);
 	return (result);
 }
 
-// Function to replace a variable with its value
-char *replace_var(const char *variable, int var_start, const char *value)
+// Function to replace a variable with its value in a string
+char	*replace_var(char *str)
 {
-	size_t	value_len;
-	size_t	variable_len;
-	char	*new_value;
+	int		i;
+	int		split_len;
+	char	**split;
 
-	value_len = ft_strlen(value);
-	variable_len = ft_strlen(variable);
-	new_value = (char *)malloc(value_len + 1);
-	ft_memcpy(new_value, variable, var_start);
-	ft_memcpy(new_value + var_start, value, value_len);
-	new_value[value_len] = '\0';
-	return (new_value);
+	split = ft_split(str, ' ');
+	i = 0;
+	while (split[i])
+	{
+		if (split[i][0] == '$')
+			split[i] = expand_var(split[i]);
+		i++;
+	}
+	split_len = i;
+	i = 0;
+	ft_bzero(str, ft_strlen(str));
+	while (split[i])
+	{
+		str = ft_strjoin(str, split[i]);
+		if (i < split_len - 1)
+			str = ft_strjoin(str, " ");
+		i++;
+	}
+	double_free(split);
+	return (str);
 }
 
 // Function that processes all tokens in the list,
-//  and removes quotes and expands variables. Might still need tweaking.
+// and removes quotes and expands variables. Still needs tweaking.
 // Should ~ be expanded?
-void process_tokens(t_token *tokens)
+void	process_tokens(t_token *tokens)
 {
-	int		i;
-	char	*expanded;
-	char	*new_val;
 	t_token	*head;
 
-	i = 0;
 	head = tokens;
 	while (head)
 	{
+		if (head->value[0] == '\"')
+		{
+			head->value = remove_quotes(head->value);
+			head->value = replace_var(head->value);
+		}
 		if (head->value[0] == '\'')
 			head->value = remove_quotes(head->value);
-		else if (head->value[0] == '\"')
-		{
-			while (head->value[i])
-			{
-				if (head->value[i] == '$')
-				{
-					expanded = expand_var(head->value + i);
-					if (expanded)
-					{
-						new_val = replace_var(head->value, i - 1, expanded);
-						// free(expanded);
-						free(head->value);
-						head->value = new_val;
-					}
-					else
-						i++;
-				}
-				i++;
-			}
-		}
 		head = head->next;
 	}
 }
