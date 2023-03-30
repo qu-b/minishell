@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/25 15:06:06 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/03/30 13:46:18 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
+# include <sys/types.h>
+# include <dirent.h>
 
 typedef struct s_export
 {
@@ -20,9 +22,6 @@ typedef struct s_export
 	int		envnb;
 	int		env_max;
 }	t_export;
-
-# include <sys/types.h>
-# include <dirent.h>
 
 // builtins main ./minishell [command] [arg1] [arg2] ...
 int		test_builtins(int argc, char **argv, char **envp);
@@ -63,7 +62,6 @@ int		ft_remove_env(t_export *exp, char **env, char **args);
 char	**ft_cd(char **env, char **args);
 int		ft_cd_update_env(t_export *cd, char **env, char **args);
 char	*ft_cd_change(char *path);
-
 
 void	ft_freeptr(char **s);
 int		ft_argcount(char **args);

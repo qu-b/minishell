@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   launch.c                                           :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/30 16:32:34 by fcullen          ###   ########.fr       */
+/*   Created: 2023/03/30 15:50:23 by fcullen           #+#    #+#             */
+/*   Updated: 2023/03/30 15:57:30 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#ifndef EXECUTOR_H
+#define EXECUTOR_H
 
-int	minishell(void)
-{
-	char	*input;
-	t_data	*data;
+#include "minishell.h"
 
-	data = malloc(sizeof(t_data));
-	data->env = getenv();
-	input = "";
-	while (input != NULL)
-	{
-		input = readline("minishell: ");
-		add_history(input);
-		if (parser(&data, input))
-			return (1);
-		else if (executor(data->tokens, getenv(data->env)))
-			return (1);
-		free(input);
-	}
-	return (0);
-}
+int openfile(char *filename, int mode);
+char *find_path(char **envp);
+char *get_cmd(char **paths, char *cmd);
+void exec(char *cmd, char **envp);
+void redirect(char *cmd, char **env, int fdin);
+int exec_pipe(int ac, char **av, char **envp);
+
+#endif

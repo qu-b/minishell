@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/28 18:19:38 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/30 16:32:34 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <string.h>
 # include <ctype.h>
 # include "parser.h"
-# include "../inc/builtins.h"
+# include "builtins.h"
+# include "executor.h"
 # include "../lib/inc/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -30,10 +31,16 @@
 # define INFILE 0
 # define OUTFILE 1
 
-int		launch_msh(void);
+typedef struct s_data
+{
+	t_token	*tokens;
+	char	**env;
+}	t_data;
 
-int		parser(char *input);
-void	process_tokens(t_token *tokens);
+int		minishell(char **envp);
+
+int		parser(t_data **data, char *input);
+void executor(t_token *tokens, char **envp);
 
 void	redirect(char *cmd, char **env, int fdin);
 
