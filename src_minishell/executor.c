@@ -6,146 +6,68 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/30 16:04:12 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/30 17:36:41 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	parse_cmd(t_token *tokens)
-// {
-// 	t_token	*head;
-
-// 	head = tokens;
-// 	while (head)
-// 	{
-// 		if (head->type == IO)
-// 		{
-// 			head = head->next;
-// 			if (access(head->value, F_OK) || access(head->value, R_OK))
-// 			{
-// 				perror("File Existence or Permission Error");
-// 				return (1);
-// 			}
-// 		}
-// 		else
-
-// 		head->next;
-// 	}
-// 	return (0);
-// }
-
-char **get_args(t_token *token)
+char *get_args(t_token *token)
 {
-	char **args = malloc(sizeof(char *));
-	int i = 0;
-	while (token != NULL && token->type != PIPE && token->type != IO)
+	char *args;
+	int i;
+
+	args = malloc(sizeof(char *));
+	if (!args)
+		return (NULL);
+	i = 0;
+	args = "";
+	while (token && token->type != PIPE && token->type != IO)
 	{
-		args[i++] = token->value;
-		args = realloc(args, sizeof(char *) * (i + 1));
+		args = ft_strjoin(args, token->value);
+		args = ft_strjoin(args, " ");
 		token = token->next;
 	}
-	args[i] = NULL;
-	return args;
+	printf("%s\n", args);
+	return (args);
 }
 
-void executor(t_token *tokens, char **envp)
+int	parse_cmd(t_data *data, t_token *tokens)
 {
-	int fdin = STDIN_FILENO;
-	int fdout = STDOUT_FILENO;
-	int pipefd[2];
-	int status;
-	pid_t pid;
+	t_token	*head;
+	char	*args;
+	int		fdin;
+	int		fdout;
 
-	while (tokens != NULL)
+	head = tokens;
+	// for (int i = 0; i < 5; i++)
+	// 	printf("%s\n", data->env[i]);
+	while (head)
 	{
-		if (tokens->type == IO)
+		if (head->type == IO && head->len == 1)
 		{
-			if (tokens->value[0] == '<')
-			{
-				// Input redirection
-				fdin = open(tokens->next->value, O_RDONLY);
-				if (fdin == -1)
-				{
-					perror("Error");
-					return;
-				}
-			}
+			if (head->value[0] == '<')
+				fdin = openfile(head->next->value, 0);
 			else
-			{
-				// Output redirection
-				fdout = open(tokens->next->value, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-				if (fdout == -1) {
-					perror("Error");
-					return;
-				}
-			}
-			tokens = tokens->next;
+				fdout = openfile(head->next->value, 1);
 		}
-		else if (tokens->type == PIPE)
+		else if (head->type != PIPE)
 		{
-			// Create pipe
-			if (pipe(pipefd) == -1)
-			{
-				perror("Error");
-				return;
-			}
-
-			// Fork child process
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("Error");
-				return;
-			}
-			else if (pid == 0)
-			{
-				// Child process: redirect output to pipe
-				close(pipefd[0]);
-				dup2(pipefd[1], STDOUT_FILENO);
-				if (fdin != STDIN_FILENO)
-				{
-					dup2(fdin, STDIN_FILENO);
-					close(fdin);
-				}
-				execvp(tokens->next->value, &tokens->next->value);
-				perror("Error");
-				return;
-			}
-			else
-			{
-				// Parent process: receive input from pipe
-				close(pipefd[1]);
-				dup2(pipefd[0], STDIN_FILENO);
-				close(fdin);
-				waitpid(pid, &status, 0);
-				if (WEXITSTATUS(status) != 0)
-				{
-					perror("Error");
-					return;
-				}
-				fdin = pipefd[0];
-				tokens = tokens->next->next;
-			}
+			args = get_args(head);
+			exec(args, data->env);
 		}
-		else
-		{
-			// Execute command
-			char *command = get_cmd(ft_split(find_path(envp), ':'), tokens->value);
-			char **args = get_args(tokens);
-			if (fdin != STDIN_FILENO)
-			{
-				dup2(fdin, STDIN_FILENO);
-				close(fdin);
-			}
-			if (fdout != STDOUT_FILENO)
-			{
-				dup2(fdout, STDOUT_FILENO);
-				close(fdout);
-			}
-			execve(command, args, envp);
-			perror("Error");
-			return;
-		}
+		// else
+		// {
+		// 	exec_pipe(args, data->env);
+		// }
+		head = head->next;
 	}
+	return (0);
+}
+
+int	executor(t_data *data, t_token *tokens)
+{
+	if (parse_cmd(data, tokens))
+		return (1);
+	return (0);
 }

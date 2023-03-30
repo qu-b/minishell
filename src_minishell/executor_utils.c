@@ -50,7 +50,7 @@ void	exec(char *cmd, char **envp)
 	args = ft_split(cmd, ' ');
 	command = get_cmd(paths, args[0]);
 	execve(command, args, envp);
-	write(STD_ERR, "pipex: ", 7);
+	write(STD_ERR, "minishell: ", 11);
 	write(STD_ERR, args[0], ft_strlen(args[0]));
 	write(STD_ERR, ": command not found\n", 20);
 	exit(127);
