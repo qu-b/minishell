@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/30 17:33:16 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/31 17:06:37 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,5 @@ typedef struct s_data
 }	t_data;
 
 int		minishell(char **envp);
-
-int		parser(t_data **data, char *input);
-int		executor(t_data *data, t_token *tokens);
-
-void	redirect(char *cmd, char **env, int fdin);
 
 #endif

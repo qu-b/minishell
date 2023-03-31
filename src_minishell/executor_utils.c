@@ -59,46 +59,70 @@ void	exec(char *cmd, char **envp)
 void	redirect(char *cmd, char **env, int fdin)
 {
 	pid_t	pid;
-	int		pipefd[2];
+	// int		pipefd[2];
+	(void)fdin;
+	// pipe(pipefd);
+	pid = fork();
+	if (pid)
+	{
+		// close(pipefd[1]);
+		// dup2(pipefd[0], STD_IN);
+		waitpid(pid, 0, 0);
+	}
+	else
+	{
+		// close(pipefd[0]);
+		// dup2(pipefd[1], STD_OUT);
+		// if (fdin == STD_IN)
+		// 	exit(1);
+		// else
+			exec(cmd, env);
+	}
+}
 
+void	exec_pipe(char *cmd, char **env, int fdin, int fdout)
+{
+	pid_t	pid;
+	int		pipefd[2];
+	(void)fdin;
+	(void)fdout;
 	pipe(pipefd);
 	pid = fork();
 	if (pid)
 	{
 		close(pipefd[1]);
-		dup2(pipefd[0], STD_IN);
+		dup2(pipefd[0], fdin);
 		waitpid(pid, 0, 0);
 	}
 	else
 	{
 		close(pipefd[0]);
-		dup2(pipefd[1], STD_OUT);
-		if (fdin == STD_IN)
-			exit(1);
-		else
-			exec(cmd, env);
+		dup2(pipefd[1], fdout);
+		if (fdin != STD_IN)
+			dup2(fdin, STD_IN);
+		exec(cmd, env);
 	}
 }
 
-int	exec_pipe(int ac, char **av, char **envp)
-{
-	int	fdin;
-	int	fdout;
-	int	i;
+// int	exec_pipe(int ac, char **av, char **envp)
+// {
+// 	int	fdin;
+// 	int	fdout;
+// 	int	i;
 
-	i = 2;
-	if (ac >= 5)
-	{
-		fdin = openfile(av[1], INFILE);
-		fdout = openfile(av[ac - 1], OUTFILE);
-		dup2(fdin, STD_IN);
-		dup2(fdout, STD_OUT);
-		redirect(av[2], envp, fdin);
-		while (++i < ac - 2)
-			redirect(av[i], envp, fdin);
-		exec(av[i], envp);
-	}
-	else
-		write(STD_ERR, "Invalid number of arguments.\n", 29);
-	return (1);
-}
+// 	i = 2;
+// 	if (ac >= 5)
+// 	{
+// 		fdin = openfile(av[1], INFILE);
+// 		fdout = openfile(av[ac - 1], OUTFILE);
+// 		dup2(fdin, STD_IN);
+// 		dup2(fdout, STD_OUT);
+// 		redirect(av[2], envp, fdin);
+// 		while (++i < ac - 2)
+// 			redirect(av[i], envp, fdin);
+// 		exec(av[i], envp);
+// 	}
+// 	else
+// 		write(STD_ERR, "Invalid number of arguments.\n", 29);
+// 	return (1);
+// }

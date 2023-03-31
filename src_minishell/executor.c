@@ -6,13 +6,14 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/30 17:36:41 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/03/31 17:03:03 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_args(t_token *token)
+// Function to get command + args as a string
+char *get_args(t_token **head)
 {
 	char *args;
 	int i;
@@ -22,13 +23,15 @@ char *get_args(t_token *token)
 		return (NULL);
 	i = 0;
 	args = "";
-	while (token && token->type != PIPE && token->type != IO)
+	while (*head && (*head)->type != PIPE && (*head)->type != IO)
 	{
-		args = ft_strjoin(args, token->value);
+		if (!(*head)->value)
+			return NULL;
+		args = ft_strjoin(args, (*head)->value);
 		args = ft_strjoin(args, " ");
-		token = token->next;
+		(*head) = (*head)->next;
 	}
-	printf("%s\n", args);
+	// printf("%s\n", args);
 	return (args);
 }
 
@@ -38,8 +41,12 @@ int	parse_cmd(t_data *data, t_token *tokens)
 	char	*args;
 	int		fdin;
 	int		fdout;
+	int		mfd;
 
+	(void) data;
 	head = tokens;
+	fdin = 0;
+	fdout = 1;
 	// for (int i = 0; i < 5; i++)
 	// 	printf("%s\n", data->env[i]);
 	while (head)
@@ -50,18 +57,26 @@ int	parse_cmd(t_data *data, t_token *tokens)
 				fdin = openfile(head->next->value, 0);
 			else
 				fdout = openfile(head->next->value, 1);
+		mfd = fdout;
 		}
-		else if (head->type != PIPE)
+		else if (head->type == PIPE)
 		{
-			args = get_args(head);
-			exec(args, data->env);
+			head = head->next;
+			args = get_args(&head);
+			// printf("%s\n", args);
+			exec_pipe(args, data->env, fdin, fdout);
+			head = head->next;
 		}
-		// else
-		// {
-		// 	exec_pipe(args, data->env);
-		// }
-		head = head->next;
+		else
+		{
+			args = get_args(&head);
+			// printf("%s\n", head->value);
+			// exec(args, data->env);
+			redirect(args, data->env, fdin);
+			// head = head->next;
+		}
 	}
+	free(args);
 	return (0);
 }
 
