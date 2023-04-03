@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/31 17:09:59 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/03 11:07:19 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ typedef struct s_token
 	int					len;
 	struct s_token		*next;
 }	t_token;
+
+typedef struct s_data
+{
+	t_token	*tokens;
+	char	**env;
+}	t_data;
+
 
 int		parser(t_data **data, char *input);
 

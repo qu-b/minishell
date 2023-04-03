@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:44:16 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/28 17:03:36 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/03 12:11:20 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	add_token(t_token **head, enum e_token_type type, char *value, int len)
 
 int	tokenizer(t_token **head, char *s, int *i)
 {
-	int	val;
+	int	len;
 
 	if (!s)
 		return (add_token(head, 0, 0, 1));
@@ -73,11 +73,11 @@ int	tokenizer(t_token **head, char *s, int *i)
 	}
 	else if (find_space(s))
 	{
-		val = str_length(s);
-		if (val < 0)
+		len = str_length(s);
+		if (len < 0)
 			return (1);
-		*i += val;
-		return (add_token(head, WORD, ft_substr(s, 0, val), val));
+		*i += len;
+		return (add_token(head, WORD, ft_substr(s, 0, len), len));
 	}
 	return (0);
 }

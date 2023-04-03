@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/31 17:03:03 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/03 10:17:40 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char *get_args(t_token **head)
 		args = ft_strjoin(args, " ");
 		(*head) = (*head)->next;
 	}
-	// printf("%s\n", args);
 	return (args);
 }
 
@@ -60,6 +59,9 @@ int	parse_cmd(t_data *data, t_token *tokens)
 		mfd = fdout;
 		}
 		else if (head->type == PIPE)
+		// if (head->next->type == PIPE)
+		// execute into a pipe linked to the data struct
+		// `data->pipe[2]`;
 		{
 			head = head->next;
 			args = get_args(&head);

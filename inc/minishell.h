@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/31 17:06:37 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/03 11:12:26 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@
 
 # define INFILE 0
 # define OUTFILE 1
-
-typedef struct s_data
-{
-	t_token	*tokens;
-	char	**env;
-}	t_data;
 
 int		minishell(char **envp);
 
