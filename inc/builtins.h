@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/30 13:46:18 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/04 08:12:07 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ typedef struct s_export
 	int		envnb;
 	int		env_max;
 }	t_export;
+
+int		exec_builtins(t_data *data, char *args);
+int		builtin_cmd_len(char *cmd);
 
 // builtins main ./minishell [command] [arg1] [arg2] ...
 int		test_builtins(int argc, char **argv, char **envp);

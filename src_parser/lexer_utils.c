@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/03 12:10:31 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/04 08:24:52 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int	is_pipe(char c)
 	return (0);
 }
 
-int	ft_is_builtin(char *command)
+int	ft_is_builtin(char *cmd)
 {
 	static const char	*valid_builtins[] = {"echo", "cd", "pwd",
 		"export", "unset", "env", "exit", NULL};
 	int					i;
 
-	i = 0;
-	while (valid_builtins[i])
+	i = -1;
+	while (valid_builtins[++i])
 	{
-		if (ft_strncmp(valid_builtins[i], command, ft_strlen(command)))
+		if (ft_strncmp(valid_builtins[i], cmd, builtin_cmd_len(cmd)) == 0)
 			return (1);
 	}
 	return (0);

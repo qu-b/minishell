@@ -1,6 +1,6 @@
 NAME		:= minishell
 CC			:= gcc 
-FLAGS		:= -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS		:= #-Wall -Wextra -Werror -g3 -fsanitize=address
 RM			:= rm -rf
 
 
@@ -20,8 +20,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 all:		$(NAME)
 
 $(NAME): 	$(OBJ)
-			@$(CC) $(FLAGS) -o $@ $^ -L$(LIBDIR) -lft -lreadline -I$(INCDIR)
-
+			@$(CC) $(FLAGS) -o $@ $^ -I/opt/local/include -L/opt/local/lib -lreadline -L$(LIBDIR) -lft -I$(INCDIR) 
+#Somehow MacOs Ventura readline doesnt have rl_replace_line, so i linked against one I installed with MacPorts
+#Remove -I/opt/local/include and -L/opt/local/lib if it works for you :)
 run:		all
 			@./minishell
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/03 11:12:26 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/04 05:53:58 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "parser.h"
 # include "builtins.h"
 # include "executor.h"
+# include "signals.h"
 # include "../lib/inc/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>

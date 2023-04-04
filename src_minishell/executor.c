@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/03 10:17:40 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/04 08:25:13 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ int	parse_cmd(t_data *data, t_token *tokens)
 			// printf("%s\n", args);
 			exec_pipe(args, data->env, fdin, fdout);
 			head = head->next;
+		}
+		else if (ft_is_builtin(head->value))
+		{
+			args = get_args(&head);
+			exec_builtins(data, args);
 		}
 		else
 		{

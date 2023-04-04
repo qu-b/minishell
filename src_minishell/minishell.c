@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/03 10:15:11 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/04 07:24:36 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,18 @@ int	minishell(char **envp)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
-	data->env = envp;
+	data->env = ft_ptrdup(envp, ft_argcount(envp));
 	input = "";
+	sig_acccept();
 	while (input != NULL)
 	{
 		input = readline("minishell: ");
+		if (!input)
+		{
+			free(input);
+			// for ctrl-d, use builtin exit, at least its free() part
+			break ;
+		}
 		add_history(input);
 		if (parser(&data, input))
 			return (1);
