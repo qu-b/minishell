@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/29 16:25:18 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/04 09:15:01 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*remove_quotes(char *s)
 
 // Function to expand an environment variable 
 // such as $USER into its value (Marvin)
-char	*expand_var(char *s)
+char	*expand_var(char *s, t_data *data)
 {
 	char	*variable;
 	char	*value;
@@ -62,7 +62,9 @@ char	*expand_var(char *s)
 		return (NULL);
 	ft_strlcpy(variable, s + 1, var_len);
 	variable[var_len] = '\0';
-	value = getenv(variable);
+	value = ft_get_env_var(data->env, variable);
+	if (!value)
+		return (NULL);
 	free(variable);
 	result = malloc(ft_strlen(value) + ft_strlen(&s[var_len]) + 1);
 	ft_strlcpy(result, value, ft_strlen(value) + 1);
@@ -72,7 +74,7 @@ char	*expand_var(char *s)
 }
 
 // Function to replace a variable with its value in a string
-char	*replace_var(char *str)
+char	*replace_var(char *str, t_data *data)
 {
 	int		i;
 	int		split_len;
@@ -83,7 +85,7 @@ char	*replace_var(char *str)
 	while (split[i])
 	{
 		if (split[i][0] == '$')
-			split[i] = expand_var(split[i]);
+			split[i] = expand_var(split[i], data);
 		i++;
 	}
 	split_len = i;
@@ -103,7 +105,7 @@ char	*replace_var(char *str)
 // Function that processes all tokens in the list,
 // and removes quotes and expands variables. Still needs tweaking.
 // Should ~ be expanded?
-void	process_tokens(t_token *tokens)
+void	process_tokens(t_token *tokens, t_data *data)
 {
 	t_token	*head;
 
@@ -113,7 +115,7 @@ void	process_tokens(t_token *tokens)
 		if (head->value[0] == '\"')
 		{
 			head->value = remove_quotes(head->value);
-			head->value = replace_var(head->value);
+			head->value = replace_var(head->value, data);
 		}
 		if (head->value[0] == '\'')
 			head->value = remove_quotes(head->value);

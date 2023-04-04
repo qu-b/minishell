@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/04 08:24:52 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/04 08:55:32 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,23 @@ int	is_pipe(char c)
 
 int	ft_is_builtin(char *cmd)
 {
-	static const char	*valid_builtins[] = {"echo", "cd", "pwd",
-		"export", "unset", "env", "exit", NULL};
-	int					i;
-
-	i = -1;
-	while (valid_builtins[++i])
-	{
-		if (ft_strncmp(valid_builtins[i], cmd, builtin_cmd_len(cmd)) == 0)
-			return (1);
-	}
+	int	len;
+	
+	len = builtin_cmd_len(cmd);
+	if (ft_strncmp(cmd, "echo", len) == 0)
+		return(1);
+	else if (ft_strncmp(cmd, "env", len) == 0)
+		return(1);
+	else if (ft_strncmp(cmd, "pwd", len) == 0)
+		return(1);
+	else if (ft_strncmp(cmd, "cd", len) == 0)
+		return(1);
+	else if (ft_strncmp(cmd, "export", len) == 0)
+		return(1);
+	else if (ft_strncmp(cmd, "unset", len) == 0)
+		return(1);
+	else if (ft_strncmp(cmd, "exit", len) == 0)
+		return(1);
 	return (0);
 }
 
