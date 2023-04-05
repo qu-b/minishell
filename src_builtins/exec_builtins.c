@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/04 08:54:21 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:48:44 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ int	exec_builtins(t_data *data, char *cmd)
 	else if (ft_strncmp(args[0], "cd", len) == 0)
 		data->env = ft_cd(data->env, args);
 	else if (ft_strncmp(args[0], "export", len) == 0)
-		data->env = ft_export(data->env, args);
+	{
+		if (args[1] == NULL)
+			ft_export_export(data->env);
+		else
+			data->env = ft_export(data->env, args);
+	}
 	else if (ft_strncmp(args[0], "unset", len) == 0)
 		data->env = ft_unset(data->env, args);
 	else if (ft_strncmp(args[0], "exit", len) == 0)

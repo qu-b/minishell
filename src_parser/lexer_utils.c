@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/04 08:55:32 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:55:08 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ int	ft_is_builtin(char *cmd)
 	int	len;
 	
 	len = builtin_cmd_len(cmd);
-	if (ft_strncmp(cmd, "echo", len) == 0)
+	if (ft_strncmp(cmd, "echo", len) == 0 && len == 4)
 		return(1);
-	else if (ft_strncmp(cmd, "env", len) == 0)
+	else if (ft_strncmp(cmd, "env", len) == 0 && len == 3)
 		return(1);
-	else if (ft_strncmp(cmd, "pwd", len) == 0)
+	else if (ft_strncmp(cmd, "pwd", len) == 0 && len == 3)
 		return(1);
-	else if (ft_strncmp(cmd, "cd", len) == 0)
+	else if (ft_strncmp(cmd, "cd", len) == 0 && len == 2)
 		return(1);
-	else if (ft_strncmp(cmd, "export", len) == 0)
+	else if (ft_strncmp(cmd, "export", len) == 0 && len == 6)
 		return(1);
-	else if (ft_strncmp(cmd, "unset", len) == 0)
+	else if (ft_strncmp(cmd, "unset", len) == 0 && len == 5)
 		return(1);
-	else if (ft_strncmp(cmd, "exit", len) == 0)
+	else if (ft_strncmp(cmd, "exit", len) == 0 && len == 4)
 		return(1);
 	return (0);
 }
