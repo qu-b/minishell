@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 07:00:28 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:48:44 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ typedef struct s_export
 }	t_export;
 
 // executes builtins
-int		exec_builtins(t_data *data, char *args);
-int		exec_exit(t_data *data, char **args, char *cmd);
-char	**exec_export(t_data *data, char **args);
+int		exec_builtins(char *args);
+int		exec_exit(char **args, char *cmd);
+char	**exec_export(char **args);
 
 // return lenght until space or end of string
 int		builtin_cmd_len(char *cmd);

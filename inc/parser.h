@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 06:57:30 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:39:20 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,6 @@ typedef struct s_token
 	int					len;
 	struct s_token		*next;
 }	t_token;
-
-typedef struct s_data
-{
-	t_token	*tokens;
-	char	**env;
-	int		pid; // needed for signal handling
-}	t_data;
-
 
 int		parser(char *input);
 

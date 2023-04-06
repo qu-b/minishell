@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 07:04:33 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:47:53 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,17 @@ int	parse_cmd(t_token *tokens)
 				fdin = openfile(head->next->value, 0);
 			else
 				fdout = openfile(head->next->value, 1);
-		mfd = fdout;
+			mfd = fdout;
 		}
 		else if (head->type == PIPE)
 		// if (head->next->type == PIPE)
 		// execute into a pipe linked to the data struct
 		// `g_data->pipe[2]`;
 		{
-			head = head->next;
 			args = get_args(&head);
+			// if (args == NULL)
+			// 	return (0);
+			head = head->next;
 			// printf("%s\n", args);
 			exec_pipe(args, g_data->env, fdin, fdout);
 			head = head->next;
@@ -70,7 +72,7 @@ int	parse_cmd(t_token *tokens)
 		else if (ft_is_builtin(head->value))
 		{
 			args = get_args(&head);
-			exec_builtins(g_data, args);
+			exec_builtins(args);
 		}
 		else
 		{

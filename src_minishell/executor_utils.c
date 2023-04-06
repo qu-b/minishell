@@ -60,16 +60,19 @@ void	redirect(char *cmd, char **env, int fdin)
 {
 	if (!cmd[1])
 		return ;
-	pid_t	pid;
+	// pid_t	pid;
 	// int		pipefd[2];
 	(void)fdin;
 	// pipe(pipefd);
-	pid = fork();
-	if (pid)
+	g_data->pid = fork();
+	// printf("pid: %d\n", g_data->pid);
+	if (g_data->pid)
 	{
+		g_data->ext = 1;
 		// close(pipefd[1]);
 		// dup2(pipefd[0], STD_IN);
-		waitpid(pid, 0, 0);
+		waitpid(g_data->pid, 0, 0);
+		g_data->ext = 0;
 	}
 	else
 	{
@@ -84,17 +87,17 @@ void	redirect(char *cmd, char **env, int fdin)
 
 void	exec_pipe(char *cmd, char **env, int fdin, int fdout)
 {
-	pid_t	pid;
+	// pid_t	pid;
 	int		pipefd[2];
 	(void)fdin;
 	(void)fdout;
 	pipe(pipefd);
-	pid = fork();
-	if (pid)
+	g_data->pid = fork();
+	if (g_data->pid)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], fdin);
-		waitpid(pid, 0, 0);
+		waitpid(g_data->pid, 0, 0);
 	}
 	else
 	{

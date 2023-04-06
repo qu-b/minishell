@@ -6,13 +6,13 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 07:14:01 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:40:46 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// Global pointer to the t_data struct - added defininition to minishell.h
+// Global pointer to the t_data struct - added definition to minishell.h
 t_data *g_data = NULL;
 
 // Define the get_data function to create and return the singleton instance
@@ -25,7 +25,8 @@ t_data *get_data(char **envp)
 			return (NULL);
 		init_env(envp);
 		g_data->tokens = NULL; 
-		g_data->pid = 1; // i guess anything but 0
+		g_data->pid = 1;
+		g_data->ext = 0;
 	}
 	return g_data;
 }
