@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:37:50 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 05:42:49 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:26:35 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,14 @@ int	echo_find_opt(char **args, int argnb)
 			while (args[i][j] && args[i][j] == 'n')
 				j++;
 		}
+		if (j == ft_strlen(args[i]) && j == 1)
+			j--;
 		if (j == ft_strlen(args[i]))
 			i++;
 		else
 			break ;
 	}
 	return (i);
-}
-
-int	find_hyphen(char **args, int argnb)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	args++;
-	(void) argnb;
-	while (args[++i] && args[i][0] == '-')
-	{
-		if (args[i][0] == '-' && ft_strlen(args[i]) == 1)
-			j++;
-	}
-	return (j);
 }
 
 void	ft_echo(char **args)
@@ -62,8 +47,8 @@ void	ft_echo(char **args)
 	argnb = ft_argcount(args);
 	i = 0;
 	nl = echo_find_opt(args, argnb);
-	nl -= find_hyphen(args, argnb);
 	i += nl;
+	printf("i final = %d\n", i);
 	while (++i < argnb)
 	{
 		ft_printf("%s", args[i]);

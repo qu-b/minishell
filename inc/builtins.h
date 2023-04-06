@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 13:28:46 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:31:49 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		builtin_cmd_len(char *cmd);
 // prints args[1] to args[n] with spaces between
 void	ft_echo(char **args);
 int		echo_find_opt(char **args, int argnb);
-int		find_hyphen(char **args, int argnb);
 
 // prints env
 void	ft_env(char **env);

@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 13:39:12 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:58:55 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_getenv(char **env, char *var)
 	{
 		eq = compare_vars(env, args, 0, i);
 		if (eq < 0)
-			return (NULL);
+			break ;
 		if (eq > 0)
 		{
 			ft_freeptr(args);
