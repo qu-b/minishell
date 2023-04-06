@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 05:12:37 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/24 21:56:48 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 05:49:09 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 // check whether args exist in old env
 // if so, skip their copy from the old env to the new env
-int	ft_remove_env(t_export *exp, char **env, char **args)
+int	remove_env(t_export *exp, char **env, char **args)
 {
 	int	eq;
 	int	envi;
 	int	argi;
 	int	removed;
-	
+
 	envi = -1;
 	while (++envi < exp->envnb)
 	{
@@ -43,12 +43,14 @@ int	ft_remove_env(t_export *exp, char **env, char **args)
 	return (0);
 }
 
-int	ft_unset_init(t_export *exp, char **env, char **args)
+int	unset_init(t_export *exp, char **env, char **args)
 {
 	exp->argnb = ft_argcount(args);
 	exp->envnb = ft_argcount(env);
 	exp->env_max = 0;
 	exp->new_env = malloc(sizeof(char *) * (exp->envnb + 1));
+	if (!exp->new_env)
+		return (-1);
 	return (0);
 }
 
@@ -59,12 +61,14 @@ char	**ft_unset(char **env, char **args)
 
 	args++;
 	exp = malloc(sizeof(t_export));
-	if (ft_unset_init(exp, env, args) < 0)
+	if (!exp)
+		return (env);
+	if (unset_init(exp, env, args) < 0)
 	{
 		free(exp);
 		return (env);
 	}
-	if (ft_remove_env(exp, env, args) < 0)
+	if (remove_env(exp, env, args) < 0)
 	{
 		ft_freeptr(exp->new_env);
 		free(exp);

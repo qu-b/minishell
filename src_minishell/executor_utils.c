@@ -11,7 +11,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 char	*find_path(char **envp)
 {
@@ -58,6 +58,8 @@ void	exec(char *cmd, char **envp)
 
 void	redirect(char *cmd, char **env, int fdin)
 {
+	if (!cmd[1])
+		return ;
 	pid_t	pid;
 	// int		pipefd[2];
 	(void)fdin;

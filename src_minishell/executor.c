@@ -6,22 +6,20 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/04 08:54:27 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 05:41:39 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 // Function to get command + args as a string
 char *get_args(t_token **head)
 {
 	char *args;
-	int i;
 
 	args = malloc(sizeof(char *));
 	if (!args)
 		return (NULL);
-	i = 0;
 	args = "";
 	while (*head && (*head)->type != PIPE && (*head)->type != IO)
 	{
@@ -42,7 +40,7 @@ int	parse_cmd(t_data *data, t_token *tokens)
 	int		fdout;
 	int		mfd;
 
-	(void) data;
+	(void) mfd;
 	head = tokens;
 	fdin = 0;
 	fdout = 1;

@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/03/24 17:05:31 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 05:41:35 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	ft_argcount(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i] != NULL)
-		i++;
-	return (i);
-}
 
 void	ft_freeptr(char **s)
 {
@@ -79,4 +69,16 @@ int	ft_strchr_idx(const char *s, int c)
 	if (s[i] == (char) c)
 		return (i);
 	return (-1);
+}
+
+void	ft_printptr(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		ft_printf("%s\n", s[i]);
+		i++;
+	}
 }

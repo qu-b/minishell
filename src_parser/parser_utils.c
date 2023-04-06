@@ -6,11 +6,11 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/04 09:15:01 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 05:45:33 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 // Double free for split
 void	double_free(char **split)
@@ -62,7 +62,7 @@ char	*expand_var(char *s, t_data *data)
 		return (NULL);
 	ft_strlcpy(variable, s + 1, var_len);
 	variable[var_len] = '\0';
-	value = ft_get_env_var(data->env, variable);
+	value = ft_getenv(data->env, variable);
 	if (!value)
 		return (NULL);
 	free(variable);
@@ -80,11 +80,11 @@ char	*replace_var(char *str, t_data *data)
 	int		split_len;
 	char	**split;
 
-	split = ft_split(str, ' ');
+	split = ft_split(str, ' '); 
 	i = 0;
 	while (split[i])
 	{
-		if (split[i][0] == '$')
+		if (split[i][0] == '$') //envars can appear in between non space characters
 			split[i] = expand_var(split[i], data);
 		i++;
 	}
@@ -119,6 +119,8 @@ void	process_tokens(t_token *tokens, t_data *data)
 		}
 		if (head->value[0] == '\'')
 			head->value = remove_quotes(head->value);
+		else // envars need to be replaced even when they are not in double quotes
+			head->value = replace_var(head->value, data);
 		head = head->next;
 	}
 }

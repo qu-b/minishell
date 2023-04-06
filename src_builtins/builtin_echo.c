@@ -6,13 +6,13 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:37:50 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/04 07:02:21 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 05:42:49 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_echo_find_opt(char **args, int argnb)
+int	echo_find_opt(char **args, int argnb)
 {
 	int		i;
 	size_t	j;
@@ -27,8 +27,6 @@ int	ft_echo_find_opt(char **args, int argnb)
 			while (args[i][j] && args[i][j] == 'n')
 				j++;
 		}
-		if (j == 1 && args[i][0] != '-')
-			j++;
 		if (j == ft_strlen(args[i]))
 			i++;
 		else
@@ -37,18 +35,34 @@ int	ft_echo_find_opt(char **args, int argnb)
 	return (i);
 }
 
+int	find_hyphen(char **args, int argnb)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	args++;
+	(void) argnb;
+	while (args[++i] && args[i][0] == '-')
+	{
+		if (args[i][0] == '-' && ft_strlen(args[i]) == 1)
+			j++;
+	}
+	return (j);
+}
+
 void	ft_echo(char **args)
 {
-	int		i;
-	int		argnb;
-	int		nl;
+	int	i;
+	int	argnb;
+	int	nl;
 
 	nl = 0;
 	argnb = ft_argcount(args);
-	if (argnb < 2)
-		return ;
 	i = 0;
-	nl = ft_echo_find_opt(args, argnb);
+	nl = echo_find_opt(args, argnb);
+	nl -= find_hyphen(args, argnb);
 	i += nl;
 	while (++i < argnb)
 	{
@@ -56,8 +70,6 @@ void	ft_echo(char **args)
 		if (i < argnb - 1)
 			ft_printf(" ");
 	}
-	if  (argnb == 2 )
-		i = 0;
-	if (nl == 0 || (argnb == 2 && args[1][0] == '-'))
+	if (args[1] == NULL || nl == 0)
 		ft_printf("\n");
 }

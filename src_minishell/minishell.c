@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/04 07:24:36 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 05:41:47 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	minishell(char **envp)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
-	data->env = ft_ptrdup(envp, ft_argcount(envp));
+	init_env(data, envp);
 	input = "";
 	sig_acccept();
 	while (input != NULL)

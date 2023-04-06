@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   file_access.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 15:14:58 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/30 17:19:22 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/06 05:41:42 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 int	openfile(char *filename, int mode)
 {
