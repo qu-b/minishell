@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 06:57:11 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:07:29 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,23 @@ char	*expand_var(char *s)
 char	*replace_var(char *str)
 {
 	int		i;
+	int		j;
 	int		split_len;
 	char	**split;
+	char	*value;
 
 	split = ft_split(str, ' '); 
 	i = 0;
 	while (split[i])
 	{
-		if (split[i][0] == '$') //envars can appear in between non space characters
-			split[i] = expand_var(split[i]);
+		j = -1;
+		while (split[i][++j])
+			if (split[i][j] == '$') //envars can appear in between non space characters
+			{
+				value = expand_var(split[i] + j);
+				split[i] = ft_substr(split[i], 0, j);
+				split[i] = ft_strjoin(split[i], value);
+			}
 		i++;
 	}
 	split_len = i;
