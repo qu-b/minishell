@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 05:41:47 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 07:05:35 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 int	minishell(char **envp)
 {
 	char	*input;
-	t_data	*data;
 
-	data = malloc(sizeof(t_data));
-	init_env(data, envp);
+	(void) envp;
 	input = "";
 	sig_acccept();
 	while (input != NULL)
@@ -31,9 +29,9 @@ int	minishell(char **envp)
 			break ;
 		}
 		add_history(input);
-		if (parser(&data, input))
+		if (parser(input))
 			return (1);
-		else if (executor(data, data->tokens))
+		else if (executor(g_data->tokens))
 			return (1);
 		free(input);
 	}

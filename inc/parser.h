@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/04 09:03:40 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 06:57:30 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,15 @@ typedef struct s_data
 {
 	t_token	*tokens;
 	char	**env;
+	int		pid; // needed for signal handling
 }	t_data;
 
 
-int		parser(t_data **data, char *input);
+int		parser(char *input);
 
 // Lexer
 int		lexer(t_token **head, char *s);
-void	process_tokens(t_token *tokens, t_data *data);
+void	process_tokens(t_token *tokens);
 
 // Utils
 int		is_io(char *s);

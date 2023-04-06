@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 05:45:33 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 06:57:11 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*remove_quotes(char *s)
 
 // Function to expand an environment variable 
 // such as $USER into its value (Marvin)
-char	*expand_var(char *s, t_data *data)
+char	*expand_var(char *s)
 {
 	char	*variable;
 	char	*value;
@@ -62,7 +62,7 @@ char	*expand_var(char *s, t_data *data)
 		return (NULL);
 	ft_strlcpy(variable, s + 1, var_len);
 	variable[var_len] = '\0';
-	value = ft_getenv(data->env, variable);
+	value = ft_getenv(g_data->env, variable);
 	if (!value)
 		return (NULL);
 	free(variable);
@@ -74,7 +74,7 @@ char	*expand_var(char *s, t_data *data)
 }
 
 // Function to replace a variable with its value in a string
-char	*replace_var(char *str, t_data *data)
+char	*replace_var(char *str)
 {
 	int		i;
 	int		split_len;
@@ -85,7 +85,7 @@ char	*replace_var(char *str, t_data *data)
 	while (split[i])
 	{
 		if (split[i][0] == '$') //envars can appear in between non space characters
-			split[i] = expand_var(split[i], data);
+			split[i] = expand_var(split[i]);
 		i++;
 	}
 	split_len = i;
@@ -105,7 +105,7 @@ char	*replace_var(char *str, t_data *data)
 // Function that processes all tokens in the list,
 // and removes quotes and expands variables. Still needs tweaking.
 // Should ~ be expanded?
-void	process_tokens(t_token *tokens, t_data *data)
+void	process_tokens(t_token *tokens)
 {
 	t_token	*head;
 
@@ -115,12 +115,12 @@ void	process_tokens(t_token *tokens, t_data *data)
 		if (head->value[0] == '\"')
 		{
 			head->value = remove_quotes(head->value);
-			head->value = replace_var(head->value, data);
+			head->value = replace_var(head->value);
 		}
 		if (head->value[0] == '\'')
 			head->value = remove_quotes(head->value);
 		else // envars need to be replaced even when they are not in double quotes
-			head->value = replace_var(head->value, data);
+			head->value = replace_var(head->value);
 		head = head->next;
 	}
 }

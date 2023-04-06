@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 05:53:31 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 07:00:28 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@ typedef struct s_export
 	int		env_max;
 }	t_export;
 
+// executes builtins
 int		exec_builtins(t_data *data, char *args);
 int		exec_exit(t_data *data, char **args, char *cmd);
 char	**exec_export(t_data *data, char **args);
 
 // return lenght until space or end of string
 int		builtin_cmd_len(char *cmd);
-
-// builtins main ./minishell [command] [arg1] [arg2] ...
-int		test_builtins(int argc, char **argv, char **envp);
 
 // prints args[1] to args[n] with spaces between
 void	ft_echo(char **args);
@@ -41,12 +39,6 @@ int		find_hyphen(char **args, int argnb);
 // prints env
 void	ft_env(char **env);
 void	ft_pwd(char **env);
-
-// returns a malloced string with env var value matching var
-char	*ft_getenv(char **env, char *var);
-
-// returns a malloced env with exported vars of NAME and VALUE, frees env
-char	**ft_export_string(char **env, char *name, char *value);
 
 // returns a malloced copy of env with exported vars, frees old env
 // returns og env if fail
@@ -68,7 +60,7 @@ int		unset_init(t_export *exp, char **env, char **args);
 int		remove_env(t_export *exp, char **env, char **args);
 
 // inits minishell env variable, dups envp, unsets "_"
-char	**init_env(t_data *data, char **envp);
+char	**init_env(char **envp);
 
 // same as export
 // updates PWD and OLDPWD in env
@@ -76,6 +68,12 @@ char	**init_env(t_data *data, char **envp);
 char	**ft_cd(char **env, char **args);
 int		ft_cd_update_env(t_export *cd, char **env, char **args);
 char	*ft_cd_change(char *path);
+
+// returns a malloced string with env var value matching var
+char	*ft_getenv(char **env, char *var);
+
+// returns a malloced env with exported vars of NAME and VALUE, frees env
+char	**ft_export_string(char **env, char *name, char *value);
 
 void	ft_freeptr(char **s);
 int		ft_argcount(char **args);

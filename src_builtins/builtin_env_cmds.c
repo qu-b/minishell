@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 05:45:23 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 07:00:46 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,16 @@ char	**ft_export_string(char **env, char *name, char *value)
 	return (new_env);
 }
 
-char	**init_env(t_data *data, char **envp)
+char	**init_env(char **envp)
 {
 	char	**tmp;
 
-	data->env = ft_ptrdup(envp, ft_argcount(envp));
+	g_data->env = ft_ptrdup(envp, ft_argcount(envp));
 	tmp = malloc(sizeof(char *) * 3);
-	tmp[0] = ft_strdup("export");
+	tmp[0] = ft_strdup("unset");
 	tmp[1] = ft_strdup("_");
 	tmp[2] = NULL;
-	data->env = ft_unset(data->env, tmp);
+	g_data->env = ft_unset(g_data->env, tmp);
 	ft_freeptr(tmp);
-	return (data->env);
+	return (g_data->env);
 }
