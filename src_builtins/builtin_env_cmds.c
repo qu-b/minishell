@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 07:00:46 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:39:12 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,28 @@ void	ft_pwd(char **env)
 
 char	*ft_getenv(char **env, char *var)
 {
-	int	eq;
-	int	i;
+	char	**args;
+	int		eq;
+	int		i;
 
+	if (!var)
+		return (NULL);
+	args = malloc(sizeof(char *) * 2);
+	args[0] = ft_strjoin_gnl(var, "=");
+	args[1] = NULL;
 	i = -1;
 	while (env[++i])
 	{
-		eq = ft_strchr_idx(env[i], '=');
-		if (eq > -1 && ft_strncmp(env[i], var, eq) == 0)
+		eq = compare_vars(env, args, 0, i);
+		if (eq < 0)
+			return (NULL);
+		if (eq > 0)
+		{
+			ft_freeptr(args);
 			return (&env[i][eq + 1]);
+		}
 	}
+	ft_freeptr(args);
 	return (NULL);
 }
 

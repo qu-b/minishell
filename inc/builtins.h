@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 09:48:44 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:28:46 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	**ft_export(char **env, char **args);
 int		export_init(t_export *exp, char **env, char **args);
 int		append_env(t_export *exp, char **env, char **args);
 int		replace_env(t_export *exp, char **env, char **args);
+int		compare_vars(char **env, char **args, int argi, int envi);
 
 // replicates the behaviour of export with no args
 void	ft_export_export(char **env);

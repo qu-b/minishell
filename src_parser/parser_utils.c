@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 13:07:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/06 13:37:52 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ char	*expand_var(char *s)
 	value = ft_getenv(g_data->env, variable);
 	if (!value)
 		return (NULL);
-	free(variable);
 	result = malloc(ft_strlen(value) + ft_strlen(&s[var_len]) + 1);
 	ft_strlcpy(result, value, ft_strlen(value) + 1);
 	ft_strlcpy(result + ft_strlen(value),
@@ -91,6 +90,8 @@ char	*replace_var(char *str)
 			if (split[i][j] == '$') //envars can appear in between non space characters
 			{
 				value = expand_var(split[i] + j);
+				if (!value)
+					return ("");
 				split[i] = ft_substr(split[i], 0, j);
 				split[i] = ft_strjoin(split[i], value);
 			}
