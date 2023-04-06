@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 14:56:35 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:25:55 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,18 @@ char	*replace_var(char *str)
 	char	**split;
 	char	*value;
 
-	split = ft_split(str, ' '); 
+	split = ft_split(str, ' ');
 	i = 0;
 	while (split[i])
 	{
 		j = -1;
 		while (split[i][++j])
-			if (split[i][j] == '$') //envars can appear in between non space characters
+			if (split[i][j] == '$')
 			{
 				value = expand_var(split[i] + j);
-				if (!value)
-					return ("");
 				split[i] = ft_substr(split[i], 0, j);
+				if (!value)
+					break ;
 				split[i] = ft_strjoin(split[i], value);
 			}
 		i++;
@@ -128,7 +128,7 @@ void	process_tokens(t_token *tokens)
 		}
 		if (head->value[0] == '\'')
 			head->value = remove_quotes(head->value);
-		else // envars need to be replaced even when they are not in double quotes
+		else
 			head->value = replace_var(head->value);
 		head = head->next;
 	}

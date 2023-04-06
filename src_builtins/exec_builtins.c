@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 13:40:44 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:07:48 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	exec_builtins(char *cmd)
 		g_data->env = ft_unset(g_data->env, args);
 	else if (ft_strncmp(args[0], "exit", len) == 0)
 		exec_exit(args, cmd);
+	else if (ft_strncmp(args[0], "getenv", len) == 0)
+		ft_printf("%s\n", ft_getenv(g_data->env, ft_strdup(args[1])));
 	return (0);
 }
 

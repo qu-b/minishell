@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 09:47:53 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:32:42 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	parse_cmd(t_token *tokens)
 				fdout = openfile(head->next->value, 1);
 			mfd = fdout;
 		}
-		else if (head->type == PIPE)
-		// if (head->next->type == PIPE)
+		// else if (head->type == PIPE)
+		if (head->next && head->next->type == PIPE)
 		// execute into a pipe linked to the data struct
 		// `g_data->pipe[2]`;
 		{
