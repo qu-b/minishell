@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 07:05:35 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/07 23:08:00 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	minishell(char **envp)
 	(void) envp;
 	input = "";
 	sig_acccept();
+	
 	while (input != NULL)
 	{
 		input = readline("minishell: ");
@@ -35,5 +36,6 @@ int	minishell(char **envp)
 			return (1);
 		free(input);
 	}
+	show_ctrl_enable();
 	return (0);
 }

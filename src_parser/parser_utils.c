@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 23:25:55 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:13:57 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	process_tokens(t_token *tokens)
 			head->value = remove_quotes(head->value);
 			head->value = replace_var(head->value);
 		}
-		if (head->value[0] == '\'')
+		if (head->value[0] == '\'') // quotes & dq can be in the middle of a string
 			head->value = remove_quotes(head->value);
 		else
 			head->value = replace_var(head->value);

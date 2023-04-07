@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:37:50 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 15:26:35 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:00:23 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ft_echo(char **args)
 	i = 0;
 	nl = echo_find_opt(args, argnb);
 	i += nl;
-	printf("i final = %d\n", i);
 	while (++i < argnb)
 	{
 		ft_printf("%s", args[i]);

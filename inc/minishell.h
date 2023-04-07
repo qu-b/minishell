@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 09:43:25 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/07 22:12:02 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <ctype.h>
+# include <termios.h>
 # include "parser.h"
 # include "builtins.h"
 # include "executor.h"

@@ -66,12 +66,14 @@ void	redirect(char *cmd, char **env, int fdin)
 	// pipe(pipefd);
 	g_data->pid = fork();
 	// printf("pid: %d\n", g_data->pid);
+	show_ctrl_enable();
 	if (g_data->pid)
 	{
 		g_data->ext = 1;
 		// close(pipefd[1]);
 		// dup2(pipefd[0], STD_IN);
 		waitpid(g_data->pid, 0, 0);
+		show_ctrl_disable();
 		g_data->ext = 0;
 	}
 	else
