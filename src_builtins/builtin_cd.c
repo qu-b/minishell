@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 05:41:32 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/08 17:32:38 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,17 @@ char	*ft_cd_change(char *path)
 int	ft_cd_update_env(t_export *cd, char **env, char **args)
 {
 	char	*cwd;
+	char	*new_dir;
 	char	*full_path;
 
 	cwd = NULL;
 	cwd = getcwd(cwd, 0);
-	full_path = ft_cd_change(args[1]);
+	new_dir = NULL;
+	if (!args[1])
+		new_dir = ft_getenv(env, ft_strdup("HOME"));
+	else
+		new_dir = ft_strdup(args[1]);
+	full_path = ft_cd_change(new_dir);
 	if (full_path == NULL)
 	{
 		free(cwd);

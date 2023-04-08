@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 14:58:55 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/08 17:32:23 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ char	**init_env(char **envp)
 	tmp[2] = NULL;
 	g_data->env = ft_unset(g_data->env, tmp);
 	ft_freeptr(tmp);
+	g_data->env = ft_export_string(g_data->env, "SHELL=", "minishell");
 	return (g_data->env);
 }

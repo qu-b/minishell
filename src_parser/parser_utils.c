@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/07 22:13:57 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/08 17:32:30 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	*replace_var(char *str)
 // Function that processes all tokens in the list,
 // and removes quotes and expands variables. Still needs tweaking.
 // Should ~ be expanded?
+// yes, to ft_getenv(g_data->env, "HOME")
 void	process_tokens(t_token *tokens)
 {
 	t_token	*head;
