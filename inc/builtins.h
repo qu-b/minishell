@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/08 17:32:16 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/11 00:34:07 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		echo_find_opt(char **args, int argnb);
 
 // prints env
 void	ft_env(char **env);
-void	ft_pwd(char **env);
+void	ft_pwd(void);
 
 // returns a malloced copy of env with exported vars, frees old env
 // returns og env if fail
@@ -70,7 +70,6 @@ int		ft_cd_update_env(t_export *cd, char **env, char **args);
 char	*ft_cd_change(char *path);
 
 // returns a malloced string with env var value matching var
-// var is freed
 char	*ft_getenv(char **env, char *var);
 
 // returns a malloced env with exported vars of NAME and VALUE, frees env

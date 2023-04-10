@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/08 17:32:30 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/11 00:32:46 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	*expand_var(char *s)
 	ft_strlcpy(variable, s + 1, var_len);
 	variable[var_len] = '\0';
 	value = ft_getenv(g_data->env, variable);
+	free(variable);
 	if (!value)
 		return (NULL);
 	result = malloc(ft_strlen(value) + ft_strlen(&s[var_len]) + 1);

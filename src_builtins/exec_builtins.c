@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 23:07:48 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/11 00:33:47 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exec_builtins(char *cmd)
 	else if (ft_strncmp(args[0], "env", len) == 0)
 		ft_env(g_data->env);
 	else if (ft_strncmp(args[0], "pwd", len) == 0)
-		ft_pwd(g_data->env);
+		ft_pwd();
 	else if (ft_strncmp(args[0], "cd", len) == 0)
 		g_data->env = ft_cd(g_data->env, args);
 	else if (ft_strncmp(args[0], "export", len) == 0)
@@ -34,7 +34,7 @@ int	exec_builtins(char *cmd)
 	else if (ft_strncmp(args[0], "exit", len) == 0)
 		exec_exit(args, cmd);
 	else if (ft_strncmp(args[0], "getenv", len) == 0)
-		ft_printf("%s\n", ft_getenv(g_data->env, ft_strdup(args[1])));
+		ft_printf("%s\n", ft_getenv(g_data->env, args[1]));
 	return (0);
 }
 
