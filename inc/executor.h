@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 15:50:23 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 18:46:17 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:47:42 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		openfile(char *filename, int mode);
 char	*find_path(char **envp);
 char	*get_cmd(char **paths, char *cmd);
 void	exec(char *cmd, char **envp);
-void	redirect(char *cmd, char **env, int fdin);
+void	exec_bin(char *cmd, char **env, int fdin);
 void	exec_pipe(char *cmd, char **env, int fdin, int fdout);
 int		executor(t_token *tokens);
 

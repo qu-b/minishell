@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 17:58:17 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:45:58 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ typedef struct s_data
 	t_token	*tokens;
 	char	**env;
 	int		ext;
+	int		pipefd[2];
 }	t_data;
 
 t_data *g_data;
 
 int		minishell(char **envp);
-t_data *get_data(char **envp);
+t_data	*get_data(char **envp);
 
 #endif

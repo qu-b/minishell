@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 19:28:26 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:48:34 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ int	parse_cmd(t_token *tokens)
 	fdout = 1;
 	args = NULL;
 	dargs = NULL;
-	// for (int i = 0; i < 5; i++)
-	// 	printf("%s\n", g_data->env[i]);
 	while (head)
 	{
 		if (head->type == IO && head->len == 1)
@@ -90,15 +88,12 @@ int	parse_cmd(t_token *tokens)
 				fdout = openfile(head->next->value, 1);
 			mfd = fdout;
 		}
-		// else if (head->type == PIPE)
 		if (head->next && head->next->type == PIPE)
-		// execute into a pipe linked to the data struct
-		// `g_data->pipe[2]`;
 		{
 			args = get_args(&head);
 			// if (args == NULL)
 			// 	return (0);
-			head = head->next;
+			// head = head->next;
 			// printf("%s\n", args);
 			exec_pipe(args, g_data->env, fdin, fdout);
 			head = head->next;
@@ -113,9 +108,10 @@ int	parse_cmd(t_token *tokens)
 			args = get_args(&head);
 			// printf("%s\n", head->value);
 			// exec(args, g_data->env);
-			redirect(args, g_data->env, fdin);
+			exec_bin(args, g_data->env, fdin);
 			// head = head->next;
 		}
+		// head = head->next;
 	}
 	if (args)
 		free(args);
