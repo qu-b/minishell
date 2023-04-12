@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/11 00:32:46 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:12:02 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,30 @@ void	double_free(char **split)
 }
 
 // Function to remove quotes from a string
-char	*remove_quotes(char *s)
+char *remove_quotes(char *s)
 {
-	int		i;
-	char	*value;
+	int len = ft_strlen(s);
+	char *dest = s;
+	char *end = s + len;
+	char current_quote = '\0';
 
-	i = 1;
-	if (s[0] != '\'' && s[0] != '\"')
-		return (s);
-	while (s[i] != '\'' && s[i] != '\"' && s[i])
-		i++;
-	value = malloc(i + 1);
-	ft_strlcpy(value, s + 1, i);
-	value[i] = '\0';
-	free(s);
-	return (value);
+	while (s < end)
+	{
+		if (current_quote == '\0' && (*s == '"' || *s == '\''))
+		{
+			current_quote = *s;
+			s++;
+		}
+		else if (current_quote != '\0' && *s == current_quote)
+		{
+			current_quote = '\0';
+			s++;
+		}
+		else
+			*dest++ = *s++;
+	}
+	*dest = '\0';
+	return s;
 }
 
 // Function to expand an environment variable 
@@ -83,11 +92,12 @@ char	*replace_var(char *str)
 	char	*value;
 
 	split = ft_split(str, ' ');
-	i = 0;
-	while (split[i])
+	i = -1;
+	while (split[++i])
 	{
 		j = -1;
 		while (split[i][++j])
+		{
 			if (split[i][j] == '$')
 			{
 				value = expand_var(split[i] + j);
@@ -96,7 +106,7 @@ char	*replace_var(char *str)
 					break ;
 				split[i] = ft_strjoin(split[i], value);
 			}
-		i++;
+		}
 	}
 	split_len = i;
 	i = 0;
@@ -123,15 +133,17 @@ void	process_tokens(t_token *tokens)
 	head = tokens;
 	while (head)
 	{
-		if (head->value[0] == '\"')
+		if (head->value[0] == '\'')
 		{
-			head->value = remove_quotes(head->value);
-			head->value = replace_var(head->value);
+			remove_quotes(head->value);
+			head->value = ft_strtrim(head->value, "\'");
 		}
-		if (head->value[0] == '\'') // quotes & dq can be in the middle of a string
-			head->value = remove_quotes(head->value);
 		else
+		{
+			remove_quotes(head->value);
 			head->value = replace_var(head->value);
+			head->value = ft_strtrim(head->value, "\"");
+		}
 		head = head->next;
 	}
 }
