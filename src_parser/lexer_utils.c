@@ -6,11 +6,11 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/11 09:49:14 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/12 17:56:00 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	is_io(char *s)
 {

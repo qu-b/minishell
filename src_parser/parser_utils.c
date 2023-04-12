@@ -6,11 +6,11 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 17:00:14 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/11 16:12:02 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/12 17:59:52 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 // Double free for split
 void	double_free(char **split)
@@ -24,13 +24,17 @@ void	double_free(char **split)
 }
 
 // Function to remove quotes from a string
-char *remove_quotes(char *s)
+char	*remove_quotes(char *s)
 {
-	int len = ft_strlen(s);
-	char *dest = s;
-	char *end = s + len;
-	char current_quote = '\0';
+	int		len;
+	char	*dest;
+	char	*end;
+	char	current_quote;
 
+	len = ft_strlen(s);
+	dest = s;
+	end = s + len;
+	current_quote = '\0';
 	while (s < end)
 	{
 		if (current_quote == '\0' && (*s == '"' || *s == '\''))
@@ -47,7 +51,7 @@ char *remove_quotes(char *s)
 			*dest++ = *s++;
 	}
 	*dest = '\0';
-	return s;
+	return (s);
 }
 
 // Function to expand an environment variable 
@@ -129,6 +133,8 @@ char	*replace_var(char *str)
 void	process_tokens(t_token *tokens)
 {
 	t_token	*head;
+	int		in_sq;
+	char	*p;
 
 	head = tokens;
 	while (head)
@@ -140,9 +146,25 @@ void	process_tokens(t_token *tokens)
 		}
 		else
 		{
-			remove_quotes(head->value);
-			head->value = replace_var(head->value);
-			head->value = ft_strtrim(head->value, "\"");
+			in_sq = 0;
+			p = head->value;
+			while (*p)
+			{
+				if (*p == '\'')
+					in_sq = !in_sq;
+				else if (*p == '$' && !in_sq)
+				{
+					head->value = replace_var(head->value);
+					head->value = ft_strtrim(head->value, "\"");
+					break ;
+				}
+				p++;
+			}
+			if (!*p)
+			{
+				remove_quotes(head->value);
+				head->value = ft_strtrim(head->value, "\"");
+			}
 		}
 		head = head->next;
 	}

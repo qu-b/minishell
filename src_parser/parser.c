@@ -6,11 +6,11 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:14:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/11 12:41:12 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/12 17:55:43 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 int	parser(char *input)
 {
