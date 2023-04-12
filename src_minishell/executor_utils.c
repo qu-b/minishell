@@ -56,7 +56,7 @@ void	exec(char *cmd, char **envp)
 	exit(127);
 }
 
-void	redirect(char *cmd, char **env, int fdin)
+void	exec_bin(char *cmd, char **env, int fdin)
 {
 	if (!cmd[1])
 		return ;
@@ -103,10 +103,10 @@ void	exec_pipe(char *cmd, char **env, int fdin, int fdout)
 	}
 	else
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], fdout);
-		if (fdin != STD_IN)
-			dup2(fdin, STD_IN);
+		close(g_data->pipefd[0]);
+		dup2(g_data->pipefd[1], fdout);
+		// if (fdin != STD_IN)
+		// 	dup2(fdin, STD_IN);
 		exec(cmd, env);
 	}
 }
