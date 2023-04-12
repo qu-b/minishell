@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:18:53 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/07 22:12:02 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:58:17 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,10 @@ typedef struct s_data
 {
 	t_token	*tokens;
 	char	**env;
-	pid_t	pid; // needed for signal handling?
 	int		ext;
 }	t_data;
 
 t_data *g_data;
-
 
 int		minishell(char **envp);
 t_data *get_data(char **envp);

@@ -6,19 +6,17 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/11 00:33:47 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:23:42 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	exec_builtins(char *cmd)
+int	exec_builtins(char **args)
 {
-	char	**args;
 	int		len;
 
-	args = ft_split(cmd, ' ');
-	len = builtin_cmd_len(cmd);
+	len = builtin_cmd_len(args[0]);
 	if (ft_strncmp(args[0], "echo", len) == 0)
 		ft_echo(args);
 	else if (ft_strncmp(args[0], "env", len) == 0)
@@ -32,17 +30,16 @@ int	exec_builtins(char *cmd)
 	else if (ft_strncmp(args[0], "unset", len) == 0)
 		g_data->env = ft_unset(g_data->env, args);
 	else if (ft_strncmp(args[0], "exit", len) == 0)
-		exec_exit(args, cmd);
+		exec_exit(args);
 	else if (ft_strncmp(args[0], "getenv", len) == 0)
 		ft_printf("%s\n", ft_getenv(g_data->env, args[1]));
 	return (0);
 }
 
-int	exec_exit(char **args, char *cmd)
+int	exec_exit(char **args)
 {
 	ft_freeptr(g_data->env);
 	ft_freeptr(args);
-	free(cmd);
 	// free everything everywhere all at once
 	exit(0);
 }

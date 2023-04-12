@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 17:56:00 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/12 19:01:27 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

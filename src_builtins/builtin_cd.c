@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/11 00:32:58 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:56:24 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@ char	*ft_cd_change(char *path)
 	}
 	if (access(path, R_OK) < 0)
 	{
-		write(2, "Error : can't read file\n", 22);
+		write(2, "Error : can't read file\n", 25);
 		return (NULL);
 	}
-	chdir(path);
+	if (chdir(path) < 0)
+	{
+		write(2, "Error : can't change dir\n", 26);
+		return (NULL);
+	}
 	full_path = getcwd(full_path, 0);
 	return (full_path);
 }

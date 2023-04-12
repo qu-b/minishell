@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 05:12:37 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 15:31:48 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:18:11 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	compare_vars(char **env, char **args, int argi, int envi)
 {
 	int	eqa;
 	int	eqe;
+	int	i;
 
 	if (argi == -1)
 		argi++;
@@ -27,6 +28,16 @@ int	compare_vars(char **env, char **args, int argi, int envi)
 		envi++;
 	eqa = ft_strchr_idx(args[argi], '=');
 	eqe = ft_strchr_idx(env[envi], '=');
+	i = -1;
+	while (++i < eqa)
+	{
+		// ft_printf("isalnum: %d\n", ft_isalnum(args[argi][i]));
+		if (ft_isalnum(args[argi][i]) == 0)
+		{
+			write(2, "varname problemo\n", 18);
+			return (-1);
+		}
+	}
 	if (eqa < 0 || eqe < 0)
 		return (-1);
 	if (eqe == eqa && ft_strncmp(args[argi], env[envi], eqa) == 0)

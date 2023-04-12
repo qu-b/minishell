@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 23:32:42 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:28:26 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Function to get command + args as a string
 char *get_args(t_token **head)
 {
-	char *args;
+	char	*args;
 
 	args = malloc(sizeof(char *));
 	if (!args)
@@ -32,10 +32,42 @@ char *get_args(t_token **head)
 	return (args);
 }
 
+// Function to get command + args directly as a str pointer
+char **get_args_ptr(t_token **head)
+{
+	char	**args;
+	int		i;
+	t_token	*tmp;
+
+	i = 0;
+	tmp = *head;
+	while (tmp && tmp->type != PIPE && tmp->type != IO)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	args = malloc(sizeof(char *) * (i + 1));
+	if (!args)
+		return (NULL);
+	args[i] = NULL;
+	i = 0;
+	while (*head && (*head)->type != PIPE && (*head)->type != IO)
+	{
+		if (!(*head)->value)
+			return NULL;
+		args[i] = ft_strdup((*head)->value);
+		(*head) = (*head)->next;
+		i++;
+	}
+	return (args);
+}
+
 int	parse_cmd(t_token *tokens)
 {
 	t_token	*head;
 	char	*args;
+	// split(args, ' ') in exec fails when args[n] was parsed as string literal
+	char	**dargs; // ready for exec, need to change pipex, idk how, help
 	int		fdin;
 	int		fdout;
 	int		mfd;
@@ -44,6 +76,8 @@ int	parse_cmd(t_token *tokens)
 	head = tokens;
 	fdin = 0;
 	fdout = 1;
+	args = NULL;
+	dargs = NULL;
 	// for (int i = 0; i < 5; i++)
 	// 	printf("%s\n", g_data->env[i]);
 	while (head)
@@ -71,8 +105,8 @@ int	parse_cmd(t_token *tokens)
 		}
 		else if (ft_is_builtin(head->value))
 		{
-			args = get_args(&head);
-			exec_builtins(args);
+			dargs = get_args_ptr(&head);
+			exec_builtins(dargs);
 		}
 		else
 		{
@@ -83,7 +117,10 @@ int	parse_cmd(t_token *tokens)
 			// head = head->next;
 		}
 	}
-	free(args);
+	if (args)
+		free(args);
+	if (dargs)
+		ft_freeptr(dargs);
 	return (0);
 }
 

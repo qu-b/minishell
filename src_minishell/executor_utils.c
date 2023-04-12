@@ -15,7 +15,7 @@
 
 char	*find_path(char **envp)
 {
-	while (ft_strncmp("PATH", *envp, 4))
+	while (envp && ft_strncmp("PATH", *envp, 4))
 		envp++;
 	return (*envp + 5);
 }
@@ -60,19 +60,19 @@ void	redirect(char *cmd, char **env, int fdin)
 {
 	if (!cmd[1])
 		return ;
-	// pid_t	pid;
+	pid_t	pid;
 	// int		pipefd[2];
 	(void)fdin;
 	// pipe(pipefd);
-	g_data->pid = fork();
+	pid = fork();
 	// printf("pid: %d\n", g_data->pid);
 	show_ctrl_enable();
-	if (g_data->pid)
+	if (pid)
 	{
 		g_data->ext = 1;
 		// close(pipefd[1]);
 		// dup2(pipefd[0], STD_IN);
-		waitpid(g_data->pid, 0, 0);
+		waitpid(pid, 0, 0);
 		show_ctrl_disable();
 		g_data->ext = 0;
 	}
@@ -89,17 +89,17 @@ void	redirect(char *cmd, char **env, int fdin)
 
 void	exec_pipe(char *cmd, char **env, int fdin, int fdout)
 {
-	// pid_t	pid;
+	pid_t	pid;
 	int		pipefd[2];
 	(void)fdin;
 	(void)fdout;
 	pipe(pipefd);
-	g_data->pid = fork();
-	if (g_data->pid)
+	pid = fork();
+	if (pid)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], fdin);
-		waitpid(g_data->pid, 0, 0);
+		waitpid(pid, 0, 0);
 	}
 	else
 	{

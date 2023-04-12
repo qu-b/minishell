@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 15:50:23 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 07:04:18 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 18:46:17 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "minishell.h"
 
+char 	*get_args_old(t_token **head);
+char 	**get_args_ptr(t_token **head);
 int		openfile(char *filename, int mode);
 char	*find_path(char **envp);
 char	*get_cmd(char **paths, char *cmd);

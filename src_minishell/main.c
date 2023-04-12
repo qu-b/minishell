@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/07 22:12:20 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:58:07 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_data *get_data(char **envp)
 			return (NULL);
 		init_env(envp);
 		g_data->tokens = NULL; 
-		g_data->pid = 1;
 		g_data->ext = 0;
 	}
 	return g_data;
