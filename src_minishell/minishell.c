@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:42:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 17:58:26 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:49:09 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	minishell(char **envp)
 		add_history(input);
 		if (parser(input))
 			return (1);
-		else if (executor(g_data->tokens))
+		else if (executor(&g_data->tokens))
 			return (1);
 		free(input);
 	}

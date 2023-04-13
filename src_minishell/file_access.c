@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_access.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 15:14:58 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 05:41:42 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:41:59 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,12 @@ int	openfile(char *filename, int mode)
 	else
 		return (open(filename, O_TRUNC | O_CREAT | O_RDWR, 0000644));
 }
+
+// parse_cmd()
+// if (head->type == IO && head->len == 1)
+// 		{
+// 			if (head->value[0] == '<')
+// 				fdin = openfile(head->next->value, 0);
+// 			else
+// 				fdout = openfile(head->next->value, 1);
+// 		}

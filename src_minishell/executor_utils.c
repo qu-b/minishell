@@ -11,7 +11,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 char	*find_path(char **envp)
 {
@@ -38,98 +38,61 @@ char	*get_cmd(char **paths, char *cmd)
 	return (cmd);
 }
 
-void	exec(char *cmd, char **envp)
+void	exec(t_cmd *cmd, char **envp)
 {
 	char	**paths;
 	char	*envpath;
-	char	**args;
 	char	*command;
 
 	envpath = find_path(envp);
 	paths = ft_split(envpath, ':');
-	args = ft_split(cmd, ' ');
-	command = get_cmd(paths, args[0]);
-	execve(command, args, envp);
+	command = get_cmd(paths, cmd->name);
+	execve(command, cmd->args, envp);
 	write(STD_ERR, "minishell: ", 11);
-	write(STD_ERR, args[0], ft_strlen(args[0]));
+	write(STD_ERR, cmd->name, ft_strlen(cmd->name));
 	write(STD_ERR, ": command not found\n", 20);
 	exit(127);
 }
 
-void	exec_bin(char *cmd, char **env, int fdin)
+int	exec_bin(t_cmd *cmd, char **env, int pid_i, int tmpfd)
 {
-	if (!cmd[1])
-		return ;
-	pid_t	pid;
-	// int		pipefd[2];
-	(void)fdin;
-	// pipe(pipefd);
-	pid = fork();
-	// printf("pid: %d\n", g_data->pid);
+	g_data->pid[pid_i] = fork();
 	show_ctrl_enable();
-	if (pid)
+	dup2(tmpfd, 0);
+	close(tmpfd);
+	if (g_data->pid[pid_i])
+	{
+		close(cmd->tmpfd);
+		return(1);
+	}
+	else
+	{
+		exec(cmd, env);
+		exit(0);
+	}
+	return (0);
+}
+
+void	exec_pipe(t_cmd *cmd, char **env, int pid_i)
+{
+	pipe(cmd->pipe);
+	g_data->pid[pid_i] = fork();
+	show_ctrl_enable();
+	if (g_data->pid[pid_i])
 	{
 		g_data->ext = 1;
-		// close(pipefd[1]);
-		// dup2(pipefd[0], STD_IN);
-		waitpid(pid, 0, 0);
-		show_ctrl_disable();
+		close(cmd->tmpfd);
+		cmd->tmpfd = cmd->pipe[0];
+		close(cmd->pipe[1]);
 		g_data->ext = 0;
+
 	}
 	else
 	{
-		// close(pipefd[0]);
-		// dup2(pipefd[1], STD_OUT);
-		// if (fdin == STD_IN)
-		// 	exit(1);
-		// else
-			exec(cmd, env);
+		dup2(cmd->pipe[1], 1);
+		close(cmd->pipe[1]);
+		close(cmd->pipe[0]);
+		exec_bin(cmd, env, pid_i, cmd->tmpfd);
+		exit(1);
 	}
 }
-
-void	exec_pipe(char *cmd, char **env, int fdin, int fdout)
-{
-	pid_t	pid;
-	int		pipefd[2];
-	(void)fdin;
-	(void)fdout;
-	pipe(pipefd);
-	pid = fork();
-	if (pid)
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], fdin);
-		waitpid(pid, 0, 0);
-	}
-	else
-	{
-		close(g_data->pipefd[0]);
-		dup2(g_data->pipefd[1], fdout);
-		// if (fdin != STD_IN)
-		// 	dup2(fdin, STD_IN);
-		exec(cmd, env);
-	}
-}
-
-// int	exec_pipe(int ac, char **av, char **envp)
-// {
-// 	int	fdin;
-// 	int	fdout;
-// 	int	i;
-
-// 	i = 2;
-// 	if (ac >= 5)
-// 	{
-// 		fdin = openfile(av[1], INFILE);
-// 		fdout = openfile(av[ac - 1], OUTFILE);
-// 		dup2(fdin, STD_IN);
-// 		dup2(fdout, STD_OUT);
-// 		redirect(av[2], envp, fdin);
-// 		while (++i < ac - 2)
-// 			redirect(av[i], envp, fdin);
-// 		exec(av[i], envp);
-// 	}
-// 	else
-// 		write(STD_ERR, "Invalid number of arguments.\n", 29);
-// 	return (1);
-// }

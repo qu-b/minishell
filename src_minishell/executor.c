@@ -6,34 +6,36 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 19:48:34 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/13 23:59:50 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
-// Function to get command + args as a string
-char *get_args(t_token **head)
+// Function to get command name
+char *get_name(t_token **tokens)
 {
-	char	*args;
+	char	*name;
+	t_token	*head;
 
-	args = malloc(sizeof(char *));
-	if (!args)
+	head = *tokens;
+	name = malloc(sizeof(char *));
+	if (!name)
 		return (NULL);
-	args = "";
-	while (*head && (*head)->type != PIPE && (*head)->type != IO)
+	name = "";
+	if (head && head->type != PIPE && head->type != IO)
 	{
-		if (!(*head)->value)
-			return NULL;
-		args = ft_strjoin(args, (*head)->value);
-		args = ft_strjoin(args, " ");
-		(*head) = (*head)->next;
+		if (!head->value)
+			return (NULL);
+		name = ft_strjoin(name, head->value);
+		name = ft_strtrim(name, " ");
+		head = head->next;
 	}
-	return (args);
+	return (name);
 }
 
-// Function to get command + args directly as a str pointer
-char **get_args_ptr(t_token **head)
+// Function to get command args
+char **get_args(t_token **head)
 {
 	char	**args;
 	int		i;
@@ -46,83 +48,81 @@ char **get_args_ptr(t_token **head)
 		i++;
 		tmp = tmp->next;
 	}
-	args = malloc(sizeof(char *) * (i + 1));
+	args = malloc(sizeof(char *) * (i + 2));
 	if (!args)
 		return (NULL);
-	args[i] = NULL;
+	args[0] = g_data->cmd.name;
 	i = 0;
 	while (*head && (*head)->type != PIPE && (*head)->type != IO)
 	{
 		if (!(*head)->value)
-			return NULL;
+			break ;
 		args[i] = ft_strdup((*head)->value);
 		(*head) = (*head)->next;
 		i++;
 	}
+	args[i] = NULL;
 	return (args);
 }
 
-int	parse_cmd(t_token *tokens)
+int	parse_cmd(t_token **tokens, int pid_i)
 {
-	t_token	*head;
-	char	*args;
-	// split(args, ' ') in exec fails when args[n] was parsed as string literal
-	char	**dargs; // ready for exec, need to change pipex, idk how, help
-	int		fdin;
-	int		fdout;
-	int		mfd;
+	t_cmd	*cmd;
 
-	(void) mfd;
-	head = tokens;
-	fdin = 0;
-	fdout = 1;
-	args = NULL;
-	dargs = NULL;
-	while (head)
+	printf("%d\n", pid_i);
+	cmd = &(g_data->cmd);
+	cmd->name = get_name(tokens);
+	cmd->args = get_args(tokens);
+	if ((*tokens) && (*tokens)->type == PIPE)
 	{
-		if (head->type == IO && head->len == 1)
-		{
-			if (head->value[0] == '<')
-				fdin = openfile(head->next->value, 0);
-			else
-				fdout = openfile(head->next->value, 1);
-			mfd = fdout;
-		}
-		if (head->next && head->next->type == PIPE)
-		{
-			args = get_args(&head);
-			// if (args == NULL)
-			// 	return (0);
-			// head = head->next;
-			// printf("%s\n", args);
-			exec_pipe(args, g_data->env, fdin, fdout);
-			head = head->next;
-		}
-		else if (ft_is_builtin(head->value))
-		{
-			dargs = get_args_ptr(&head);
-			exec_builtins(dargs);
-		}
-		else
-		{
-			args = get_args(&head);
-			// printf("%s\n", head->value);
-			// exec(args, g_data->env);
-			exec_bin(args, g_data->env, fdin);
-			// head = head->next;
-		}
-		// head = head->next;
+		exec_pipe(cmd, g_data->env, pid_i);
+		close(g_data->cmd.pipe[1]);
+		(*tokens) = (*tokens)->next;
+		return (1);
 	}
-	if (args)
-		free(args);
-	if (dargs)
-		ft_freeptr(dargs);
+	else if (ft_is_builtin(cmd->name))
+	{
+		exec_builtins(cmd->args);
+		(*tokens) = (*tokens)->next;
+		return (1);
+	}
+	else
+	{
+		exec_bin(cmd, g_data->env, pid_i, cmd->tmpfd);
+		// (*tokens) = (*tokens)->next;
+		return (1);
+	}
+	// (*tokens) = (*tokens)->next;
+	free(cmd->name);
+	free(cmd->args);
 	return (0);
 }
 
-int	executor(t_token *tokens)
+int	wait_process(void)
 {
-	if (parse_cmd(tokens))
-		return (1);
+	int		status;
+
+	while (waitpid(-1, &status, 0) != -1)
+		continue ;
+	if (errno == ECHILD && WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
+}
+
+int	executor(t_token **head)
+{
+	int		pid_i;
+
+	pid_i = 0;
+	g_data->cmd.tmpfd = dup(0);
+	g_data->pid = malloc(sizeof(pid_t) * 3);
+	// g_data->ext = 1;
+	while ((*head) && (*head)->value)
+	{
+		if (!parse_cmd(head, pid_i++))
+			break ;
+	}
+	wait_process();
+	// g_data->ext = 0;
 	return (0);
 }
