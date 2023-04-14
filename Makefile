@@ -21,11 +21,19 @@ all:		$(NAME)
 
 $(NAME): 	$(OBJ)
 			@$(CC) $(FLAGS) -o $@ $^ -I/usr/local/Cellar/readline/8.2.1/include -L/usr/local/Cellar/readline/8.2.1/lib/ -I/opt/local/include -L/opt/local/lib -lreadline -L$(LIBDIR) -lft -I$(INCDIR) 
+#			@$(CC) $(FLAGS) -o $@ $^ -I/Users/$(USER)/.brew/Cellar/readline/8.2.1/include -L/Users/$(USER)/.brew/Cellar/readline/8.2.1/lib -lreadline -L$(LIBDIR) -lft -I$(INCDIR)
+
 #Somehow MacOs Ventura readline doesnt have rl_replace_line, so i linked against one I installed with MacPorts
 #Remove -I/opt/local/include and -L/opt/local/lib if it works for you :)
 #I had the same problem and installed it using Homebrew.
 #Replace -I/usr/local/Cellar/readline/8.2.1/include -L/usr/local/Cellar/readline/8.2.1/lib/
-#as needed.
+#as needed. 
+#👍
+#On school computers run :
+# curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh
+# brew install readline
+#Use the second compile command
+
 run:		all
 			@./minishell
 
