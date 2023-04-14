@@ -58,33 +58,27 @@ int	exec_bin(t_cmd *cmd, char **env, int pid_i, int tmpfd)
 {
 	g_data->pid[pid_i] = fork();
 	show_ctrl_enable();
-	dup2(tmpfd, 0);
-	close(tmpfd);
-	if (g_data->pid[pid_i])
+	if (!g_data->pid[pid_i])
 	{
-		close(cmd->tmpfd);
-		return(1);
-	}
-	else
-	{
+		dup2(tmpfd, 0);
+		close(tmpfd);
 		exec(cmd, env);
-		exit(0);
+		exit(1);
 	}
+	close(cmd->tmpfd);
 	return (0);
 }
 
-void	exec_pipe(t_cmd *cmd, char **env, int pid_i)
+int	exec_pipe(t_cmd *cmd, char **env, int pid_i)
 {
 	pipe(cmd->pipe);
 	g_data->pid[pid_i] = fork();
 	show_ctrl_enable();
 	if (g_data->pid[pid_i])
 	{
-		g_data->ext = 1;
 		close(cmd->tmpfd);
 		cmd->tmpfd = cmd->pipe[0];
 		close(cmd->pipe[1]);
-		g_data->ext = 0;
 
 	}
 	else
@@ -93,6 +87,7 @@ void	exec_pipe(t_cmd *cmd, char **env, int pid_i)
 		close(cmd->pipe[1]);
 		close(cmd->pipe[0]);
 		exec_bin(cmd, env, pid_i, cmd->tmpfd);
-		exit(1);
+		exit(0);
 	}
+	return (0);
 }

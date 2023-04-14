@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/13 23:59:50 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:41:29 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,20 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	if ((*tokens) && (*tokens)->type == PIPE)
 	{
 		exec_pipe(cmd, g_data->env, pid_i);
-		close(g_data->cmd.pipe[1]);
 		(*tokens) = (*tokens)->next;
+		printf("pipe\n");
 		return (1);
 	}
 	else if (ft_is_builtin(cmd->name))
 	{
 		exec_builtins(cmd->args);
-		(*tokens) = (*tokens)->next;
 		return (1);
 	}
 	else
 	{
 		exec_bin(cmd, g_data->env, pid_i, cmd->tmpfd);
-		// (*tokens) = (*tokens)->next;
 		return (1);
 	}
-	// (*tokens) = (*tokens)->next;
 	free(cmd->name);
 	free(cmd->args);
 	return (0);
@@ -118,11 +115,9 @@ int	executor(t_token **head)
 	g_data->pid = malloc(sizeof(pid_t) * 3);
 	// g_data->ext = 1;
 	while ((*head) && (*head)->value)
-	{
-		if (!parse_cmd(head, pid_i++))
-			break ;
-	}
+		parse_cmd(head, pid_i++);
 	wait_process();
+	free(g_data->pid);
 	// g_data->ext = 0;
 	return (0);
 }
