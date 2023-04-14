@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   file_access.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fcullen <zaphod@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 15:14:58 by fcullen           #+#    #+#             */
 /*   Updated: 2023/04/13 14:41:59 by fcullen          ###   ########.fr       */

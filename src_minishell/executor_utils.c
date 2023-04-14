@@ -4,7 +4,7 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fcullen <zaphod@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 11:10:01 by fcullen           #+#    #+#             */
 /*   Updated: 2023/03/21 11:17:06 by fcullen          ###   ########.fr       */
