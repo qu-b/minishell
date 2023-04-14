@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <zaphod@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/14 14:41:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:49:10 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	else if (ft_is_builtin(cmd->name))
 	{
 		exec_builtins(cmd->args);
+		if ((*tokens) != NULL)
+		(*tokens) = (*tokens)->next;
 		return (1);
 	}
 	else
