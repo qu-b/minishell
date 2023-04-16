@@ -79,7 +79,6 @@ int	exec_pipe(t_cmd *cmd, char **env, int pid_i)
 		close(cmd->tmpfd);
 		cmd->tmpfd = cmd->pipe[0];
 		close(cmd->pipe[1]);
-
 	}
 	else
 	{

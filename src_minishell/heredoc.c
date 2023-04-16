@@ -6,28 +6,62 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/16 09:32:36 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/16 19:50:47 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_heredoc(t_token **tokens, t_cmd *cmd)
+int	exec_heredoc(t_cmd *cmd, pid_t pid_i, char *doc)
 {
-	t_token	*head;
-	char	*del;
+	int	tmpfd;
 
-	head = *tokens;
-	if (head && head->next && head->next->type == IO && ft_strncmp(head->next->value, "<<", 2) == 0)
+	tmpfd = open("/tmp/heredoclol", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	write(tmpfd, doc, ft_strlen(doc));
+	dup2(tmpfd, 0);
+	// ft_printf("%s", doc);
+	// close(tmpfd);
+	exec_bin(cmd, g_data->env, pid_i, tmpfd);
+	return (1);
+}
+
+void	del_token(t_token **tokens)
+{
+	t_token	*tmp;
+
+	tmp = *tokens;
+	(*tokens) = (*tokens)->next;
+	if (tmp)
 	{
-		head = del_token(&head->next, &head);
-		if (head->next && head->next->type == WORD)
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+		// and smth else probably
+	}
+}
+
+int	heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
+{
+	char	*del;
+	char	*doc;
+
+	if ((*tokens) && (*tokens)->type == IO && ft_strncmp((*tokens)->value, "<<", 2) == 0)
+	{
+		del_token(tokens);
+		// ft_printf("(*tokens)->value: [%s]\n", (*tokens)->value);
+		if ((*tokens) && (*tokens)->type == WORD)
 		{
-			head = del_token(&head->next, &head);
-			del = define_delimiter(&head);
+			del = define_delimiter(&(*tokens));
 			if (!del)
 				return (-1);
-			add_to_args(cmd->args, get_del(1, del, head->value));
+			// ft_printf("del: [%s]\n", del);
+			// ft_printf("(*tokens)->value: [%s]\n", (*tokens)->value);
+			doc = delimit((*tokens)->value, del);
+			// ft_printf("doc: [%s]\n", doc);
+			del_token(tokens);
+			// ft_printf("remaining tokens :\n");
+			print_tokens(*tokens);
+			exec_heredoc(cmd, pid_i, doc);
 			return (0);
 		}
 		else
@@ -36,33 +70,6 @@ int	check_heredoc(t_token **tokens, t_cmd *cmd)
 	return (0);
 }
 
-t_token	*del_token(t_token **tokens, t_token **prev)
-{	
-	(*prev)->next = (*tokens)->next;	
-	if ((*tokens))
-	{
-		free((*tokens)->value);
-		free((*tokens));
-		// and smth else probably
-	}
-	return((*prev)->next);
-}
-
-char	**add_to_args(char **args, char *s)
-{
-	char	**out;
-	int 	i;
-
-	out = malloc(sizeof(char *) * ft_argcount(args) + 2);
-	if (!out)
-		return (NULL);
-	i = -1;
-	while (args[++i])
-		out[i] = args[i];
-	out[i] = s;
-	out[i + 1] = NULL;
-	return (out);
-}
 /*
 
 cat << EOF
