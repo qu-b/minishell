@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+int	count_pipes(t_token **tokens)
+{
+	int		i;
+	t_token	*head;
+
+	i = 1;
+	head = *tokens;
+	while (head)
+	{
+		if (head->type == PIPE || head->type == IO)
+			i++;
+		head = head->next;
+	}
+	return (i);
+}
+
 int	find_space(char *s)
 {
 	int	i;

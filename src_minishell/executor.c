@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/14 14:49:10 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/16 09:33:46 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char **get_args(t_token **head)
 	{
 		if (!(*head)->value)
 			break ;
-		args[i] = ft_strdup((*head)->value);
+		args[i] = ft_strtrim((*head)->value, " ");
 		(*head) = (*head)->next;
 		i++;
 	}
@@ -73,6 +73,7 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	cmd = &(g_data->cmd);
 	cmd->name = get_name(tokens);
 	cmd->args = get_args(tokens);
+	check_heredoc(tokens, cmd); // doesnt work
 	if ((*tokens) && (*tokens)->type == PIPE)
 	{
 		exec_pipe(cmd, g_data->env, pid_i);
@@ -80,20 +81,21 @@ int	parse_cmd(t_token **tokens, int pid_i)
 		printf("pipe\n");
 		return (1);
 	}
-	else if (ft_is_builtin(cmd->name))
+	if (ft_is_builtin(cmd->name))
 	{
+		g_data->ext = 0;
 		exec_builtins(cmd->args);
-		if ((*tokens) != NULL)
-		(*tokens) = (*tokens)->next;
+		if ((*tokens))
+			(*tokens) = (*tokens)->next;
 		return (1);
 	}
-	else
+	else if (tokens)
 	{
 		exec_bin(cmd, g_data->env, pid_i, cmd->tmpfd);
 		return (1);
 	}
 	free(cmd->name);
-	free(cmd->args);
+	ft_freeptr(cmd->args);
 	return (0);
 }
 
@@ -114,12 +116,13 @@ int	executor(t_token **head)
 
 	pid_i = 0;
 	g_data->cmd.tmpfd = dup(0);
-	g_data->pid = malloc(sizeof(pid_t) * 3);
-	// g_data->ext = 1;
+	g_data->pid = malloc(sizeof(pid_t) * count_pipes(head));
+	g_data->ext = 1;
 	while ((*head) && (*head)->value)
 		parse_cmd(head, pid_i++);
 	wait_process();
 	free(g_data->pid);
-	// g_data->ext = 0;
+	show_ctrl_disable();
+	g_data->ext = 0;
 	return (0);
 }

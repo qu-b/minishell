@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/12 19:23:42 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/16 09:29:13 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	exec_builtins(char **args)
 		exec_exit(args);
 	else if (ft_strncmp(args[0], "getenv", len) == 0)
 		ft_printf("%s\n", ft_getenv(g_data->env, args[1]));
+	else if (ft_strncmp(args[0], "heredoc", len) == 0)
+	{
+		int fd = open(args[1], O_CREAT | O_RDWR, 0644);
+		ft_printf("%s\n", get_del(fd, args[3], args[2]));
+	}
 	return (0);
 }
 
