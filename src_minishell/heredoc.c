@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/16 21:08:01 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:45:58 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	exec_heredoc(t_cmd *cmd, pid_t pid_i, char *doc)
 
 	(void) pid_i;
 	(void) doc;
-	cmd->heredoc = 1;
 	tmpfd = open("/tmp/heredoclol", O_RDONLY, 0644);
 	exec_bin(cmd, g_data->env, pid_i, tmpfd);
 	close(tmpfd);
@@ -48,26 +47,29 @@ int	heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
 {
 	char	*del;
 	char	*doc;
+	char	*words;
 	int		tmpfd;
 
 	if ((*tokens) && (*tokens)->type == IO && ft_strncmp((*tokens)->value, "<<", 2) == 0)
 	{
 		del_token(tokens);
-		// ft_printf("(*tokens)->value: [%s]\n", (*tokens)->value);
 		if ((*tokens) && (*tokens)->type == WORD)
 		{
-			del = define_delimiter(&(*tokens));
-			if (!del)
-				return (-1);
+			del = NULL;
+			words = get_word_string(tokens, &del);
 			// ft_printf("del: [%s]\n", del);
 			// ft_printf("(*tokens)->value: [%s]\n", (*tokens)->value);
-			doc = delimit((*tokens)->value, del);
-			if (!doc)
+			doc = delimit(words, del);
+			cmd->heredoc = 1;
+			if (!words || !del || !doc)
+			{
+				write(2, "heredoc error\n", 14);
 				return (-1);
+			}
 			// ft_printf("doc: [%s]\n", doc);
-			del_token(tokens);
-			// ft_printf("remaining tokens :\n");
-			// print_tokens(*tokens);
+			ft_printf("remaining tokens:\n");
+			print_tokens(*tokens);
+			ft_printf("______\n");
 			tmpfd = open("/tmp/heredoclol", O_RDWR | O_CREAT | O_TRUNC, 0644);
 			if (tmpfd == -1)
 				return (-1);
@@ -85,12 +87,11 @@ int	heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
 /*
 
 cat << EOF
-hellooooooooooooooo
-yesthisiiiiiiiiiii
-aline
+helloooooo ooooooooo
+yesthis iiiiiiiiiii
+a line
 EOF
-hihi
-
+hihi from the other side
 ls | cat -e | cat -e | cat -e | cat -e
 
 */

@@ -38,8 +38,8 @@ int		heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i);
 int		exec_heredoc(t_cmd *cmd, pid_t pid_i, char *doc);
 char	*delimit(char *s, char *del);
 int		find_delimiter(char *s, char *del);
-char	*define_delimiter(t_token **tokens);
+char	*define_delimiter(char **words);
 void	del_token(t_token **tokens);
-char	**add_to_args(char **args, char *s);
+char	*get_word_string(t_token **tokens, char **del);
 
 #endif
