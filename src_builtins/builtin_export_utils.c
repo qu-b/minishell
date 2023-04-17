@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:30:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 05:41:33 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/17 07:50:36 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	ft_argcount(char **args)
 	int	i;
 
 	i = 0;
+	if (args == NULL)
+		return (0);
 	while (args[i] != NULL)
 		i++;
 	return (i);

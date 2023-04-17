@@ -69,3 +69,17 @@ int	str_length(char *s)
 	}
 	return ((insq || indq) * (-1) + (!(insq || indq)) * i);
 }
+
+void	del_token(t_token **tokens)
+{
+	t_token	*tmp;
+
+	tmp = *tokens;
+	(*tokens) = (*tokens)->next;
+	if (tmp)
+	{
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+	}
+}

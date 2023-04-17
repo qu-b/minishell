@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/16 22:47:06 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/17 09:30:35 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char *get_name(t_token **tokens)
 		if (!head->value)
 			return (NULL);
 		name = ft_strjoin(name, head->value);
-		name = ft_strtrim(name, " ");
+		name = ft_strtrim_free(name, " ");
 		head = head->next;
 	}
 	return (name);
@@ -57,7 +57,7 @@ char **get_args(t_token **head)
 	{
 		if (!(*head)->value)
 			break ;
-		args[i] = ft_strtrim((*head)->value, " ");
+		args[i] = ft_strtrim_free((*head)->value, " ");
 		(*head) = (*head)->next;
 		i++;
 	}
@@ -92,8 +92,6 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	}
 	if (!cmd->heredoc && cmd->name && cmd->name[0])
 	{
-		// print_tokens(*tokens);
-		// ft_printf("cmd->name: %s\n", cmd->name);
 		exec_bin(cmd, g_data->env, pid_i, cmd->tmpfd);
 		return (1);
 	}
