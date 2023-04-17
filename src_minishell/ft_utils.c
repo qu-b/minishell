@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_inc.c                                     :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 08:17:52 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/17 09:25:48 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/17 10:31:26 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ char	**ft_split_inc(char const *s, char const c)
 	i = 0;
 	j = 0;
 	wc = ft_wordcount(s, c);
-	split = malloc(sizeof(char *) * wc + sizeof(char *));
+	split = malloc(sizeof(char *) * (wc + 2));
 	if (split == NULL)
 		return (NULL);
-	while (i < wc)
+	while (i <= wc)
 	{
 		if (i != 0)
 			j = ft_issep(s, c, j);
@@ -64,6 +64,8 @@ char	**ft_split_inc(char const *s, char const c)
 		j = ft_isword(s, c, j);
 		i++;
 	}
+	if (ft_strchr_idx(split[i - 1], '\n') < 0)
+		split[i - 1] = ft_strjoin_gnl(split[i - 1], "\n");
 	split[i] = NULL;
 	return (split);
 }

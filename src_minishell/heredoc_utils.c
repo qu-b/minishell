@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:05:01 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/17 09:28:38 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:07:14 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	**get_words(t_token **tokens, char **del)
 	char	*all_vals;
 	int		i;
 
-	i = 0;
 	all_vals = ft_strdup("");
 	while ((*tokens) && (*tokens)->value && (*tokens)->type == WORD)
 	{
@@ -34,8 +33,7 @@ char	**get_words(t_token **tokens, char **del)
 		if (ft_strncmp(split[i], *del, ft_strlen(*del)) == 0)
 		{
 			split[i] = ft_strtrim_free(split[i], "\n");
-			i++;
-			free(split[i]);
+			free(split[++i]);
 			split[i] = NULL;
 			break ;
 		}
@@ -106,4 +104,32 @@ char	**ft_ptrjoin(char **s1, char **s2)
 	ft_freeptr(s1);
 	ft_freeptr(s2);
 	return (new);
+}
+
+char	**get_new_args(t_token **tokens, char *s)
+{
+	char	**new_args;
+	t_token	*head;
+	int		i;
+
+	i = 0;
+	head = *tokens;
+	while (head && head->type == WORD)
+	{
+		i++;
+		head = head->next;
+	}
+	new_args = malloc(sizeof(char *) * (i + 3));
+	new_args[0] = ft_strdup(s);
+	i = 1;
+	while ((*tokens) && (*tokens)->type == WORD)
+	{
+		if (!(*tokens)->value)
+			break ;
+		new_args[i] = ft_strtrim((*tokens)->value, " ");
+		(*tokens) = (*tokens)->next;
+		i++;
+	}
+	new_args[i] = NULL;
+	return (new_args);
 }
