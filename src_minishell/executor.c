@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/17 18:45:08 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/17 19:12:23 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*get_name(t_token **tokens)
 		if (head && head->type == WORD)
 		{
 			name = ft_strjoin(name, head->value);
-			name = ft_strtrim(name, " ");
+			name = ft_strtrim_free(name, " ");
 			return (name);
 		}
 		if (head->type == IO)
@@ -81,7 +81,6 @@ char	**get_args(t_token *head)
 		i++;
 		tmp = tmp->next;
 	}
-	printf("i: {%d}\n", i);
 	args = malloc(sizeof(char *) * (i + 2));
 	if (!args)
 		return (NULL);
@@ -167,6 +166,8 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	cmd->name = get_name(tokens);
 	cmd->args = get_args(*tokens);
 	last = get_last_cmd(*tokens);
+	cmd->heredoc = 0;
+	// heredoc(tokens, cmd, pid_i);
 	if (last && last->type == PIPE)
 	{
 		if (exec_pipe(cmd, tokens, pid_i))
@@ -185,7 +186,7 @@ int	parse_cmd(t_token **tokens, int pid_i)
 			return (1);
 	}
 	*tokens = last->next;
-	free_cmd(cmd);
+	// free_cmd(cmd);
 	return (0);
 }
 
@@ -202,11 +203,12 @@ int	executor(t_token **head)
 		return (1);
 	while ((*head) && (*head)->value)
 	{
-		printf("%s\n", (*head)->value);
 		if (parse_cmd(head, pid_i++))
 			break ;
 	}
 	wait_process();
 	free(g_data->pid);
+	show_ctrl_disable();
+	g_data->ext = 0;
 	return (0);
 }

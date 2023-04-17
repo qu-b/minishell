@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 19:01:27 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/16 19:33:29 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	ft_is_builtin(char *cmd)
 	else if (ft_strncmp(cmd, "exit", len) == 0 && len == 4)
 		return (1);
 	else if (ft_strncmp(cmd, "getenv", len) == 0 && len == 6)
+		return (1);
+	else if (ft_strncmp(cmd, "test", len) == 0 && len == 4)
 		return (1);
 	return (0);
 }

@@ -33,6 +33,7 @@
 
 # define INFILE 0
 # define OUTFILE 1
+
 typedef struct s_data
 {
 	t_token	*tokens;

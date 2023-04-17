@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/17 13:12:04 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/17 19:10:14 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ void	print_tokens(t_token *head);
 int		str_length(char *s);
 t_token	*tokenize_string(char **input);
 t_token	*create_token(enum e_token_type type, char *value, int len);
+void	del_token(t_token **tokens);
 
 #endif

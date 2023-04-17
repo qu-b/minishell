@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/12 19:23:42 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/17 06:28:03 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	exec_builtins(char **args)
 		exec_exit(args);
 	else if (ft_strncmp(args[0], "getenv", len) == 0)
 		ft_printf("%s\n", ft_getenv(g_data->env, args[1]));
+	else if (ft_strncmp(args[0], "test", len) == 0)
+		(void) len;
 	return (0);
 }
 

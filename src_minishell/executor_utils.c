@@ -73,7 +73,7 @@ int	exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd)
 }
 
 // Execute on main process
-// probably check builtin here + execute builtin on main here
+// probably check builtin + execute builtin on main here
 int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 {
 	(void)tmpfd;
