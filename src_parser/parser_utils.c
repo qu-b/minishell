@@ -139,6 +139,7 @@ void	process_tokens(t_token *tokens)
 	head = tokens;
 	while (head)
 	{
+		head->value = ft_strtrim(head->value, " ");
 		if (head->value[0] == '\'')
 		{
 			remove_quotes(head->value);

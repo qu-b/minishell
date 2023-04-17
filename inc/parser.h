@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/06 09:39:20 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:12:04 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		lexer(t_token **head, char *s);
 void	process_tokens(t_token *tokens);
 
 // Utils
+void	double_free(char **split);
 int		is_io(char *s);
 int		is_pipe(char c);
 int		find_space(char *str);

@@ -23,14 +23,19 @@ typedef struct s_cmd
 	int		tmpfd;
 }	t_cmd;
 
-char 	*get_args_old(t_token **head);
-char 	**get_args_ptr(t_token **head);
-int		openfile(char *filename, int mode);
-char	*find_path(char **envp);
-char	*get_cmd(char **paths, char *cmd);
-void	exec(t_cmd *cmd, char **envp);
-int		exec_bin(t_cmd *cmd, char **env, int pid_i, int tmpfd);
-int		exec_pipe(t_cmd *cmd, char **env, int pid_i);
+char	*get_name(t_token **tokens);
+char	**get_args(t_token *head);
+t_token	*get_last_cmd(t_token *current);
+
+
+int		set_in_out(t_token **tokens, int *tmpfd);
+int		open_infile(t_token *current, int *tmpfd);
+int		open_outfile(t_token *current, int *tmpfd);
+
+
+int		exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd);
+int		exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd);
+int		exec_pipe(t_cmd *cmd, t_token **current, int pid_i);
 int		executor(t_token **tokens);
 
 #endif
