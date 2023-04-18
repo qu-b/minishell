@@ -19,6 +19,7 @@
 # include <ctype.h>
 # include <termios.h>
 # include <errno.h>
+# include <types.h>
 # include "parser.h"
 # include "builtins.h"
 # include "executor.h"
@@ -33,15 +34,6 @@
 
 # define INFILE 0
 # define OUTFILE 1
-
-typedef struct s_data
-{
-	t_token	*tokens;
-	char	**env;
-	int		ext;
-	t_cmd	cmd;
-	pid_t	*pid;
-}	t_data;
 
 t_data	*g_data;
 

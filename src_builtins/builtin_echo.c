@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:37:50 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/07 22:00:23 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/18 22:21:38 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	ft_echo(char **args)
 	i += nl;
 	while (++i < argnb)
 	{
-		ft_printf("%s", args[i]);
+		printf("%s", args[i]);
 		if (i < argnb - 1)
-			ft_printf(" ");
+			printf(" ");
 	}
 	if (args[1] == NULL || nl == 0)
-		ft_printf("\n");
+		printf("\n");
 }

@@ -31,7 +31,7 @@ int	minishell(char **envp)
 		add_history(input);
 		if (parser(input))
 			return (1);
-		else if (executor(&g_data->tokens))
+		else if (executor())
 			return (1);
 		free(input);
 	}

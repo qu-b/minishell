@@ -77,6 +77,32 @@ int	set_in_out(t_token **tokens, int *tmpfd)
 	return (0);
 }
 
+// checks for builtins that are executable in a pipe
+int builtin_pipe(t_cmd *cmd)
+{
+	if (!ft_strncmp(cmd->name, "pwd", ft_strlen(cmd->name)))
+	{
+		ft_pwd();
+		return (1);
+	}
+	else if (!ft_strncmp(cmd->name, "env", ft_strlen(cmd->name)))
+	{
+		ft_env(g_data->env);
+		return (1);
+	}
+	else if (!ft_strncmp(cmd->name, "echo", ft_strlen(cmd->name)))
+	{
+		ft_echo(cmd->args);
+		return (1);
+	}
+	else if (!ft_strncmp(cmd->name, "getenv", ft_strlen(cmd->name)))
+	{
+		printf("%s\n", ft_getenv(g_data->env, cmd->args[1]));
+		return (1);
+	}
+	return (0);
+}
+
 // Execution command
 // include ft_is_builtin + builtin execution on fork here
 int	exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd)
@@ -86,9 +112,9 @@ int	exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd)
 	while (current != last && current)
 		if (set_in_out(&current, &tmpfd))
 			return (1);
-	// if (ft_is_builtin)
-		// if (exec_builtin)
-			// return (1);
-	exec(cmd, g_data->env);
+	if (builtin_pipe(cmd))
+		return (0);
+	else
+		exec(cmd, g_data->env);
 	return (0);
 }

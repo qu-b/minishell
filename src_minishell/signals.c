@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 06:38:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/11 00:41:14 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/18 22:22:19 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	sig_handle(int sig)
 	{
 		if (sig == SIGINT)
 		{
-			ft_printf("\n");
+			printf("\n");
 			rl_on_new_line();
 			rl_replace_line("", 0);
 		}
@@ -45,10 +45,10 @@ void	sig_handle(int sig)
 	if (g_data->ext == 1)
 	{
 		if (sig == SIGINT)
-			ft_printf("\n");
+			printf("\n");
 		if (sig == SIGQUIT)
 		{
-			ft_printf("Quit: 3\n");
+			printf("Quit: 3\n");
 			rl_redisplay();
 			rl_on_new_line();
 			rl_replace_line("", 0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_utils2.c                                  :+:      :+:    :+:   */
+/*   executor_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:12:28 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/18 09:12:43 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/18 10:56:20 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	free_cmd(t_cmd *cmd)
 {
 	if (cmd)
 	{
+		// printf("cleanup {%s}\n", cmd->name);
 		if (cmd->name)
 		{
 			free(cmd->name);
@@ -27,5 +28,7 @@ void	free_cmd(t_cmd *cmd)
 			double_free(cmd->args);
 			cmd->args = NULL;
 		}
+		// printf("cleanup {%s}\n", cmd->name);
 	}
+	cmd = NULL;
 }
