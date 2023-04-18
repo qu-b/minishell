@@ -24,6 +24,7 @@ typedef struct s_cmd
 	int		heredoc;
 }	t_cmd;
 
+int		get_n_cmds(t_token *tokens);
 char	*get_name(t_token **tokens);
 char	**get_args(t_token *head);
 t_token	*get_last_cmd(t_token *current);

@@ -49,11 +49,9 @@ int	open_infile(t_token *current, int *tmpfd)
 int	open_outfile(t_token *current, int *tmpfd)
 {
 	if (current->len == 1)
-		{*tmpfd = open(current->next->value,
+		*tmpfd = open(current->next->value,
 				O_WRONLY | O_TRUNC | O_CREAT,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-				printf("%d\n", *tmpfd);
-				}
 	else
 		*tmpfd = open(current->next->value,
 				O_WRONLY | O_APPEND | O_CREAT,

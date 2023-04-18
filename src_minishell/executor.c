@@ -6,12 +6,13 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/17 19:12:23 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/18 09:28:33 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Wait for all children
 int	wait_process(void)
 {
 	int	status;
@@ -23,137 +24,50 @@ int	wait_process(void)
 	return (0);
 }
 
-// Get number of commands
-int	get_n_cmds(t_token *tokens)
+// Execute on main process
+// probably check builtin + execute builtin on main here
+int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 {
-	int	n;
-
-	n = 0;
-	if (tokens->type != PIPE)
-		n++;
-	while (tokens)
+	(void)tmpfd;
+	g_data->pid[pid_i] = fork();
+	show_ctrl_enable();
+	// if (!ft_is_builtin)
+	// run this:
+	if (!g_data->pid[pid_i])
 	{
-		if (tokens->type == PIPE)
-			n++;
-		tokens = tokens->next;
+		dup2(tmpfd, 0);
+		close(tmpfd);
+		exec_cmd(cmd, *current, get_last_cmd(*current), cmd->tmpfd);
+		exit(0);
 	}
-	return (n);
+	close(cmd->tmpfd);
+	return (0);
 }
 
-// Function to get command name
-char	*get_name(t_token **tokens)
+// Execute on pipe
+int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 {
-	char	*name;
-	t_token	*head;
-
-	head = *tokens;
-	name = malloc(sizeof(char *));
-	if (!name)
-		return (NULL);
-	name = "";
-	while (head)
+	pipe(cmd->pipe);
+	g_data->pid[pid_i] = fork();
+	if (g_data->pid[pid_i] == -1)
+		return (1);
+	show_ctrl_enable();
+	if (g_data->pid[pid_i])
 	{
-		if (head && head->type == WORD)
-		{
-			name = ft_strjoin(name, head->value);
-			name = ft_strtrim_free(name, " ");
-			return (name);
-		}
-		if (head->type == IO)
-			head = head->next;
-		if (head)
-			head = head->next;
-	}
-	return (name);
-}
-
-// Function to get command args
-char	**get_args(t_token *head)
-{
-	char	**args;
-	int		i;
-	t_token	*tmp;
-
-	i = 0;
-	tmp = head;
-	while (tmp && tmp->type != PIPE && tmp->type != IO)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	args = malloc(sizeof(char *) * (i + 2));
-	if (!args)
-		return (NULL);
-	i = 0;
-	while (head && head->type != PIPE && head->type != IO)
-	{
-		if (!head->value)
-			break ;
-		args[i] = ft_strdup(head->value);
-		head = head->next;
-		i++;
-	}
-	if (i == 0)
-	{
-		args[0] = g_data->cmd.name;
-		args[1] = NULL;
+		close(cmd->tmpfd);
+		cmd->tmpfd = cmd->pipe[0];
+		close(cmd->pipe[1]);
 	}
 	else
-		args[i] = NULL;
-	return (args);
-}
-
-// Gets final element of a command.
-// To know whether or not to start/continue pipeline execution.
-t_token	*get_last_cmd(t_token *current)
-{
-	t_token	*last_cmd = NULL;
-
-	if (current)
-		while (current->next)
-		{
-			if (current->type == PIPE)
-				last_cmd = current;
-			current = current->next;
-		}
-	if (!last_cmd)
-		last_cmd = current;
-	return (last_cmd);
-}
-
-// Set IO redirection as needed
-int	set_in_out(t_token **tokens, int *tmpfd)
-{
-	int	is_io = 0;
-
-	if ((*tokens) && (*tokens)->type == IO)
 	{
-		if ((*tokens)->len == 1 && (*tokens)->value[0] == '<')
-			open_infile(*tokens, tmpfd);
-		else
-			open_outfile(*tokens, tmpfd);
-		is_io = 1;
+		dup2(cmd->pipe[1], 1);
+		close(cmd->pipe[1]);
+		close(cmd->pipe[0]);
+		exec_cmd(cmd, *current, get_last_cmd(*current), cmd->tmpfd);
+		exit(1);
 	}
-	(*tokens) = (*tokens)->next;
-	return (is_io);
-}
-
-// Free command
-void	free_cmd(t_cmd *cmd)
-{
-	if (cmd)
-	{
-		if (cmd->name)
-		{
-			free(cmd->name);
-			cmd->name = NULL;
-		}
-		if (cmd->args)
-		{
-			double_free(cmd->args);
-			cmd->args = NULL;
-		}
-	}
+	*current = (*current)->next;
+	return (0);
 }
 
 // Main parser function
@@ -202,10 +116,8 @@ int	executor(t_token **head)
 	if (!g_data->pid)
 		return (1);
 	while ((*head) && (*head)->value)
-	{
 		if (parse_cmd(head, pid_i++))
 			break ;
-	}
 	wait_process();
 	free(g_data->pid);
 	show_ctrl_disable();
