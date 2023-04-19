@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:55:47 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/19 12:30:38 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/19 12:44:51 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	expand_home(t_token **current, char **env)
 {
-	(*current)->value = ft_getenv(env, "HOME");
-	if (!(*current)->value)
-		(*current)->value = "~";
+	if ((*current)->value[0] == '~')
+		(*current)->value = ft_getenv(env, "HOME");
 	return (0);
 }
 

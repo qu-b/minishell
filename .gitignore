@@ -1,7 +1,5 @@
 minishell
 obj/
 .vscode/
-lexer
-executor
 .DS_Store
 minishell.dSYM
