@@ -114,7 +114,6 @@ int	exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd)
 			return (1);
 	if (builtin_pipe(cmd))
 		return (0);
-	else
-		exec(cmd, g_data->env);
+	exec(cmd, g_data->env);
 	return (0);
 }

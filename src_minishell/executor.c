@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/18 22:27:24 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/19 10:14:02 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	wait_process(void)
 // Execute on pipe
 int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 {
+	printf("Hi from pipe with {%s}\n", cmd->name);
 	pipe(cmd->pipe);
 	g_data->pid[pid_i] = fork();
 	if (g_data->pid[pid_i] == -1)
@@ -46,7 +47,8 @@ int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 		exec_cmd(cmd, *current, get_last_cmd(*current), cmd->tmpfd);
 		exit(1);
 	}
-	*current = (*current)->next;
+	// *current = (*current)->next;
+	// printf("Next is {%s}\n", (*current)->value);
 	return (0);
 }
 
@@ -112,6 +114,7 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	last = get_last_cmd(*tokens);
 	cmd->heredoc = 0;
 	// heredoc(tokens, cmd, pid_i);
+	printf("Last is {%s}\n", last->value);
 	if (last && last->type == PIPE)
 	{
 		if (exec_pipe(cmd, tokens, pid_i))
@@ -119,7 +122,6 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	}
 	else 
 	{
-		usleep(1000);
 		if (exec_main(cmd, tokens, pid_i, cmd->tmpfd))
 			return (1);
 	}
@@ -144,7 +146,6 @@ int	executor(void)
 		return (1);
 	while ((head) && (head)->value)
 	{
-		// printf("pid_i: {%d}\n", pid_i);
 		if (parse_cmd(&head, pid_i++))
 			break ;
 	}
