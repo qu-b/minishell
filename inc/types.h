@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 10:00:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/18 10:02:59 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/19 10:45:52 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	int		ext;
 	t_cmd	cmd;
 	pid_t	*pid;
+	int		exit_status;
 }	t_data;
 
 #endif

@@ -35,22 +35,25 @@ char	*remove_quotes(char *s)
 	dest = s;
 	end = s + len;
 	current_quote = '\0';
-	while (s < end)
+	if (*s == '"' || *s == '\'')
 	{
-		if (current_quote == '\0' && (*s == '"' || *s == '\''))
+		while (s < end)
 		{
-			current_quote = *s;
-			s++;
+			if (current_quote == '\0' && (*s == '"' || *s == '\''))
+			{
+				current_quote = *s;
+				s++;
+			}
+			else if (current_quote != '\0' && *s == current_quote)
+			{
+				current_quote = '\0';
+				s++;
+			}
+			else
+				*dest++ = *s++;
 		}
-		else if (current_quote != '\0' && *s == current_quote)
-		{
-			current_quote = '\0';
-			s++;
-		}
-		else
-			*dest++ = *s++;
+		*dest = '\0';
 	}
-	*dest = '\0';
 	return (s);
 }
 
@@ -140,6 +143,8 @@ void	process_tokens(t_token *tokens)
 	while (head)
 	{
 		head->value = ft_strtrim(head->value, " ");
+		if (!ft_strncmp(head->value, "~", ft_strlen(head->value)))
+			expand_home(&head, g_data->env);
 		if (head->value[0] == '\'')
 		{
 			remove_quotes(head->value);
@@ -155,6 +160,11 @@ void	process_tokens(t_token *tokens)
 					in_sq = !in_sq;
 				else if (*p == '$' && !in_sq)
 				{
+					if (*(p + 1) == '?')
+					{
+						expand_exit_status(&head, g_data->exit_status);
+						break ;
+					}
 					head->value = replace_var(head->value);
 					head->value = ft_strtrim(head->value, "\"");
 					break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/12 17:58:07 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:29:59 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_data *get_data(char **envp)
 		init_env(envp);
 		g_data->tokens = NULL; 
 		g_data->ext = 0;
+		g_data->exit_status = 0;
 	}
 	return g_data;
 }
