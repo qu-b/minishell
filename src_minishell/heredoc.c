@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/21 04:40:14 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:05:33 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
 	return (out);
 }
 
+// creates /tmp/mini_heredoc file, writes **words to it
+// prepares cmd->tmpfd for exec_main
 int	heredoc_create(t_cmd *cmd, char **words)
 {
 	int		tmpfd;
@@ -91,29 +93,8 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 	return (0);
 }
 
-int	heredoc_find(t_token **tokens, t_cmd *cmd)
-{
-	t_token	*tmp;
-	int		i;
-
-	(void) cmd;
-	tmp = *tokens;
-	i = 0;
-	while (tmp)
-	{
-		if (tmp && tmp->type == IO && ft_strncmp(tmp->value, "<<", 2) == 0)
-			return (i);
-		tmp = tmp->next;
-		i++;
-	}
-	return (0);
-}
-
 int	heredoc(t_token **tokens, t_cmd *cmd)
 {
-	// if ((*tokens)->type = WORD && (*tokens)->next && (*tokens)->next->type == IO && ft_strncmp((*tokens)->next->value, "<<", 2) == 0)
-	// if ((*tokens) && (*tokens)->type == IO && ft_strncmp((*tokens)->value, "<<", 2) == 0)
-	// but what if heredoc isnt in the beginning
 	int	heredoc_pos;
 
 	heredoc_pos = 0;

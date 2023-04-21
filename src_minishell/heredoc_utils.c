@@ -6,66 +6,11 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:05:01 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/21 05:02:41 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:04:05 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**get_words(t_token **tokens, char **del)
-{
-	char	**split;
-	char	*all_vals;
-	int		i;
-
-	all_vals = cat_words(tokens, ft_strdup(""));
-	split = ft_split_inc(all_vals, '\n');
-	free(all_vals);
-	i = -1;
-	while (split[++i])
-	{
-		ft_printf("> %s", split[i]);
-		if (ft_strncmp(split[i], *del, ft_strlen(*del)) == 0)
-		{
-			split[i] = ft_strtrim_free(split[i], "\n");
-			free(split[++i]);
-			split[i] = NULL;
-			break ;
-		}
-		// if (i > 0)
-		heredoc_manage_tokens(tokens, *del, split[i]);
-		// (*tokens) = (*tokens)->next;
-		// printf("tokens->value: %s\n", (*tokens)->value);
-	}
-	return (split);
-}
-
-void	heredoc_manage_tokens(t_token **tokens, char *del, char *s)
-{
-	// if (!(*tokens)->next)
-	// 	return ;
-	(void) s;
-	(void) del;
-	while ((*tokens) && ft_strncmp((*tokens)->value, s, ft_strlen(s)))
-		(*tokens) = (*tokens)->next;
-	// (*tokens)->value = ft_strtrim_free((*tokens)->value, del);
-
-	// (*tokens) = (*tokens)->next;
-}
-
-char	*cat_words(t_token **tokens, char *all_vals)
-{
-	t_token	*head;
-
-	head = *tokens;
-	while (head && head->value && head->type == WORD)
-	{
-		all_vals = ft_strjoin_gnl(all_vals, head->value);
-		all_vals = ft_strjoin(all_vals, " ");
-		head = head->next;
-	}
-	return (all_vals);
-}
 
 char	*define_delimiter(t_token **tokens, int *nldel)
 {
@@ -132,6 +77,7 @@ char	**ft_ptrjoin(char **s1, char **s2)
 	return (new);
 }
 
+// joins heredoc args (before 1st nl but after delimiter) to existing args
 char	**get_new_args(t_token **tokens, t_cmd *cmd)
 {
 	char	**new_args;
@@ -157,4 +103,23 @@ char	**get_new_args(t_token **tokens, t_cmd *cmd)
 	}
 	new_args[i] = NULL;
 	return (ft_ptrjoin(cmd->args, new_args));
+}
+
+// finds the index of the first heredoc token, 0 if none found
+int	heredoc_find(t_token **tokens, t_cmd *cmd)
+{
+	t_token	*tmp;
+	int		i;
+
+	(void) cmd;
+	tmp = *tokens;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp && tmp->type == IO && ft_strncmp(tmp->value, "<<", 2) == 0)
+			return (i);
+		tmp = tmp->next;
+		i++;
+	}
+	return (0);
 }
