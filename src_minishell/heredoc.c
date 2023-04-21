@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/17 19:18:32 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/21 04:40:14 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
 	return (out);
 }
 
-int	heredoc_create_file(char **words)
+int	heredoc_create(t_cmd *cmd, char **words)
 {
 	int		tmpfd;
 	int		i;
@@ -57,21 +57,21 @@ int	heredoc_create_file(char **words)
 	if (tmpfd < 0)
 		return (-1);
 	i = 0;
-	while (words[i] && words[i + 1])
+	while (words[i])
 	{
 		write(tmpfd, words[i], ft_strlen(words[i]));
 		i++;
 	}
 	close(tmpfd);
+	cmd->tmpfd = open("/tmp/mini_heredoc", O_RDONLY, 0644);
 	return (0);
 }
 
-int	find_heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
+int	heredoc_main(t_token **tokens, t_cmd *cmd)
 {
 	char	*del;
 	char	**words;
 	int		nldel;
-	int		tmpfd;
 
 	nldel = 0;
 	words = NULL;
@@ -82,24 +82,48 @@ int	find_heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
 	if (nldel)
 		words = get_words(tokens, &del);
 	if (!nldel)
-		cmd->args = get_new_args(tokens, cmd->args[0]);
+		cmd->args = get_new_args(tokens, cmd);
 	words = read_until_del(words, del, ft_strdup(""), ft_strdup(""));
-	heredoc_create_file(words);
-	tmpfd = open("/tmp/mini_heredoc", O_RDONLY, 0644);
-	// exec_main(cmd, g_data->env, pid_i, tmpfd);
-	exec_main(cmd, tokens, pid_i, tmpfd);
-	close(tmpfd);
+	heredoc_create(cmd, words);
+	ft_printf("remaining tokens:\n");
+	print_tokens(*tokens);
+	ft_printf("______\n");
 	return (0);
 }
 
-int	heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
+int	heredoc_find(t_token **tokens, t_cmd *cmd)
 {
-	if ((*tokens) && (*tokens)->type == IO && \
-	ft_strncmp((*tokens)->value, "<<", 2) == 0)
+	t_token	*tmp;
+	int		i;
+
+	(void) cmd;
+	tmp = *tokens;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp && tmp->type == IO && ft_strncmp(tmp->value, "<<", 2) == 0)
+			return (i);
+		tmp = tmp->next;
+		i++;
+	}
+	return (0);
+}
+
+int	heredoc(t_token **tokens, t_cmd *cmd)
+{
+	// if ((*tokens)->type = WORD && (*tokens)->next && (*tokens)->next->type == IO && ft_strncmp((*tokens)->next->value, "<<", 2) == 0)
+	// if ((*tokens) && (*tokens)->type == IO && ft_strncmp((*tokens)->value, "<<", 2) == 0)
+	// but what if heredoc isnt in the beginning
+	int	heredoc_pos;
+
+	heredoc_pos = 0;
+	heredoc_pos = heredoc_find(tokens, cmd);
+	if (heredoc_pos)
 	{	
-		del_token(tokens);
+		while (heredoc_pos-- > -1)
+			(*tokens) = (*tokens)->next;
 		if ((*tokens) && (*tokens)->type == WORD)
-			return (find_heredoc(tokens, cmd, pid_i));
+			return (heredoc_main(tokens, cmd));
 		else
 		{
 			write(2, "heredoc error\n", 14);
@@ -114,9 +138,11 @@ int	heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i)
 cat << EOF
 hello asd
 yesthis is
+
 a line
 
-EO
+
+EOF
 hihi from the other side
 
 

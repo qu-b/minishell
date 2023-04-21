@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:05:01 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/17 11:07:14 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/21 05:02:41 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ char	**get_words(t_token **tokens, char **del)
 	char	*all_vals;
 	int		i;
 
-	all_vals = ft_strdup("");
-	while ((*tokens) && (*tokens)->value && (*tokens)->type == WORD)
-	{
-		all_vals = ft_strjoin_gnl(all_vals, (*tokens)->value);
-		(*tokens) = (*tokens)->next;
-	}
+	all_vals = cat_words(tokens, ft_strdup(""));
 	split = ft_split_inc(all_vals, '\n');
 	free(all_vals);
 	i = -1;
@@ -37,8 +32,39 @@ char	**get_words(t_token **tokens, char **del)
 			split[i] = NULL;
 			break ;
 		}
+		// if (i > 0)
+		heredoc_manage_tokens(tokens, *del, split[i]);
+		// (*tokens) = (*tokens)->next;
+		// printf("tokens->value: %s\n", (*tokens)->value);
 	}
 	return (split);
+}
+
+void	heredoc_manage_tokens(t_token **tokens, char *del, char *s)
+{
+	// if (!(*tokens)->next)
+	// 	return ;
+	(void) s;
+	(void) del;
+	while ((*tokens) && ft_strncmp((*tokens)->value, s, ft_strlen(s)))
+		(*tokens) = (*tokens)->next;
+	// (*tokens)->value = ft_strtrim_free((*tokens)->value, del);
+
+	// (*tokens) = (*tokens)->next;
+}
+
+char	*cat_words(t_token **tokens, char *all_vals)
+{
+	t_token	*head;
+
+	head = *tokens;
+	while (head && head->value && head->type == WORD)
+	{
+		all_vals = ft_strjoin_gnl(all_vals, head->value);
+		all_vals = ft_strjoin(all_vals, " ");
+		head = head->next;
+	}
+	return (all_vals);
 }
 
 char	*define_delimiter(t_token **tokens, int *nldel)
@@ -106,7 +132,7 @@ char	**ft_ptrjoin(char **s1, char **s2)
 	return (new);
 }
 
-char	**get_new_args(t_token **tokens, char *s)
+char	**get_new_args(t_token **tokens, t_cmd *cmd)
 {
 	char	**new_args;
 	t_token	*head;
@@ -120,8 +146,7 @@ char	**get_new_args(t_token **tokens, char *s)
 		head = head->next;
 	}
 	new_args = malloc(sizeof(char *) * (i + 3));
-	new_args[0] = ft_strdup(s);
-	i = 1;
+	i = 0;
 	while ((*tokens) && (*tokens)->type == WORD)
 	{
 		if (!(*tokens)->value)
@@ -131,5 +156,5 @@ char	**get_new_args(t_token **tokens, char *s)
 		i++;
 	}
 	new_args[i] = NULL;
-	return (new_args);
+	return (ft_ptrjoin(cmd->args, new_args));
 }

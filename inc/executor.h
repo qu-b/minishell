@@ -35,8 +35,8 @@ int		executor(void);
 int		count_pipes(t_token **tokens);
 
 // adds heredoc functionality to minishell
-int		heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i);
-int		find_heredoc(t_token **tokens, t_cmd *cmd, pid_t pid_i);
+int		heredoc(t_token **tokens, t_cmd *cmd);
+int		heredoc_main(t_token **tokens, t_cmd *cmd);
 
 // returns the delimiter or NULL if none found
 // trims the token val if something remains after delimiter (for **args)
@@ -47,19 +47,21 @@ char	*define_delimiter(t_token **tokens, int *nldel);
 // returns them as a string, adding \n in between tokens
 // advances tokens
 char	**get_words(t_token **tokens, char **del);
+char	*cat_words(t_token **tokens, char *all_vals);
 
 // if no del exists in words, readlines until a del is found
 // returns words joined with del
 char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd);
 void	read_loop(char **tmp_in, char **tmp_wrd, char *del);
-// returns 0 if s is delimiter, -1 if not
+// returns 1 if s is delimiter, 0 if not
 int		is_delimiter(char *s, char *del);
-// creates /tmp/mini_heredoc file, writes **words to it
-int		heredoc_create_file(char **words);
+// creates /tmp/mini_heredoc file, writes **words to it, prepares cmd->tmpfd for exec
+int		heredoc_create(t_cmd *cmd, char **words);
 // executes the heredoc with the given command
 int		exec_heredoc(t_cmd *cmd, pid_t pid_i);
 // gets heredoc args
-char	**get_new_args(t_token **tokens, char *s);
+char	**get_new_args(t_token **tokens, t_cmd *cmd);
+void	heredoc_manage_tokens(t_token **tokens, char *del, char *s);
 
 // appends
 int	append(t_token **tokens, t_cmd *cmd, pid_t pid_i);

@@ -80,22 +80,25 @@ int	set_in_out(t_token **tokens, int *tmpfd)
 // checks for builtins that are executable in a pipe
 int builtin_pipe(t_cmd *cmd)
 {
-	if (!ft_strncmp(cmd->name, "pwd", ft_strlen(cmd->name)))
+	int	len;
+
+	len = ft_strlen(cmd->name);
+	if (!ft_strncmp(cmd->name, "pwd",len) && len == 3)
 	{
 		ft_pwd();
 		return (1);
 	}
-	else if (!ft_strncmp(cmd->name, "env", ft_strlen(cmd->name)))
+	else if (!ft_strncmp(cmd->name, "env", len) && len == 3)
 	{
 		ft_env(g_data->env);
 		return (1);
 	}
-	else if (!ft_strncmp(cmd->name, "echo", ft_strlen(cmd->name)))
+	else if (!ft_strncmp(cmd->name, "echo", len) && len == 4)
 	{
 		ft_echo(cmd->args);
 		return (1);
 	}
-	else if (!ft_strncmp(cmd->name, "getenv", ft_strlen(cmd->name)))
+	else if (!ft_strncmp(cmd->name, "getenv", len) && len == 6)
 	{
 		printf("%s\n", ft_getenv(g_data->env, cmd->args[1]));
 		return (1);

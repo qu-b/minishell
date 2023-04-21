@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_get.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:23:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/19 10:15:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/21 04:43:01 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ char	**get_args(t_token *head)
 // To know whether or not to start/continue pipeline execution.
 t_token	*get_last_cmd(t_token *current)
 {
+	if (!current)
+		return (NULL);
 	while (current->next)
 	{
 		if (current->type == PIPE)
