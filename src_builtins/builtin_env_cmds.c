@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/18 22:17:30 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/23 15:51:14 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void	ft_pwd(void)
 	{
 		printf("%s\n", cwd);
 		free(cwd);
+		g_data->exit_status = 0;
 	}
 	else
-		printf("CWD not set!\n");
+	{
+		write(2, "pwd: error!\n", 12);
+		g_data->exit_status = 1;
+	}
 }
 
 char	*ft_getenv(char **env, char *var)

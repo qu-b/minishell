@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/12 17:56:24 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:12:28 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,20 @@ char	*ft_cd_change(char *path)
 	full_path = NULL;
 	if (access(path, F_OK) < 0)
 	{
-		write(2, "Error : invalid path\n", 22);
+		write(2, "minishell: cd : invalid path\n", 29);
+		g_data->exit_status = 1;
 		return (NULL);
 	}
 	if (access(path, R_OK) < 0)
 	{
-		write(2, "Error : can't read file\n", 25);
+		write(2, "minishell: cd : can't read file\n", 32);
+		g_data->exit_status = 1;
 		return (NULL);
 	}
 	if (chdir(path) < 0)
 	{
-		write(2, "Error : can't change dir\n", 26);
+		write(2, "minishell: cd : can't change dir\n", 33);
+		g_data->exit_status = 1;
 		return (NULL);
 	}
 	full_path = getcwd(full_path, 0);
@@ -82,5 +85,6 @@ char	**ft_cd(char **env, char **args)
 	new_env = ft_ptrdup_free(cd->new_env, ft_argcount(cd->new_env));
 	if (new_env == NULL)
 		return (env);
+	g_data->exit_status = 0;
 	return (new_env);
 }

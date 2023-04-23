@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:30:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/18 10:59:54 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/23 16:11:54 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	check_varname(char **args, int argi, int eqa)
+{
+	int	i;
+
+	i = -1;
+	while (++i < eqa)
+	{
+		if (ft_isalnum(args[argi][i]) == 0)
+		{
+			write(2, "minishell: export: ", 19);
+			write(2, "'", 1);
+			write(2, args[argi], ft_strlen(args[argi]));
+			write(2, "'", 1);
+			write(2, ": not a valid identifier\n", 25);
+			g_data->exit_status = 1;
+			return (-1);
+		}
+	}
+	return (0);
+}
 
 char	**env_quote(char **env, char **envtmp, int i, int j)
 {

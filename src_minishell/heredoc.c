@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/21 17:05:33 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/21 22:54:01 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,14 @@ char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
 	{
 		free(words[argnb - 1]);
 		words[argnb - 1] = NULL;
+		free(tmp_in);
+		free(tmp_wrd);
 		return (words);
 	}
 	read_loop(&tmp_in, &tmp_wrd, del);
 	free(tmp_in);
 	new_words = ft_split_inc(tmp_wrd, '\n');
+	free(tmp_wrd);
 	if (!words)
 		return (new_words);
 	out = ft_ptrjoin(words, new_words);

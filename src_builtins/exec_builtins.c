@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/18 22:25:23 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/23 16:06:24 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	ft_is_builtin(t_cmd *cmd)
 		return (1);
 	else if (ft_strncmp(cmd->name, "getenv", len) == 0 && len == 6)
 		return (1);
-	else if (ft_strncmp(cmd->name, "test", len) == 0 && len == 4)
-		return (1);
 	return (0);
 }
 
@@ -66,8 +64,6 @@ int	exec_builtins(char **args)
 		exec_exit(args);
 	else if (ft_strncmp(args[0], "getenv", len) == 0)
 		printf("%s\n", ft_getenv(g_data->env, args[1]));
-	else if (ft_strncmp(args[0], "test", len) == 0)
-		(void) len;
 	return (0);
 }
 
