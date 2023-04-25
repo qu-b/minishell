@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:52:33 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/21 17:04:23 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:13:25 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**get_words(t_token **tokens, char **del)
 	i = -1;
 	while (split[++i])
 	{
-		ft_printf("> %s", split[i]);
+		printf("> %s", split[i]);
 		if (ft_strncmp(split[i], *del, ft_strlen(*del)) == 0)
 		{
 			split[i] = ft_strtrim_free(split[i], "\n");
@@ -53,7 +53,7 @@ char	*cat_words(t_token **tokens, char *all_vals)
 	return (all_vals);
 }
 
-// returns the number of newlines in s until del is found
+// returns the number of newlines in s until 0x00 or del
 int	count_nl_del(char *s, char *del)
 {
 	int	i;
@@ -73,9 +73,9 @@ int	count_nl_del(char *s, char *del)
 }
 
 // trims last token after del, if such exists
-char *trim_last(char *s, char *del, int i)
+char	*trim_last(char *s, char *del, int i)
 {
-	int 	nl_idx;
+	int		nl_idx;
 	int		nl_count;
 	char	*out;
 

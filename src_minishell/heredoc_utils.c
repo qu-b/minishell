@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:05:01 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/21 17:04:05 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:13:47 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*define_delimiter(t_token **tokens, int *nldel)
 	if (!del)
 	{
 		write(2, "heredoc error\n", 14);
+		g_data->exit_status = 1;
 		return (NULL);
 	}
 	del = ft_strtrim_free(del, " ");

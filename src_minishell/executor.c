@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/25 14:10:32 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/25 16:28:10 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int	wait_child(void)
 	while (waitpid(-1, &status, 0) != -1)
 		continue ;
 	if (errno == ECHILD && WIFEXITED(status))
+	{
+		g_data->ext = 0;
 		return (WEXITSTATUS(status));
+	}
+	g_data->ext = 0;
 	return (0);
 }
 
@@ -43,6 +47,7 @@ int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 		dup2(cmd->pipe[1], 1);
 		close(cmd->pipe[1]);
 		close(cmd->pipe[0]);
+		// g_data->ext = 1;
 		exec_cmd(cmd, *current, get_last_cmd(*current), cmd->tmpfd);
 		exit(1);
 	}
@@ -85,11 +90,10 @@ int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 {
 	(void)tmpfd;
 	show_ctrl_enable();
-	g_data->ext = 1;
 	if (!builtin(cmd))
 	{
 		g_data->pid[pid_i] = fork();
-
+		g_data->ext = 1;
 		if (!g_data->pid[pid_i])
 		{
 			dup2(tmpfd, 0);
@@ -108,7 +112,6 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	t_cmd	*cmd;
 	t_token	*last = NULL;
 
-	g_data->ext = 0;
 	if (!ft_strncmp((*tokens)->value, "", 1))
 		return (1);
 	cmd = &(g_data->cmd);
@@ -143,9 +146,9 @@ int	executor(void)
 	g_data->pid = malloc(sizeof(pid_t) * get_n_cmds(head));
 	if (!g_data->pid)
 		return (1);
-	g_data->ext = 0;
 	while ((head) && (head)->value)
 	{
+		g_data->ext = 0;
 		if (parse_cmd(&head, pid_i++))
 			break ;
 	}
