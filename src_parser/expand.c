@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:55:47 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/19 12:44:51 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/24 18:38:11 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	expand_home(t_token **current, char **env)
 	return (0);
 }
 
-int	expand_exit_status(t_token **current, int status)
+char	*expand_exit_status(char *s, int status)
 {
-	(*current)->value = ft_itoa(status);
-	return (0);
+	s = ft_itoa(status);
+	return (s);
 }

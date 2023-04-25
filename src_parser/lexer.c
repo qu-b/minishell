@@ -29,6 +29,7 @@ t_token	*create_token(enum e_token_type type, char *value, int len)
 		return (NULL);
 	}
 	ft_strlcpy(new_token->value, value, len + 1);
+	new_token->value = ft_strtrim(new_token->value, " ");
 	new_token->len = len;
 	new_token->next = NULL;
 	return (new_token);

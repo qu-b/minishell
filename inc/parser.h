@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:31:42 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/19 11:57:08 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/25 13:36:06 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 int parser(char *input);
 
-int	expand_home(t_token **current, char **env);
-int	expand_exit_status(t_token **current, int status);
+int expand_home(t_token **current, char **env);
+char *expand_exit_status(char *s, int status);
 
 // Lexer
 int lexer(t_token **head, char *s);
@@ -25,6 +25,8 @@ void process_tokens(t_token *tokens);
 
 // Utils
 void double_free(char **split);
+int is_sq(char c);
+int is_dq(char c);
 int is_io(char *s);
 int is_pipe(char c);
 int find_space(char *str);
