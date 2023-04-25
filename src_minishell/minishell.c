@@ -30,7 +30,7 @@ int	minishell(char **envp)
 		}
 		add_history(input);
 		if (parser(input))
-			return (1);
+			write(2, "Command Error\n", 14);
 		else if (executor())
 			return (1);
 		free(input);

@@ -19,11 +19,7 @@ int	parser(char *input)
 	if (!lexer(&head, input))
 		process_tokens(head);
 	else
-	{
-		write(2, "Command Error\n", 14);
 		return (1);
-	}
-	// print_tokens(head);
 	g_data->tokens = head;
 	return (0);
 }
