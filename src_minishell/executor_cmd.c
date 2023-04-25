@@ -58,20 +58,19 @@ int	exec(t_cmd *cmd, char **envp)
 }
 
 // Set IO redirection as needed
-int	set_in_out(t_token **tokens, int *tmpfd)
+int	set_in_out(t_token **tokens, t_cmd *cmd, int *tmpfd)
 {
 	if ((*tokens) && (*tokens)->type == IO)
 	{
-		if ((*tokens)->len == 1 && (*tokens)->value[0] == '<')
+		if ((*tokens)->value[0] == '<')
 		{
-			if (open_infile(*tokens, tmpfd))
+			if ((*tokens)->len == 1 && open_infile(*tokens, tmpfd))
+				return (1);
+			else if (heredoc(tokens, cmd))
 				return (1);
 		}
-		else
-		{
-			if (open_outfile(*tokens, tmpfd))
+		else if (open_outfile(*tokens, tmpfd))
 				return (1);
-		}
 	}
 	(*tokens) = (*tokens)->next;
 	return (0);
@@ -113,7 +112,7 @@ int	exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd)
 	dup2(tmpfd, 0);
 	close(tmpfd);
 	while (current != last && current)
-		if (set_in_out(&current, &tmpfd))
+		if (set_in_out(&current, cmd, &tmpfd))
 			return (1);
 	if (builtin_pipe(cmd))
 		return (0);
