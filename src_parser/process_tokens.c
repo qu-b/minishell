@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/25 14:08:52 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/26 19:23:11 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 			buf = ft_append_char(buf, *tmp);
 		tmp++;
 	}
+	free(*s);
 	*s = buf;
 }
 
@@ -92,9 +93,9 @@ void	process_tokens(t_token *head)
 	buf = (char *)malloc(1);
 	if (!buf)
 		return ;
-	buf[0] = '\0';
 	while (head)
 	{
+		buf[0] = '\0';
 		if (!ft_strncmp(head->value, "~", ft_strlen(head->value)))
 			expand_home(&head, g_data->env);
 		if (head->value)

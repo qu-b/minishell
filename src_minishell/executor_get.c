@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_get.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:23:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/21 14:09:56 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:15:39 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ char	*get_name(t_token **tokens)
 	name = malloc(sizeof(char *));
 	if (!name)
 		return (NULL);
-	name = "";
+	name[0] = '\0';
 	while (head)
 	{
 		if (head && head->type == WORD)
 		{
-			name = ft_strjoin(name, head->value);
+			name = ft_strjoin_gnl(name, head->value);
 			name = ft_strtrim_free(name, " ");
 			return (name);
 		}

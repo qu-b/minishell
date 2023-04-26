@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/26 14:59:01 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:11:52 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,7 @@ int	parse_cmd(t_token **tokens, int pid_i)
 			return (1);
 	}
 	*tokens = last->next;
-	free_cmd(cmd);
-	// free_cmd(&g_data->cmd);
+	free_cmd(&g_data->cmd);
 	return (0);
 }
 
@@ -154,6 +153,8 @@ int	executor(void)
 	}
 	g_data->exit_status = wait_child();
 	free(g_data->pid);
+	free_tokens(&g_data->tokens);
+	free_cmd(&(g_data->cmd));
 	show_ctrl_disable();
 	return (0);
 }

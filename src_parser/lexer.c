@@ -21,43 +21,43 @@ t_token	*create_token(enum e_token_type type, char *value, int len)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
+	new_token->value = value;
 	new_token->type = type;
-	new_token->value = malloc(sizeof(char) * (ft_strlen(value) + 1));
-	if (!new_token->value)
-	{
-		free(new_token);
-		return (NULL);
-	}
-	ft_strlcpy(new_token->value, value, len + 1);
-	new_token->value = ft_strtrim(new_token->value, " ");
 	new_token->len = len;
 	new_token->next = NULL;
 	return (new_token);
 }
 
-int	add_token(t_token **head, enum e_token_type type, char *value, int len)
+int add_token(t_token **head, enum e_token_type type, char *value, int len)
 {
-	t_token	*newtoken;
-	t_token	*current;
+    t_token *new_token;
+    t_token *current;
+    char *tmp;
 
-	newtoken = create_token(type, value, len);
-	if (!newtoken)
-		return (1);
-	if (!(*head))
-	{
-		*head = newtoken;
-		return (0);
-	}
-	current = *head;
-	while (current->next)
-		current = current->next;
-	current->next = newtoken;
-	return (0);
+    tmp = ft_strtrim_free(value, " ");
+    if (!tmp)
+        return (1);
+    new_token = create_token(type, tmp, len);
+    if (!new_token)
+    {
+        free(tmp);
+        return (1);
+    }
+    if (!(*head))
+    {
+        *head = new_token;
+        return (0);
+    }
+    current = *head;
+    while (current->next)
+        current = current->next;
+    current->next = new_token;
+    return (0);
 }
 
 int	tokenizer(t_token **head, char *s, int *i)
 {
-	int	len;
+	int		len;
 
 	if (!s)
 		return (add_token(head, 0, 0, 1));
@@ -69,8 +69,7 @@ int	tokenizer(t_token **head, char *s, int *i)
 	else if (is_io(s))
 	{
 		*i += is_io(s);
-		return (add_token(head, IO,
-				ft_substr(s, 0, is_io(s)), is_io(s)));
+		return (add_token(head, IO, ft_substr(s, 0, is_io(s)), is_io(s)));
 	}
 	else if (find_space(s))
 	{
