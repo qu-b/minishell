@@ -6,21 +6,13 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/12 19:10:02 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:54:28 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_freeptr(char **s)
-{
-	int	i;
 
-	i = -1;
-	while (s[++i] != NULL)
-		free(s[i]);
-	free(s);
-}
 
 char	**ft_ptrdup(char **s, int n)
 {

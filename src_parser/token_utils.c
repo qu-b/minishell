@@ -75,6 +75,7 @@ void	del_token(t_token **tokens)
 	t_token	*tmp;
 
 	tmp = *tokens;
+	if (*tokens)
 	(*tokens) = (*tokens)->next;
 	if (tmp)
 	{

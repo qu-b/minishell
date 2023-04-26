@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void	double_free(char **split)
+void	ft_freeptr(char **s)
 {
 	int	i;
 
 	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
+	while (s[++i] != NULL)
+		free(s[i]);
+	free(s);
 }
 
 int	is_sq(char c)

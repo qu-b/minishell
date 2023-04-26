@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/23 16:03:17 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:54:23 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char	*ft_getenv(char **env, char *var);
 // returns a malloced env with exported vars of NAME and VALUE, frees env
 char	**ft_export_string(char **env, char *name, char *value);
 
-void	ft_freeptr(char **s);
 int		ft_argcount(char **args);
 char	**ft_ptrdup(char **s, int n);
 char	**ft_ptrdup_free(char **s, int n);

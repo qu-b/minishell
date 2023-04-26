@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 10:00:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/19 10:45:52 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/26 14:38:50 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
-#include "minishell.h"
+# include "minishell.h"
 
 // Define Token Type
-enum e_token_type
+enum	e_token_type
 {
 	IO,
 	PIPE,
