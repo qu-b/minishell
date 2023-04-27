@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 08:40:32 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 08:58:54 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 	}
 	free(*s);
 	*s = buf;
+	return ;
 }
 
 
@@ -99,7 +100,5 @@ void	process_tokens(t_token *head)
 		if (head->value)
 			process_str(&head->value, &insq, &indq, buf);
 		head = head->next;
-		free(buf);
-
 	}
 }
