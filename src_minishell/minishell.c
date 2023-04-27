@@ -33,8 +33,8 @@ int	minishell(char **envp)
 			write(2, "Command Error\n", 14);
 		else if (executor())
 			return (1);
-		free_tokens(&g_data->tokens);
-		g_data->tokens = NULL;
+		if (g_data->exit_status)
+			free(&g_data->exit_status);
 		free(input);
 	}
 	show_ctrl_enable();

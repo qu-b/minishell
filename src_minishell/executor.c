@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/26 19:11:52 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 15:49:26 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 int	parse_cmd(t_token **tokens, int pid_i)
 {
 	t_cmd	*cmd;
-	t_token	*last = NULL;
+	t_token	*last;
 
 	if (!ft_strncmp((*tokens)->value, "", 1))
 		return (1);
@@ -136,8 +136,8 @@ int	parse_cmd(t_token **tokens, int pid_i)
 
 int	executor(void)
 {
-	int	pid_i;
-	t_token *head;
+	int		pid_i;
+	t_token	*head;
 
 	pid_i = 0;
 	head = g_data->tokens;
@@ -153,7 +153,6 @@ int	executor(void)
 	}
 	g_data->exit_status = wait_child();
 	free(g_data->pid);
-	free_tokens(&g_data->tokens);
 	free_cmd(&(g_data->cmd));
 	show_ctrl_disable();
 	return (0);

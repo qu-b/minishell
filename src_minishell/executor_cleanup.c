@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:12:28 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/26 19:14:15 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 15:40:58 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 // Free command
 void	free_cmd(t_cmd *cmd)
 {
-
 	if (cmd->name)
 	{
-		printf("Free cmd: {%s}\n", cmd->name);
 		free(cmd->name);
 		cmd->name = NULL;
 	}
 	if (cmd->args)
 	{
-		printf("Free args\n");
 		ft_freeptr(cmd->args);
 		cmd->args = NULL;
 	}
@@ -36,7 +33,7 @@ void	del_token(t_token **tokens)
 	t_token	*tmp;
 
 	tmp = *tokens;
-	if (*tokens)
+	if ((*tokens)->next)
 		(*tokens) = (*tokens)->next;
 	if (tmp)
 	{
@@ -53,7 +50,7 @@ void	del_token(t_token **tokens)
 
 void	free_tokens(t_token **head)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	while (*head)
 	{

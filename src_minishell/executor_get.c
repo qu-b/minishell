@@ -6,13 +6,13 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:23:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/26 19:15:39 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 15:44:03 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "minishell.h"
+#include "minishell.h"
 
- // Get number of commands
+// Get number of commands
 int	get_n_cmds(t_token *tokens)
 {
 	int	n;
@@ -35,7 +35,7 @@ char	*get_name(t_token **tokens)
 	char	*name;
 	t_token	*head;
 
-	if ((*tokens) == NULL)
+	if (!tokens || (*tokens) == NULL)
 		return (NULL);
 	head = *tokens;
 	name = malloc(sizeof(char *));

@@ -28,31 +28,31 @@ t_token	*create_token(enum e_token_type type, char *value, int len)
 	return (new_token);
 }
 
-int add_token(t_token **head, enum e_token_type type, char *value, int len)
+int	add_token(t_token **head, enum e_token_type type, char *value, int len)
 {
-    t_token *new_token;
-    t_token *current;
-    char *tmp;
+	char	*tmp;
+	t_token	*new_token;
+	t_token	*current;
 
-    tmp = ft_strtrim_free(value, " ");
-    if (!tmp)
-        return (1);
-    new_token = create_token(type, tmp, len);
-    if (!new_token)
-    {
-        free(tmp);
-        return (1);
-    }
-    if (!(*head))
-    {
-        *head = new_token;
-        return (0);
-    }
-    current = *head;
-    while (current->next)
-        current = current->next;
-    current->next = new_token;
-    return (0);
+	tmp = ft_strtrim_free(value, " ");
+	if (!tmp)
+		return (1);
+	new_token = create_token(type, tmp, len);
+	if (!new_token)
+	{
+		free(tmp);
+		return (1);
+	}
+	if (!(*head))
+	{
+		*head = new_token;
+		return (0);
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_token;
+	return (0);
 }
 
 int	tokenizer(t_token **head, char *s, int *i)

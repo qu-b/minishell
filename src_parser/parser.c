@@ -21,6 +21,5 @@ int	parser(char *input)
 	else
 		return (1);
 	g_data->tokens = head;
-	// print_tokens(head);
 	return (0);
 }

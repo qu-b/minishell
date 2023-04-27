@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <zaphod@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/21 11:10:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/03/21 11:17:06 by fcullen          ###   ########.fr       */
+/*   Created: 2023/04/27 15:45:41 by fcullen           #+#    #+#             */
+/*   Updated: 2023/04/27 15:48:32 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +69,19 @@ int	set_in_out(t_token **tokens, t_cmd *cmd, int *tmpfd)
 				return (1);
 		}
 		else if (open_outfile(*tokens, tmpfd))
-				return (1);
+			return (1);
 	}
 	(*tokens) = (*tokens)->next;
 	return (0);
 }
 
 // checks for builtins that are executable in a pipe
-int builtin_pipe(t_cmd *cmd)
+int	builtin_pipe(t_cmd *cmd)
 {
 	int	len;
 
 	len = ft_strlen(cmd->name);
-	if (!ft_strncmp(cmd->name, "pwd",len) && len == 3)
+	if (!ft_strncmp(cmd->name, "pwd", len) && len == 3)
 	{
 		ft_pwd();
 		return (1);

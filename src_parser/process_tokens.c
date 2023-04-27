@@ -6,50 +6,48 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 08:58:54 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 15:35:50 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*extract_variable_name(char *s)
+char	*get_variable_value(char *s)
 {
 	int		len;
-	char	*variable;
+	char	*value;
+	char	*exit_status;
+	char	*var_name;
 
 	len = 1;
+	var_name = s;
 	if (!ft_strncmp(s, "$?", ft_strlen(s)))
-		return ("?");
+	{
+		exit_status = ft_itoa(g_data->exit_status);
+		value = exit_status;
+		free(exit_status);
+		return (value);
+	}
 	while (ft_isalnum(s[len]) || s[len] == '_')
 		len++;
-	variable = (char *)malloc(len);
-	if (!variable)
+	var_name = (char *)malloc(len);
+	if (!var_name)
 		return (NULL);
-	ft_strlcpy(variable, s + 1, len);
-	variable[len - 1] = '\0';
-	return (variable);
-}
-
-char	*get_variable_value(char *variable)
-{
-	char	*value;
-
-	if (!ft_strncmp(variable, "?", 1))
-		return (ft_itoa(g_data->exit_status));
-	else
-		value = ft_getenv(g_data->env, variable);
+	ft_strlcpy(var_name, s + 1, len);
+	var_name[len - 1] = '\0';
+	value = ft_getenv(g_data->env, var_name);
+	free(var_name);
 	return (value);
 }
 
 void	ft_append_char(char **buf, char tmp)
 {
-	char res[2];
+	char	res[2];
 
 	res[0] = tmp;
 	res[1] = '\0';
 	*buf = ft_strjoin_gnl(*buf, res);
 }
-
 
 void	process_str(char **s, int *insq, int *indq, char *buf)
 {
@@ -66,10 +64,10 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 		else if (*tmp == '$' && (isalnum(*(tmp + 1))
 				|| *(tmp + 1) == '?') && !(*insq))
 		{
-			value = get_variable_value(extract_variable_name(tmp));
+			value = get_variable_value(tmp);
 			if (value)
 				buf = ft_strjoin(buf, value);
-			tmp += ft_strlen(extract_variable_name(tmp));
+			tmp += ft_strlen(tmp) - 1;
 		}
 		else
 			ft_append_char(&buf, *tmp);
@@ -79,7 +77,6 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 	*s = buf;
 	return ;
 }
-
 
 void	process_tokens(t_token *head)
 {
@@ -101,4 +98,6 @@ void	process_tokens(t_token *head)
 			process_str(&head->value, &insq, &indq, buf);
 		head = head->next;
 	}
+	if (buf)
+		free(buf);
 }
