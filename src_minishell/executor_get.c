@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:23:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:44:03 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 15:59:26 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,21 @@ char	**get_args(t_token *head)
 
 	i = 0;
 	tmp = head;
-	while (tmp && tmp->type != PIPE && tmp->type != IO)
-	{
-		i++;
+	while (tmp && tmp->type != PIPE && tmp->type != IO && ++i)
 		tmp = tmp->next;
-	}
 	args = malloc(sizeof(char *) * (i + 2));
 	if (!args)
 		return (NULL);
 	i = 0;
 	while (head && head->type != PIPE && head->type != IO)
 	{
-		if (!head->value)
-			break ;
 		args[i] = ft_strdup(head->value);
-		head = head->next;
 		i++;
+		head = head->next;
 	}
 	if (i == 0)
-	{
-		args[0] = g_data->cmd.name;
-		args[1] = NULL;
-	}
-	else
-		args[i] = NULL;
+		args[i++] = g_data->cmd.name;
+	args[i] = NULL;
 	return (args);
 }
 
