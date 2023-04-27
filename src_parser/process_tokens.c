@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/26 19:23:11 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/27 08:40:32 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,15 @@ char	*get_variable_value(char *variable)
 	return (value);
 }
 
-char	*ft_append_char(char *str, char c)
+void	ft_append_char(char **buf, char tmp)
 {
-	char	*result;
+	char res[2];
 
-	result = (char *)malloc(ft_strlen(str) + 2);
-	if (!result)
-		return (NULL);
-	ft_memcpy(result, str, ft_strlen(str));
-	result[ft_strlen(str)] = c;
-	result[ft_strlen(str) + 1] = '\0';
-	return (result);
+	res[0] = tmp;
+	res[1] = '\0';
+	*buf = ft_strjoin_gnl(*buf, res);
 }
+
 
 void	process_str(char **s, int *insq, int *indq, char *buf)
 {
@@ -75,12 +72,13 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 			tmp += ft_strlen(extract_variable_name(tmp));
 		}
 		else
-			buf = ft_append_char(buf, *tmp);
+			ft_append_char(&buf, *tmp);
 		tmp++;
 	}
 	free(*s);
 	*s = buf;
 }
+
 
 void	process_tokens(t_token *head)
 {
@@ -90,17 +88,18 @@ void	process_tokens(t_token *head)
 
 	insq = 0;
 	indq = 0;
-	buf = (char *)malloc(1);
-	if (!buf)
-		return ;
 	while (head)
 	{
-		buf[0] = '\0';
+		buf = (char *)malloc(str_length(head->value));
+		if (!buf)
+			return ;
+		ft_bzero(buf, str_length(head->value));
 		if (!ft_strncmp(head->value, "~", ft_strlen(head->value)))
 			expand_home(&head, g_data->env);
 		if (head->value)
 			process_str(&head->value, &insq, &indq, buf);
 		head = head->next;
+		free(buf);
+
 	}
-	free(buf);
 }
