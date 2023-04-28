@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 16:18:15 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 16:22:14 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	ft_append_char(char **buf, char tmp)
 	res[0] = tmp;
 	res[1] = '\0';
 	*buf = ft_strjoin_gnl(*buf, res);
-	printf("Buf: {%s}\n", *buf);
 }
 
 void	process_str(char **s, int *insq, int *indq, char *buf)
@@ -113,7 +112,6 @@ void	process_tokens(t_token *head)
 		if (head->value)
 			process_str(&head->value, &insq, &indq, buf);
 		head = head->next;
-		if (buf)
-			free(buf);
 	}
+	return ;
 }
