@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:12:28 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:40:58 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 11:05:10 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	del_token(t_token **tokens)
 	{
 		if (tmp->value)
 		{
-			printf("Free token: {%s}\n", tmp->value);
 			free(tmp->value);
 			tmp->value = NULL;
 		}

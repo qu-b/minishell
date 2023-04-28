@@ -35,6 +35,7 @@ int	minishell(char **envp)
 			return (1);
 		if (g_data->exit_status)
 			free(&g_data->exit_status);
+		free_tokens(&g_data->tokens);
 		free(input);
 	}
 	show_ctrl_enable();

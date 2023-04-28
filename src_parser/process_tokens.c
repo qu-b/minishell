@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 10:04:22 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 11:03:07 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 		{
 			value = get_variable_value(tmp);
 			if (value)
-				buf = ft_strjoin(buf, value);
+				buf = ft_strjoin_gnl(buf, value);
 			tmp += ft_strlen(tmp) - 1;
 		}
 		else
@@ -95,16 +95,26 @@ void	process_tokens(t_token *head)
 	indq = 0;
 	while (head)
 	{
-		buf = (char *)malloc(str_length(head->value));
+		if (head->type == WORD)
+		{
+			buf = (char *)malloc(str_length(head->value));
+		}
+		else
+		{
+			buf = (char *)(malloc(ft_strlen(head->value)));
+		}
 		if (!buf)
 			return ;
-		ft_bzero(buf, str_length(head->value));
+		if (head->type == WORD)
+			ft_bzero(buf, str_length(head->value));
+		else
+			ft_bzero(buf, ft_strlen(head->value));
 		if (!ft_strncmp(head->value, "~", ft_strlen(head->value)))
 			expand_home(&head, g_data->env);
 		if (head->value)
 			process_str(&head->value, &insq, &indq, buf);
 		head = head->next;
 	}
-	if (buf)
-		free(buf);
+	// if (buf)
+	// 	free(buf);
 }
