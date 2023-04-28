@@ -34,7 +34,6 @@ int	add_token(t_token **head, enum e_token_type type, char *value, int len)
 	t_token	*new_token;
 	t_token	*current;
 
-	new_token = create_token(type, NULL, len);
 	tmp = ft_strtrim_free(value, " ");
 	new_token = create_token(type, tmp, len);
 	if (!new_token)

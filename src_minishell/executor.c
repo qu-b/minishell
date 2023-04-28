@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 13:18:31 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 16:43:00 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	executor(void)
 			break ;
 	}
 	g_data->exit_status = wait_child();
+	free_tokens(&g_data->tokens);
 	free(g_data->pid);
 	show_ctrl_disable();
 	return (0);
