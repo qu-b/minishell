@@ -4,7 +4,7 @@ FLAGS		:= -Wall -Wextra -Werror -g3 #-fsanitize=address
 RM			:= rm -rf
 
 
-SRCDIR		:= src_builtins src_minishell src_parser
+SRCDIR		:= src_builtins src_minishell src_parser src_heredoc
 INCDIR		:= inc
 OBJDIR		:= obj
 LIBDIR		:= lib/

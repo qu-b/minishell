@@ -6,11 +6,18 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:35:50 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 10:04:22 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	expand_home(t_token **current, char **env)
+{
+	if ((*current)->value[0] == '~')
+		(*current)->value = ft_getenv(env, "HOME");
+	return (0);
+}
 
 char	*get_variable_value(char *s)
 {
