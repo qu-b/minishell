@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-int	minishell(char **envp)
+int	minishell(void)
 {
 	char	*input;
 
-	(void) envp;
 	input = "";
 	sig_acccept();
 	while (input != NULL)
@@ -25,7 +24,7 @@ int	minishell(char **envp)
 		if (!input)
 		{
 			free(input);
-			// for ctrl-d, use builtin exit, at least its free() part
+			// for ctrl-d, use builtin exit, at least its free() part ??
 			break ;
 		}
 		add_history(input);
@@ -33,8 +32,6 @@ int	minishell(char **envp)
 			write(2, "Command Error\n", 14);
 		else if (executor())
 			return (1);
-		if (g_data->exit_status)
-			free(&g_data->exit_status);
 		free_tokens(&g_data->tokens);
 		free(input);
 	}

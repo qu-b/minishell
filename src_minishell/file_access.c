@@ -23,8 +23,7 @@ void	print_error(const char *error_type, const char *file_name)
 }
 
 // Function to open infile
-// changes tmpfd to infile fd and duplicates tmpfd onto
-// STD_IN
+// changes tmpfd to infile fd and duplicates tmpfd onto STD_IN
 int	open_infile(t_token *current, int *tmpfd)
 {
 	*tmpfd = open(current->next->value, O_RDONLY);
@@ -38,7 +37,6 @@ int	open_infile(t_token *current, int *tmpfd)
 			write(STD_ERR, "Error\n", 7);
 		return (1);
 	}
-	printf("tmpfd in open: %d\n", *tmpfd);
 	close(0);
 	dup2(*tmpfd, 0);
 	close(*tmpfd);

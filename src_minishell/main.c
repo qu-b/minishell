@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:47:45 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 11:31:40 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	g_data = get_data(envp);
-	minishell(envp);
+	minishell();
 	free(g_data);
 	return (0);
 }

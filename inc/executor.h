@@ -27,6 +27,8 @@ int		set_in_out(t_token **tokens, t_cmd *cmd, int *tmpfd);
 int		open_infile(t_token *current, int *tmpfd);
 int		open_outfile(t_token *current, int *tmpfd);
 
+int		builtin(t_cmd *cmd);
+int		builtin_pipe(t_cmd *cmd);
 int		exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd);
 int		exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd);
 int		exec_pipe(t_cmd *cmd, t_token **current, int pid_i);

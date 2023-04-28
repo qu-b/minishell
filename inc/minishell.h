@@ -37,7 +37,7 @@
 
 t_data	*g_data;
 
-int		minishell(char **envp);
+int		minishell();
 t_data	*get_data(char **envp);
 
 #endif

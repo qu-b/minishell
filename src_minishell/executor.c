@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:49:26 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 12:25:00 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,8 @@ int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 		dup2(cmd->pipe[1], 1);
 		close(cmd->pipe[1]);
 		close(cmd->pipe[0]);
-		// g_data->ext = 1;
 		exec_cmd(cmd, *current, get_last_cmd(*current), cmd->tmpfd);
 		exit(1);
-	}
-	return (0);
-}
-
-// checks for builtin that cannot be executed if not at start
-// ls | export hi=HELLOOO | echo $hi does nothing in bash
-int	builtin(t_cmd *cmd)
-{
-	int	len;
-
-	len = ft_strlen(cmd->name);
-	if (!ft_strncmp(cmd->name, "cd", len) && len == 2)
-	{
-		g_data->env = ft_cd(g_data->env, cmd->args);
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "export", len) && len == 6)
-	{
-		g_data->env = exec_export(cmd->args);
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "unset", len) && len == 5)
-	{
-		g_data->env = ft_unset(g_data->env, cmd->args);
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "exit", len) && len == 4)
-	{
-		exec_exit(cmd->args);
-		return (1);
 	}
 	return (0);
 }
@@ -106,7 +75,7 @@ int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 	return (0);
 }
 
-// Main parser function
+// Main command parser function
 int	parse_cmd(t_token **tokens, int pid_i)
 {
 	t_cmd	*cmd;

@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:45:41 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:48:32 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 11:29:23 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,35 +72,6 @@ int	set_in_out(t_token **tokens, t_cmd *cmd, int *tmpfd)
 			return (1);
 	}
 	(*tokens) = (*tokens)->next;
-	return (0);
-}
-
-// checks for builtins that are executable in a pipe
-int	builtin_pipe(t_cmd *cmd)
-{
-	int	len;
-
-	len = ft_strlen(cmd->name);
-	if (!ft_strncmp(cmd->name, "pwd", len) && len == 3)
-	{
-		ft_pwd();
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "env", len) && len == 3)
-	{
-		ft_env(g_data->env);
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "echo", len) && len == 4)
-	{
-		ft_echo(cmd->args);
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "getenv", len) && len == 6)
-	{
-		printf("%s\n", ft_getenv(g_data->env, cmd->args[1]));
-		return (1);
-	}
 	return (0);
 }
 

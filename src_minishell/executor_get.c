@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:23:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/27 15:59:26 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 12:29:05 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	**get_args(t_token *head)
 	t_token	*tmp;
 
 	i = 0;
+	if (!ft_strncmp(head->value, "<", 1))
+		head = head->next->next;
 	tmp = head;
 	while (tmp && tmp->type != PIPE && tmp->type != IO && ++i)
 		tmp = tmp->next;
@@ -80,7 +82,7 @@ char	**get_args(t_token *head)
 		head = head->next;
 	}
 	if (i == 0)
-		args[i++] = g_data->cmd.name;
+		args[i++] = ft_strdup(head->value);
 	args[i] = NULL;
 	return (args);
 }
