@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 16:22:14 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 16:35:24 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,9 @@ void	process_str(char **s, int *insq, int *indq, char *buf)
 		else if (*tmp == '$' && (isalnum(*(tmp + 1))
 				|| *(tmp + 1) == '?') && !(*insq))
 		{
-			value = get_variable_value(tmp);
+			value = get_variable_value(tmp++);
 			if (value)
 				buf = ft_strjoin_gnl(buf, value);
-			tmp++;
 			while (ft_isalnum(*tmp) || *tmp == '-')
 				tmp++;
 		}
