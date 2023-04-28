@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 12:25:00 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 13:18:31 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	t_cmd	*cmd;
 	t_token	*last;
 
-	if (!ft_strncmp((*tokens)->value, "", 1))
+	if (tokens == NULL || *tokens == NULL || (*tokens)->value[0] == '\0')
 		return (1);
 	cmd = &(g_data->cmd);
 	cmd->name = get_name(tokens);
@@ -122,7 +122,6 @@ int	executor(void)
 	}
 	g_data->exit_status = wait_child();
 	free(g_data->pid);
-	free_cmd(&(g_data->cmd));
 	show_ctrl_disable();
 	return (0);
 }

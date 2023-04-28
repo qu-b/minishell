@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:23:01 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 12:29:05 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 12:47:15 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_name(t_token **tokens)
 	char	*name;
 	t_token	*head;
 
-	if (!tokens || (*tokens) == NULL)
+	if (!tokens || (*tokens)->value == NULL)
 		return (NULL);
 	head = *tokens;
 	name = malloc(sizeof(char *));

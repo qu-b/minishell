@@ -34,10 +34,15 @@ int	add_token(t_token **head, enum e_token_type type, char *value, int len)
 	t_token	*new_token;
 	t_token	*current;
 
-	tmp = ft_strtrim_free(value, " ");
-	if (!tmp)
-		return (1);
-	new_token = create_token(type, tmp, len);
+	if (value == NULL)
+		new_token = create_token(type, NULL, len);
+	else
+	{
+		tmp = ft_strtrim_free(value, " ");
+		if (!tmp)
+			return (1);
+		new_token = create_token(type, tmp, len);
+	}
 	if (!new_token)
 	{
 		free(tmp);
@@ -60,7 +65,7 @@ int	tokenizer(t_token **head, char *s, int *i)
 	int		len;
 
 	if (!s)
-		return (add_token(head, 0, 0, 1));
+		return (add_token(head, 0, NULL, 1));
 	else if (is_pipe(*s))
 	{
 		*i += 1;

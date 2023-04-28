@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 11:03:07 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/04/28 13:25:21 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,9 @@ void	process_tokens(t_token *head)
 	while (head)
 	{
 		if (head->type == WORD)
-		{
-			buf = (char *)malloc(str_length(head->value));
-		}
+			buf = (char *)malloc(str_length(head->value) + 1);
 		else
-		{
-			buf = (char *)(malloc(ft_strlen(head->value)));
-		}
+			buf = (char *)(malloc(ft_strlen(head->value)) + 1);
 		if (!buf)
 			return ;
 		if (head->type == WORD)
@@ -115,6 +111,4 @@ void	process_tokens(t_token *head)
 			process_str(&head->value, &insq, &indq, buf);
 		head = head->next;
 	}
-	// if (buf)
-	// 	free(buf);
 }
