@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:45:41 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 11:29:23 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/03 09:15:03 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,13 @@ int	set_in_out(t_token **tokens, t_cmd *cmd, int *tmpfd)
 			return (1);
 	}
 	(*tokens) = (*tokens)->next;
-	return (0);
+	if ((*tokens)->type == IO && !(*tokens)->next)
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		exit(258);
+	}
+	else
+		return (0);
 }
 
 // Execution command
