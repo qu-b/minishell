@@ -6,11 +6,27 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:16:24 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 10:11:30 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/03 00:05:17 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_io(char *s)
+{
+	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
+		return (2);
+	if (*s == '<' || *s == '>')
+		return (1);
+	return (0);
+}
+
+int	is_pipe(char c)
+{
+	if (c == '|')
+		return (1);
+	return (0);
+}
 
 int	find_space(char *s)
 {
@@ -52,22 +68,6 @@ int	str_length(char *s)
 		i++;
 	}
 	return ((insq || indq) * (-1) + (!(insq || indq)) * i);
-}
-
-int	is_io(char *s)
-{
-	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
-		return (2);
-	if (*s == '<' || *s == '>')
-		return (1);
-	return (0);
-}
-
-int	is_pipe(char c)
-{
-	if (c == '|')
-		return (1);
-	return (0);
 }
 
 void	print_tokens(t_token *head)

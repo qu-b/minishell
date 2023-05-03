@@ -37,3 +37,17 @@ int	is_dq(char c)
 	else
 		return (0);
 }
+
+int	is_variable(char *s)
+{
+	if ((*s == '$' && *(s + 1)) && (ft_isalnum(*(s + 1)) || *(s + 1) == '_'))
+		return (1);
+	return (0);
+}
+
+int	is_exit(char *s)
+{
+	if ((*s == '$' && *(s + 1)) && *(s + 1) == '?')
+		return (1);
+	return (0);
+}
