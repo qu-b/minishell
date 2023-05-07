@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:52:33 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 18:53:59 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:40:16 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	**get_words(t_token **tokens, char **del)
 		}
 		free(tmp);
 	}
-	// manage_tokens(tokens, *del, i - 1);
 	return (split);
 }
 
@@ -55,67 +54,4 @@ char	*cat_words(t_token **tokens, char *all_vals)
 		head = head->next;
 	}
 	return (all_vals);
-}
-
-// returns the number of newlines in s until 0x00 or del
-int	count_nl_del(char *s, char *del)
-{
-	int	i;
-	int	n;
-
-	i = 0;
-	n = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n')
-			n++;
-		i++;
-		if (ft_strncmp(&s[i], del, ft_strlen(del)) == 0)
-			break ;
-	}
-	return (n);
-}
-
-// trims last token after del, if such exists
-char	*trim_last(char *s, char *del, int i)
-{
-	int		nl_idx;
-	int		nl_count;
-	char	*out;
-
-	if (!s || !del)
-		return (NULL);
-	nl_idx = 0;
-	nl_count = count_nl_del(s, del);
-	while (s[i] && nl_idx <= nl_count)
-	{
-		if (s[i] == '\n')
-			nl_idx++;
-		i++;
-	}
-	out = ft_substr(s, i, ft_strlen(&s[i]));
-	return (out);
-}
-
-// cleans up tokens for anything after heredoc
-void	manage_tokens(t_token **tokens, char *del, int idx)
-{
-	t_token	*tmp;
-	int		count;
-	int		tidx;
-
-	tmp = *tokens;
-	count = 0;
-	tidx = 0;
-	while (tmp)
-	{
-		count += count_nl_del(tmp->value, del);
-		if (count >= idx)
-			break ;
-		tmp = tmp->next;
-		tidx++;
-	}
-	while (tidx--)
-		(*tokens) = (*tokens)->next;
-	(*tokens)->value = trim_last((*tokens)->value, del, 0);
 }

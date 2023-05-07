@@ -6,13 +6,11 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/26 14:54:28 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:44:58 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-
 
 char	**ft_ptrdup(char **s, int n)
 {

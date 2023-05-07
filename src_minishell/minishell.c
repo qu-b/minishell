@@ -12,29 +12,30 @@
 
 #include "minishell.h"
 
+void	free_minishell(void)
+{
+	free_tokens(&g_data->tokens);
+	free(g_data->input);
+	ft_freeptr(g_data->env);
+}
+
 int	minishell(void)
 {
-	char	*input;
-
-	input = "";
 	sig_acccept();
-	while (input != NULL)
+	while (g_data->input != NULL)
 	{
-		input = readline("minishell: ");
-		if (!input)
-		{
-			free(input);
-			// for ctrl-d, use builtin exit, at least its free() part ??
+		g_data->input = readline("minishell: ");
+		if (!g_data->input)
 			break ;
-		}
-		add_history(input);
-		if (parser(input))
+		add_history(g_data->input);
+		if (parser(g_data->input))
 			write(2, "Command Error\n", 14);
 		else if (executor())
 			return (1);
 		free_tokens(&g_data->tokens);
-		free(input);
+		free(g_data->input);
 	}
+	free_minishell();
 	show_ctrl_enable();
 	return (0);
 }

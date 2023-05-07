@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 10:00:07 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/26 14:38:50 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:53:48 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	char	**env;
 	int		ext;
 	t_cmd	cmd;
+	char	*input;
 	pid_t	*pid;
 	int		exit_status;
 }	t_data;

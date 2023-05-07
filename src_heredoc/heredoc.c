@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 18:53:46 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:43:57 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 
 int	heredoc(t_token **tokens, t_cmd *cmd)
 {
-	int	heredoc_pos;
+	int		heredoc_pos;
 	t_token	**tmp;
 
 	heredoc_pos = 0;
