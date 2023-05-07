@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:52:33 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/25 16:13:25 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/05 21:36:56 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*cat_words(t_token **tokens, char *all_vals)
 	while (head && head->value && head->type == WORD)
 	{
 		all_vals = ft_strjoin_gnl(all_vals, head->value);
-		all_vals = ft_strjoin(all_vals, " ");
+		all_vals = ft_strjoin_gnl(all_vals, " ");
 		head = head->next;
 	}
 	return (all_vals);

@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/25 16:15:48 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:04:25 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	read_loop(char **tmp_in, char **tmp_wrd, char *del)
 {
 	while (1)
 	{
+		*tmp_in = NULL;
 		*tmp_in = readline("> ");
 		if (is_delimiter(*tmp_in, del) == 1)
 			break ;
@@ -36,7 +37,6 @@ char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
 	{
 		free(words[argnb - 1]);
 		words[argnb - 1] = NULL;
-		free(tmp_in);
 		free(tmp_wrd);
 		return (words);
 	}
@@ -47,7 +47,6 @@ char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
 	if (!words)
 		return (new_words);
 	out = ft_ptrjoin(words, new_words);
-	free(tmp_wrd);
 	return (out);
 }
 
@@ -65,12 +64,10 @@ int	heredoc_create(t_cmd *cmd, char **words)
 		g_data->exit_status = 1;
 		return (-1);
 	}
-	i = 0;
-	while (words[i])
-	{
+	i = -1;
+	while (words[++i])
 		write(tmpfd, words[i], ft_strlen(words[i]));
 		i++;
-	}
 	close(tmpfd);
 	cmd->tmpfd = open("/tmp/mini_heredoc", O_RDONLY, 0644);
 	return (0);
@@ -92,8 +89,10 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 		words = get_words(tokens, &del);
 	if (!nldel)
 		cmd->args = get_new_args(tokens, cmd);
-	words = read_until_del(words, del, ft_strdup(""), ft_strdup(""));
+	words = read_until_del(words, del, NULL, ft_strdup(""));
 	heredoc_create(cmd, words);
+	ft_freeptr(words);
+	free(del);
 	return (0);
 }
 
@@ -103,7 +102,7 @@ int	heredoc(t_token **tokens, t_cmd *cmd)
 
 	heredoc_pos = 0;
 	heredoc_pos = heredoc_find(tokens, cmd);
-	if (heredoc_pos)
+	if (heredoc_pos == 1)
 	{	
 		while (heredoc_pos-- > -1)
 			(*tokens) = (*tokens)->next;
