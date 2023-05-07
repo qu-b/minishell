@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/03 09:37:31 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/06 18:21:53 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 // probably check builtin + execute builtin on main here
 int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 {
-	(void)tmpfd;
 	show_ctrl_enable();
 	if (!builtin(cmd))
 	{
