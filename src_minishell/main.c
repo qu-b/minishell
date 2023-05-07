@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/07 21:55:09 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:03:11 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,20 @@ t_data	*get_data(char **envp)
 	return (g_data);
 }
 
+void	free_data(void)
+{
+	free_tokens(&g_data->tokens);
+	free(g_data->input);
+	ft_freeptr(g_data->env);
+	free(g_data);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void) argc;
 	(void) argv;
 	g_data = get_data(envp);
 	minishell();
-	free(g_data);
+	free_data();
 	return (0);
 }

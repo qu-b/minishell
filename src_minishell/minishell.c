@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-void	free_minishell(void)
-{
-	free_tokens(&g_data->tokens);
-	free(g_data->input);
-	ft_freeptr(g_data->env);
-}
-
 int	minishell(void)
 {
 	sig_acccept();
@@ -35,7 +28,6 @@ int	minishell(void)
 		free_tokens(&g_data->tokens);
 		free(g_data->input);
 	}
-	free_minishell();
 	show_ctrl_enable();
 	return (0);
 }
