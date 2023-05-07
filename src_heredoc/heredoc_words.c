@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:52:33 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 17:10:07 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:53:59 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,28 @@ char	**get_words(t_token **tokens, char **del)
 {
 	char	**split;
 	char	*all_vals;
+	char	*tmp;
 	int		i;
 
 	all_vals = cat_words(tokens, ft_strdup(""));
 	split = ft_split_inc(all_vals, '\n');
 	free(all_vals);
 	i = -1;
-	printf("split[0] = %s\n", split[0]);
 	while (split[++i])
 	{
 		printf("> %s", split[i]);
-		if (ft_strncmp(split[i], *del, ft_strlen(*del)) == 0)
+		tmp = ft_strtrim(split[i], " \n");
+		if (is_delimiter(tmp, *del) == 1)
 		{
-			split[i] = ft_strtrim_free(split[i], "\n");
+			split[i] = ft_strtrim_free(split[i], " \n");
 			free(split[++i]);
 			split[i] = NULL;
+			free(tmp);
 			break ;
 		}
+		free(tmp);
 	}
-	manage_tokens(tokens, *del, i - 1);
+	// manage_tokens(tokens, *del, i - 1);
 	return (split);
 }
 

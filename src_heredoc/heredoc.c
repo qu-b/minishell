@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 17:00:23 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:53:46 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ hello asd
 yesthis is
 
 a line
-EOF
+EO
 ffff
 
 EOF 
