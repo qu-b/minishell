@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 12:04:25 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:00:23 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,17 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 int	heredoc(t_token **tokens, t_cmd *cmd)
 {
 	int	heredoc_pos;
+	t_token	**tmp;
 
 	heredoc_pos = 0;
 	heredoc_pos = heredoc_find(tokens, cmd);
+	tmp = tokens;
 	if (heredoc_pos == 1)
 	{	
 		while (heredoc_pos-- > -1)
-			(*tokens) = (*tokens)->next;
-		if ((*tokens) && (*tokens)->type == WORD)
-			return (heredoc_main(tokens, cmd));
+			(*tmp) = (*tmp)->next;
+		if ((*tmp) && (*tmp)->type == WORD)
+			return (heredoc_main(tmp, cmd));
 		else
 		{
 			write(2, "heredoc error\n", 14);
@@ -125,9 +127,10 @@ hello asd
 yesthis is
 
 a line
-
-
 EOF
+ffff
+
+EOF 
 hihi from the other side
 
 
@@ -137,4 +140,12 @@ ls | cat -e | cat -e | cat -e | cat -e
 			// ft_printf("remaining tokens:\n");
 			// print_tokens(*tokens);
 			// ft_printf("______\n");
+
+
+cat 
+hello asd
+yesthis is
+
+a line
+
 */

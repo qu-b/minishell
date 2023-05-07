@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 08:17:52 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/05 21:41:25 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:10:38 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,18 @@ char	**ft_split_inc(char const *s, char const c)
 	i = 0;
 	j = 0;
 	wc = ft_wordcount(s, c);
-	split = malloc(sizeof(char *) * (wc + 1));
+	split = malloc(sizeof(char *) * (wc + 2));
 	if (split == NULL)
 		return (NULL);
-	while (i < wc)
+	while (i <= wc)
 	{
 		if (i != 0)
 			j = ft_issep(s, c, j);
-		split[i] = malloc(sizeof(char) * ft_isword(s, c, j) - j);
+		split[i] = malloc(sizeof(char) * ft_isword(s, c, j) - j + 2);
 		ft_strlcpy(split[i], &s[j], ft_isword(s, c, j) - j + 2);
 		j = ft_isword(s, c, j);
 		i++;
 	}
-	free(split[i]);
 	split[i] = NULL;
 	return (split);
 }

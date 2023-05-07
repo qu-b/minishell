@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:52:33 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/05 21:36:56 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:10:07 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	**get_words(t_token **tokens, char **del)
 	split = ft_split_inc(all_vals, '\n');
 	free(all_vals);
 	i = -1;
+	printf("split[0] = %s\n", split[0]);
 	while (split[++i])
 	{
 		printf("> %s", split[i]);
