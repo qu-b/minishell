@@ -52,7 +52,6 @@ char	*prompt(void)
 	if (ps1 == NULL)
 	{
 		perror("ft_strdup");
-		free(wd);
 		return (NULL);
 	}
 	return (ps1);
