@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/07 22:03:11 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:31:58 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int	main(int argc, char **argv, char **envp)
 	g_data = get_data(envp);
 	minishell();
 	free_data();
+	show_ctrl_enable();
 	return (0);
 }

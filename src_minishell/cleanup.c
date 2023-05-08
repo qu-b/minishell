@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:12:28 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/02 16:47:48 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/08 13:08:34 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	free_tokens(t_token **head)
 		*head = (*head)->next;
 		del_token(&temp);
 	}
+	free(*head);
 	*head = NULL;
 }

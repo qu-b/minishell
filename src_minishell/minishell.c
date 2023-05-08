@@ -24,10 +24,13 @@ int	minishell(void)
 		if (parser(g_data->input))
 			write(2, "Command Error\n", 14);
 		else if (executor())
+		{
+			free_tokens(&g_data->tokens);
+			free(g_data->input);
 			return (1);
+		}
 		free_tokens(&g_data->tokens);
 		free(g_data->input);
 	}
-	show_ctrl_enable();
 	return (0);
 }
