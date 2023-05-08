@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/23 16:12:28 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:35:20 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	ft_cd_update_env(t_export *cd, char **env, char **args)
 	full_path = ft_cd_change(new_dir);
 	if (full_path == NULL)
 	{
+		free(new_dir);
 		free(cwd);
 		return (-1);
 	}
@@ -64,6 +65,7 @@ int	ft_cd_update_env(t_export *cd, char **env, char **args)
 	cd->new_env = ft_export_string(cd->new_env, "OLDPWD=", cwd);
 	free(full_path);
 	free(cwd);
+	free(new_dir);
 	return (0);
 }
 
@@ -83,6 +85,7 @@ char	**ft_cd(char **env, char **args)
 		return (env);
 	}
 	new_env = ft_ptrdup_free(cd->new_env, ft_argcount(cd->new_env));
+	free(cd);
 	if (new_env == NULL)
 		return (env);
 	g_data->exit_status = 0;
