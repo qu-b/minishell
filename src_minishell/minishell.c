@@ -36,26 +36,38 @@ char	*get_wd(void)
 	return (last_dir);
 }
 
-
 // "$HOSTNAME:$WD $USER$ "
 char	*prompt(void)
 {
+	char	*wd;
 	char	*ps1;
-	// char	*username;
-	// char	*hostname;
-	// char	*wd;
 
-	ps1 = get_wd();
-	ps1 = ft_strjoin(ps1, "$ ");
+	wd = get_wd();
+	if (wd == NULL)
+	{
+		perror("get_wd");
+		return (NULL);
+	}
+	ps1 = ft_strjoin_gnl(wd, "$ ");
+	if (ps1 == NULL)
+	{
+		perror("ft_strdup");
+		free(wd);
+		return (NULL);
+	}
 	return (ps1);
 }
 
 int	minishell(void)
 {
+	char	*ps1;
+
 	sig_acccept();
 	while (g_data->input != NULL)
 	{
-		g_data->input = readline(prompt());
+		ps1 = prompt();
+		g_data->input = readline(ps1);
+		free(ps1);
 		if (!g_data->input)
 			break ;
 		add_history(g_data->input);
