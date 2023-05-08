@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/03 07:51:53 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/08 13:54:37 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,12 @@ void	process_tokens(t_token *head)
 
 	insq = 0;
 	indq = 0;
-	while (head && head->type == WORD)
+	while (head && head->value[0] && head->type == WORD)
 	{
-		if (head->type == WORD)
-			buf = (char *)malloc(str_length(head->value) + 1);
-		else
-			buf = (char *)(malloc(ft_strlen(head->value)) + 1);
+		buf = (char *)malloc(str_length(head->value) + 1);
 		if (!buf)
 			return ;
-		if (head->type == WORD)
-			ft_bzero(buf, str_length(head->value));
-		else
-			ft_bzero(buf, ft_strlen(head->value));
+		ft_bzero(buf, str_length(head->value));
 		if (!ft_strncmp(head->value, "~", 1))
 			expand_home(&head, g_data->env);
 		if (head->value)
