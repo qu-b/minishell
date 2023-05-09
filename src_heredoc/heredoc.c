@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 21:43:57 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:18:12 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ void	read_loop(char **tmp_in, char **tmp_wrd, char *del)
 	}
 }
 
-char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
+char	**read_until_del(char **words, char *del, char *tmp_in)
 {
 	char	**out;
 	char	**new_words;
+	char	*tmp_wrd;
 	int		argnb;
 
 	argnb = ft_argcount(words);
@@ -37,9 +38,9 @@ char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd)
 	{
 		free(words[argnb - 1]);
 		words[argnb - 1] = NULL;
-		free(tmp_wrd);
 		return (words);
 	}
+	tmp_wrd = ft_strdup("");
 	read_loop(&tmp_in, &tmp_wrd, del);
 	free(tmp_in);
 	new_words = ft_split_inc(tmp_wrd, '\n');
@@ -89,7 +90,7 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 		words = get_words(tokens, &del);
 	if (!nldel)
 		cmd->args = get_new_args(tokens, cmd);
-	words = read_until_del(words, del, NULL, ft_strdup(""));
+	words = read_until_del(words, del, NULL);
 	heredoc_create(cmd, words);
 	ft_freeptr(words);
 	free(del);

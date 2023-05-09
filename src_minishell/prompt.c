@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 21:06:51 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/08 21:07:12 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:10:59 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,78 +36,60 @@ char	*get_wd(void)
 	return (last_dir);
 }
 
-// Frees the arguments
-void	free_prompt(char *hostname, char *wd, char *user)
-{
-	if (hostname != NULL)
-		free(hostname);
-	if (wd != NULL)
-		free(wd);
-	(void) user;
-	// if (user != NULL) why does this fail?
-	// 	free(user);
-}
-
 // Glues arguments in a visually appealing fashion and returns the result
-char	*glue_prompt(char *hostname, char *wd, char *user)
+char	*glue_prompt(char *wd, char *user)
 {
 	char	*ps1;
 
-	(void) hostname;
-	// ps1 = ft_strjoin(hostname, ":");
-	ps1 = ft_strdup("placeholder:");
+	ps1 = ft_strdup("");
 	ps1 = ft_strjoin_gnl(ps1, wd);
+	if (wd[0] != 0x00)
 	ps1 = ft_strjoin_gnl(ps1, " ");
 	ps1 = ft_strjoin_gnl(ps1, user);
 	ps1 = ft_strjoin_gnl(ps1, "$ ");
-	free_prompt(hostname, wd, user);
+	free(wd);
 	if (ps1 == NULL)
 		return (NULL);
 	return (ps1);
 }
 
 // Returns 1 if any of the arguments is NULL
-int	check_prompt(char *hostname, char *wd, char *user)
+int	check_prompt(char *wd, char *user)
 {
-	(void) hostname;
-	int	err;
+	static int	err = 0;
 
-	err = 0;
-	if (hostname == NULL)
-	{
-		perror("no hostname");
-		// err++;
-	}
 	if (wd == NULL)
 	{
-		perror("no wd");
-		err++;
+		if (err == 0)
+			write(2, "Prompt error : invalid wd\n", 26);
+		err = 1;
+		return (1);
 	}
 	if (user == NULL)
 	{
-		perror("no user");
-		err++;
+		if (err == 0)
+			write(2, "Prompt error : invalid user\n", 28);
+		err = 2;
+		return (2);
 	}
-	if (err)
-		return (1);
+	err = 0;
 	return (0);
 }
 
-// "$HOSTNAME:$WD $USER$ "
+// Returns the prompt string
+// "$WD $USER$ "
 char	*prompt(void)
 {
-	char	*wd;
-	char	*user;
-	char	*hostname;
+	char		*wd;
+	char		*user;
 
+	wd = NULL;
+	user = NULL;
 	wd = get_wd();
 	user = ft_getenv(g_data->env, "USER");
-	hostname = ft_getenv(g_data->env, "HOSTNAME");
-	if (check_prompt(hostname, wd, user) == 1)
-	{
-		free_prompt(hostname, wd, user);
+	if (check_prompt(wd, user) == 1)
 		return (NULL);
-	}
-	// printf("user = %s\n", user);
-	return (glue_prompt(hostname, wd, user));
+	if (check_prompt(wd, user) == 2)
+		return (ft_strjoin_gnl(wd, " > "));
+	return (glue_prompt(wd, user));
 }

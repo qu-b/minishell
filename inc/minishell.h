@@ -42,10 +42,8 @@ t_data	*get_data(char **envp);
 void	free_data(void);
 
 char	*get_wd(void);
-void	free_prompt(char *hostname, char *wd, char *user);
-char	*glue_prompt(char *hostname, char *wd, char *user);
-int		check_prompt(char *hostname, char *wd, char *user);
+char	*glue_prompt(char *wd, char *user);
+int		check_prompt(char *wd, char *user);
 char	*prompt(void);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/08 19:35:20 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:16:03 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_cd_update_env(t_export *cd, char **env, char **args)
 	cd->new_env = ft_export_string(cd->new_env, "OLDPWD=", cwd);
 	free(full_path);
 	free(cwd);
-	free(new_dir);
 	return (0);
 }
 

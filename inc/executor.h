@@ -45,7 +45,7 @@ char	*define_delimiter(t_token **tokens, int *nldel);
 char	**get_words(t_token **tokens, char **del);
 char	*cat_words(t_token **tokens, char *all_vals);
 
-char	**read_until_del(char **words, char *del, char *tmp_in, char *tmp_wrd);
+char	**read_until_del(char **words, char *del, char *tmp_in);
 void	read_loop(char **tmp_in, char **tmp_wrd, char *del);
 int		is_delimiter(char *s, char *del);
 int		heredoc_create(t_cmd *cmd, char **words);
