@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:17:02 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/08 12:31:58 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:40:27 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ t_data	*get_data(char **envp)
 void	free_data(void)
 {
 	free_tokens(&g_data->tokens);
+	free_cmd(&g_data->cmd);
 	free(g_data->input);
+	free(g_data->pid);
 	ft_freeptr(g_data->env);
 	free(g_data);
 }
