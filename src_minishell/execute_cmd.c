@@ -6,14 +6,14 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:45:41 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/09 17:12:54 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:42:24 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Find PATH in env
-char *find_path(char **envp)
+char	*find_path(char **envp)
 {
 	while (*envp)
 	{
