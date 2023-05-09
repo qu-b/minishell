@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 21:06:51 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/09 12:10:59 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:29:11 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ char	*glue_prompt(char *wd, char *user)
 	char	*ps1;
 
 	ps1 = ft_strdup("");
+	ps1 = ft_strjoin_gnl(ps1, "\033[1;32m");
+	ps1 = ft_strjoin_gnl(ps1, "minishell");
+	ps1 = ft_strjoin_gnl(ps1, ":\033[0m");
 	ps1 = ft_strjoin_gnl(ps1, wd);
+	ps1 = ft_strjoin_gnl(ps1, " ");
 	if (wd[0] != 0x00)
 	ps1 = ft_strjoin_gnl(ps1, " ");
 	ps1 = ft_strjoin_gnl(ps1, user);
@@ -90,6 +94,6 @@ char	*prompt(void)
 	if (check_prompt(wd, user) == 1)
 		return (NULL);
 	if (check_prompt(wd, user) == 2)
-		return (ft_strjoin_gnl(wd, " > "));
+		return (glue_prompt(wd, "> "));
 	return (glue_prompt(wd, user));
 }

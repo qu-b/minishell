@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 07:51:13 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/03 07:52:00 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/09 16:58:20 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,18 @@
 
 int	expand_home(t_token **current, char **env)
 {
-	char	*free_val;
-	char	*value;
 	char	*tmp;
-	int		i;
+	char	*value;
 
-	i = -1;
-	if (!ft_strncmp((*current)->value, "~", ft_strlen((*current)->value)))
-	{
-		tmp = ft_getenv(env, "HOME");
-		value = malloc(ft_strlen(tmp) + 1);
-		while (tmp[++i])
-			value[i] = tmp[i];
-		value[i] = '\0';
-		free_val = (*current)->value;
-		(*current)->value = value;
-		free(free_val);
-	}
+	tmp = ft_getenv(env, "HOME");
+	if (tmp == NULL)
+		return (-1);
+	if ((*current)->value[0] == '~')
+		value = ft_strjoin(tmp, (*current)->value + 1);
+	else
+		value = ft_strjoin(tmp, (*current)->value);
+	free((*current)->value);
+	(*current)->value = value;
 	return (0);
 }
 

@@ -6,18 +6,23 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:45:41 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/07 16:23:10 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:12:54 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Find PATH in env
-char	*find_path(char **envp)
+char *find_path(char **envp)
 {
-	while (envp && ft_strncmp("PATH", *envp, 4))
+	while (*envp)
+	{
+		if (ft_strncmp("PATH", *envp, 4) == 0)
+			return (*envp + 5);
 		envp++;
-	return (*envp + 5);
+	}
+	write(STDERR_FILENO, "minishell: PATH does not exist\n", 31);
+	exit(127);
 }
 
 // Return accessible command path if possible
