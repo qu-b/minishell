@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/09 12:16:03 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 13:19:24 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,48 @@ char	*ft_cd_change(char *path)
 	return (full_path);
 }
 
+char	*ft_cd_get_new_dir(char **args, char **env)
+{
+	char	*new_dir;
+
+	new_dir = NULL;
+	if (!args[1])
+		new_dir = ft_getenv(env, "HOME");
+	else if (ft_strncmp(args[1], "-", 2) == 0)
+	{
+		new_dir = ft_getenv(env, "OLDPWD");
+		if (new_dir != NULL)
+			printf("%s\n", new_dir);
+	}
+	else if (args[1][0] != 0x00)
+		new_dir = ft_strdup(args[1]);
+	return (new_dir);
+}
+
 // updates PWD and OLDPWD in env
 int	ft_cd_update_env(t_export *cd, char **env, char **args)
 {
 	char	*cwd;
-	char	*new_dir;
 	char	*full_path;
+	char	*new_dir;
 
 	cwd = NULL;
 	cwd = getcwd(cwd, 0);
 	new_dir = NULL;
-	if (!args[1])
-		new_dir = ft_getenv(env, "HOME");
-	else
-		new_dir = ft_strdup(args[1]);
+	new_dir = ft_cd_get_new_dir(args, env);
 	full_path = ft_cd_change(new_dir);
 	if (full_path == NULL)
 	{
-		free(new_dir);
+		if (new_dir != NULL)
+			free(new_dir);
 		free(cwd);
 		return (-1);
 	}
 	cd->new_env = ft_export_string(env, "PWD=", full_path);
 	cd->new_env = ft_export_string(cd->new_env, "OLDPWD=", cwd);
 	free(full_path);
+	if (new_dir != NULL)
+		free(new_dir);
 	free(cwd);
 	return (0);
 }

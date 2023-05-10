@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:28:26 by fcullen           #+#    #+#             */
-/*   Updated: 2023/04/28 11:29:29 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/10 11:44:19 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ int	builtin_pipe(t_cmd *cmd)
 	else if (!ft_strncmp(cmd->name, "echo", len) && len == 4)
 	{
 		ft_echo(cmd->args);
-		return (1);
-	}
-	else if (!ft_strncmp(cmd->name, "getenv", len) && len == 6)
-	{
-		printf("%s\n", ft_getenv(g_data->env, cmd->args[1]));
 		return (1);
 	}
 	return (0);

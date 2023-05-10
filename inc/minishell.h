@@ -42,7 +42,7 @@ t_data	*get_data(char **envp);
 void	free_data(void);
 
 char	*get_wd(void);
-char	*glue_prompt(char *wd, char *user);
+char	*glue_prompt(char *wd, char *user, char *add);
 int		check_prompt(char *wd, char *user);
 char	*prompt(void);
 

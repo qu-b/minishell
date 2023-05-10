@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:01:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/26 14:54:23 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:44:51 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	**init_env(char **envp);
 // changes dir for the current process, see with pipes
 char	**ft_cd(char **env, char **args);
 int		ft_cd_update_env(t_export *cd, char **env, char **args);
+char	*ft_cd_get_new_dir(char **args, char **env);
 char	*ft_cd_change(char *path);
 
 // returns a malloced string with env var value matching var

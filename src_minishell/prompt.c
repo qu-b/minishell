@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 21:06:51 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/09 17:29:11 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/10 11:34:16 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,39 @@ char	*get_wd(void)
 		return (NULL);
 	}
 	free(wd);
+	if (last_dir[0] == 0x00)
+	{
+		free(last_dir);
+		return (ft_strdup("/"));
+	}
 	return (last_dir);
 }
 
 // Glues arguments in a visually appealing fashion and returns the result
-char	*glue_prompt(char *wd, char *user)
+char	*glue_prompt(char *wd, char *user, char *add)
 {
 	char	*ps1;
 
+	(void) add;
 	ps1 = ft_strdup("");
-	ps1 = ft_strjoin_gnl(ps1, "\033[1;32m");
-	ps1 = ft_strjoin_gnl(ps1, "minishell");
-	ps1 = ft_strjoin_gnl(ps1, ":\033[0m");
+	ps1 = ft_strjoin_gnl(ps1, "\033[1;32mminishell:\033[0m");
 	ps1 = ft_strjoin_gnl(ps1, wd);
 	ps1 = ft_strjoin_gnl(ps1, " ");
-	if (wd[0] != 0x00)
-	ps1 = ft_strjoin_gnl(ps1, " ");
-	ps1 = ft_strjoin_gnl(ps1, user);
-	ps1 = ft_strjoin_gnl(ps1, "$ ");
+	if (user != NULL)
+	{
+		ps1 = ft_strjoin_gnl(ps1, user);
+		ps1 = ft_strjoin_gnl(ps1, "$ ");
+	}
+	if (add != NULL)
+		ps1 = ft_strjoin_gnl(ps1, add);
 	free(wd);
+	free(user);
 	if (ps1 == NULL)
 		return (NULL);
 	return (ps1);
 }
 
-// Returns 1 if any of the arguments is NULL
+// Checks wd and user
 int	check_prompt(char *wd, char *user)
 {
 	static int	err = 0;
@@ -94,6 +102,6 @@ char	*prompt(void)
 	if (check_prompt(wd, user) == 1)
 		return (NULL);
 	if (check_prompt(wd, user) == 2)
-		return (glue_prompt(wd, "> "));
-	return (glue_prompt(wd, user));
+		return (glue_prompt(wd, NULL, "> "));
+	return (glue_prompt(wd, user, NULL));
 }

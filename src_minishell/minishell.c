@@ -21,7 +21,7 @@ int	minishell(void)
 	{
 		ps1 = prompt();
 		if (ps1 == NULL)
-			ps1 = ft_strdup("minishell : ");
+			ps1 = ft_strdup("\033[1;32mminishell : :\033[0m");
 		g_data->input = readline(ps1);
 		free(ps1);
 		if (!g_data->input)
@@ -30,11 +30,7 @@ int	minishell(void)
 		if (parser(g_data->input))
 			write(2, "Command Error\n", 14);
 		else if (executor())
-		{
-			free_tokens(&g_data->tokens);
-			free(g_data->input);
 			return (1);
-		}
 		free_tokens(&g_data->tokens);
 		free(g_data->input);
 	}

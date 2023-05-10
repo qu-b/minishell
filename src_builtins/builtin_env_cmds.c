@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/25 16:17:10 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:20:06 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_getenv(char **env, char *var)
 		if (eq > 0)
 		{
 			ft_freeptr(args);
-			return (&env[i][eq + 1]);
+			return (ft_strdup(&env[i][eq + 1]));
 		}
 	}
 	ft_freeptr(args);

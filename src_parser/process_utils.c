@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 07:51:13 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/09 16:58:20 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/10 11:37:26 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	expand_home(t_token **current, char **env)
 		value = ft_strjoin(tmp, (*current)->value);
 	free((*current)->value);
 	(*current)->value = value;
+	free(tmp);
 	return (0);
 }
 
