@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:05:01 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/25 16:13:47 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:17:18 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	heredoc_find(t_token **tokens, t_cmd *cmd)
 	(void) cmd;
 	tmp = *tokens;
 	i = 0;
-	while (tmp)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp && tmp->type == IO && ft_strncmp(tmp->value, "<<", 2) == 0)
 			return (i);

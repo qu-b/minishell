@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/09 12:18:12 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:14:38 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	heredoc(t_token **tokens, t_cmd *cmd)
 	heredoc_pos = 0;
 	heredoc_pos = heredoc_find(tokens, cmd);
 	tmp = tokens;
-	if (heredoc_pos == 1)
+	if (heredoc_pos)
 	{	
 		while (heredoc_pos-- > -1)
 			(*tmp) = (*tmp)->next;
