@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 06:38:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/25 16:11:29 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:57:20 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	sig_handle(int sig)
 		if (sig == SIGINT)
 		{
 			printf("\n");
-			rl_on_new_line();
 			rl_replace_line("", 0);
 		}
+		rl_on_new_line();
 		rl_redisplay();
 	}
 	if (g_data->ext == 1)
