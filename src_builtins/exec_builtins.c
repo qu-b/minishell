@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:30:15 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 22:02:59 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:25:05 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	exec_builtins(char **args)
 int	exec_exit(char **args)
 {
 	(void) args;
+	free_cmd(&g_data->cmd);
+	free(g_data->pid);
 	free_data();
 	exit(0);
 }
