@@ -21,7 +21,7 @@ int	minishell(void)
 	{
 		ps1 = prompt();
 		if (ps1 == NULL)
-			ps1 = ft_strdup("\033[1;32mminishell : :\033[0m");
+			ps1 = ft_strdup("\001\033[1;32m\002minishell : \001\033[0m\002");
 		g_data->input = readline(ps1);
 		free(ps1);
 		if (!g_data->input)

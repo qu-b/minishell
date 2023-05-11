@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 21:06:51 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/10 11:34:16 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:08:35 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char	*glue_prompt(char *wd, char *user, char *add)
 
 	(void) add;
 	ps1 = ft_strdup("");
-	ps1 = ft_strjoin_gnl(ps1, "\033[1;32mminishell:\033[0m");
+	ps1 = ft_strjoin_gnl(ps1, "\001\033[1;32m\002");
+	ps1 = ft_strjoin_gnl(ps1, "minishell:\001\033[0m\002");
 	ps1 = ft_strjoin_gnl(ps1, wd);
 	ps1 = ft_strjoin_gnl(ps1, " ");
 	if (user != NULL)
@@ -75,14 +76,14 @@ int	check_prompt(char *wd, char *user)
 		if (err == 0)
 			write(2, "Prompt error : invalid wd\n", 26);
 		err = 1;
-		return (1);
+		return (err);
 	}
 	if (user == NULL)
 	{
 		if (err == 0)
 			write(2, "Prompt error : invalid user\n", 28);
 		err = 2;
-		return (2);
+		return (err);
 	}
 	err = 0;
 	return (0);
@@ -92,8 +93,8 @@ int	check_prompt(char *wd, char *user)
 // "$WD $USER$ "
 char	*prompt(void)
 {
-	char		*wd;
-	char		*user;
+	char	*wd;
+	char	*user;
 
 	wd = NULL;
 	user = NULL;
