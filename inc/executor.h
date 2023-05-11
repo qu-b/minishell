@@ -46,16 +46,13 @@ char	**get_words(t_token **tokens, char **del);
 char	*cat_words(t_token **tokens, char *all_vals);
 
 char	**read_until_del(char **words, char *del, char *tmp_in);
-void	read_loop(char **tmp_in, char **tmp_wrd, char *del);
+void	read_loop(char **words, char **tmp_in, char **tmp_wrd, char *del);
 int		is_delimiter(char *s, char *del);
 int		heredoc_create(t_cmd *cmd, char **words);
 
 int		exec_heredoc(t_cmd *cmd, pid_t pid_i);
-int		process_nls(t_token **tokens, char *s, char *del, int idx);
-char	*trim_last(char *s, char *del, int i);
 
 char	**get_new_args(t_token **tokens, t_cmd *cmd);
-void	manage_tokens(t_token **tokens, char *del, int idx);
 
 // joins NULL terminated ptrs
 char	**ft_ptrjoin(char **s1, char **s2);

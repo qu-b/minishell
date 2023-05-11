@@ -6,14 +6,21 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/10 19:14:38 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:39:01 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	read_loop(char **tmp_in, char **tmp_wrd, char *del)
+void	read_loop(char **words, char **tmp_in, char **tmp_wrd, char *del)
 {
+	if (words && words[ft_argcount(words) - 1][0] != '\n')
+	{
+		*tmp_wrd = ft_strdup("\n");
+		printf("\n");
+	}
+	else
+		*tmp_wrd = ft_strdup("");
 	while (1)
 	{
 		*tmp_in = NULL;
@@ -40,8 +47,7 @@ char	**read_until_del(char **words, char *del, char *tmp_in)
 		words[argnb - 1] = NULL;
 		return (words);
 	}
-	tmp_wrd = ft_strdup("");
-	read_loop(&tmp_in, &tmp_wrd, del);
+	read_loop(words, &tmp_in, &tmp_wrd, del);
 	free(tmp_in);
 	new_words = ft_split_inc(tmp_wrd, '\n');
 	free(tmp_wrd);
