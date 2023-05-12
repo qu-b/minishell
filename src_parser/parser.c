@@ -113,7 +113,10 @@ int	parser(char *input)
 	if (!lexer(&head, input))
 		process_tokens(head);
 	else
+	{
+		free_tokens(&head);
 		return (1);
+	}
 	g_data->tokens = head;
 	return (0);
 }

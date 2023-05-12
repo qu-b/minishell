@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_tokens.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/10 13:16:47 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/12 10:36:58 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 void	handle_variable(char **tmp, char **buf)
 {
 	char	*value;
+	char	*variable;
 
-	value = get_variable_value(*tmp);
+	variable = ft_strtrim(*tmp, "\"");
+	value = get_variable_value(variable);
 	(*tmp)++;
 	if (value)
 		*buf = ft_strjoin_gnl(*buf, value);
 	while (**tmp && (ft_isalnum(**tmp) || **tmp == '_'))
 		(*tmp)++;
 	free(value);
+	free(variable);
 }
 
 void	handle_exit(char **tmp, char **buf)
