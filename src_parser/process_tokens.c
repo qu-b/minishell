@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:33:04 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/12 10:36:58 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/12 10:59:25 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void	handle_variable(char **tmp, char **buf)
 	char	*value;
 	char	*variable;
 
-	variable = ft_strtrim(*tmp, "\"");
+	variable = *tmp;
+	variable = ft_strtrim(variable, "\"'");
 	value = get_variable_value(variable);
 	(*tmp)++;
 	if (value)
 		*buf = ft_strjoin_gnl(*buf, value);
 	while (**tmp && (ft_isalnum(**tmp) || **tmp == '_'))
 		(*tmp)++;
+	(*tmp)--;
 	free(value);
 	free(variable);
 }
