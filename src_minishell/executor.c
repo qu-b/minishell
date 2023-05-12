@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/10 14:24:55 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/12 10:15:11 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	exec_pipe(t_cmd *cmd, t_token **current, int pid_i)
 		close(cmd->pipe[1]);
 		close(cmd->pipe[0]);
 		exec_cmd(cmd, *current, get_last_cmd(*current), cmd->tmpfd);
-		exit(1);
+		exit(0);
 	}
 	return (0);
 }
@@ -67,7 +67,7 @@ int	exec_main(t_cmd *cmd, t_token **current, int pid_i, int tmpfd)
 			dup2(tmpfd, 0);
 			close(tmpfd);
 			exec_cmd(cmd, *current, get_last_cmd(*current), tmpfd);
-			exit(1);
+			exit(0);
 		}
 	}
 	close(cmd->tmpfd);
