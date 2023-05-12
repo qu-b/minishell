@@ -3,3 +3,6 @@ obj/
 .vscode/
 .DS_Store
 minishell.dSYM
+en.subject.pdf
+minishell_eval.pdf
+README.md
