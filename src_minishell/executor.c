@@ -6,7 +6,7 @@
 /*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:22:21 by fcullen           #+#    #+#             */
-/*   Updated: 2023/05/12 10:15:11 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/12 12:36:39 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,18 @@ int	parse_cmd(t_token **tokens, int pid_i)
 	cmd->name = get_name(tokens);
 	cmd->args = get_args(*tokens);
 	last = get_last_cmd(*tokens);
-	heredoc(tokens, cmd);
-	if (last && last->type == PIPE)
+	if (!heredoc(tokens, cmd))
 	{
-		if (exec_pipe(cmd, tokens, pid_i))
-			return (1);
-	}
-	else
-	{
-		if (exec_main(cmd, tokens, pid_i, cmd->tmpfd))
-			return (1);
+		if (last && last->type == PIPE)
+		{
+			if (exec_pipe(cmd, tokens, pid_i))
+				return (1);
+		}
+		else
+		{
+			if (exec_main(cmd, tokens, pid_i, cmd->tmpfd))
+				return (1);
+		}
 	}
 	*tokens = last->next;
 	free_cmd(&g_data->cmd);
