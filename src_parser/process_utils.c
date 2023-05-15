@@ -48,7 +48,7 @@ char	*get_variable_value(char *s)
 	var_name = (char *)malloc(len + 1);
 	if (!var_name)
 		return (NULL);
-	ft_strlcpy(var_name, s + 1, len + 1);
+	ft_strlcpy(var_name, s, len + 1);
 	var_name[len] = '\0';
 	value = ft_getenv(g_data->env, var_name);
 	free(var_name);

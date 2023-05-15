@@ -16,11 +16,22 @@ void	handle_variable(char **tmp, char **buf)
 {
 	char	*value;
 	char	*variable;
+	char	*vtmp;
+	int		i;
 
-	variable = *tmp;
-	variable = ft_strtrim(variable, "\"'");
-	value = get_variable_value(variable);
+	i = 0;
+	variable = malloc(ft_strlen(*tmp));
+	if (!variable)
+		return ;
 	(*tmp)++;
+	vtmp = *tmp;
+	while (ft_isalnum(vtmp[i]) || vtmp[i] == '_')
+	{
+		variable[i] = vtmp[i];
+		i++;
+	}
+	variable[i] = '\0';
+	value = get_variable_value(variable);
 	if (value)
 		*buf = ft_strjoin_gnl(*buf, value);
 	while (**tmp && (ft_isalnum(**tmp) || **tmp == '_'))
