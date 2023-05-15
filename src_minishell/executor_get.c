@@ -66,7 +66,7 @@ char	**get_args(t_token *head)
 	t_token	*tmp;
 
 	i = 0;
-	if (!ft_strncmp(head->value, "<", 1))
+	if (!ft_strncmp(head->value, "<", 1) && head->next->next)
 		head = head->next->next;
 	tmp = head;
 	while (tmp && tmp->type != PIPE && tmp->type != IO && ++i)
