@@ -26,7 +26,14 @@ void	print_error(const char *error_type, const char *file_name)
 // changes tmpfd to infile fd and duplicates tmpfd onto STD_IN
 int	open_infile(t_token *current, int *tmpfd)
 {
-	*tmpfd = open(current->next->value, O_RDONLY);
+	if (current && current->next && current->next->value)
+		*tmpfd = open(current->next->value, O_RDONLY);
+	else
+	{
+		printf("minishell: syntax error near unexpected token `%s'\n",
+			current->value);
+		exit(258);
+	}
 	if (*tmpfd == -1)
 	{
 		if (errno == ENOENT)
@@ -43,9 +50,27 @@ int	open_infile(t_token *current, int *tmpfd)
 	return (0);
 }
 
-// Function to write/append to outfile
+int	check_token_values(t_token *current)
+{
+	if ((current && !current->next))
+	{
+		printf("minishell: syntax error near unexpected token `%s'\n",
+			current->value);
+		exit(258);
+	}
+	if (current->next->type == IO)
+	{
+		printf("minishell: syntax error near unexpected token `%s'\n",
+			current->value);
+		exit(258);
+	}
+	return (0);
+}
+
+// Function to append/write to outfile
 int	open_outfile(t_token *current, int *tmpfd)
 {
+	check_token_values(current);
 	if (current->len == 1)
 		*tmpfd = open(current->next->value,
 				O_WRONLY | O_TRUNC | O_CREAT,
