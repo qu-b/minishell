@@ -54,8 +54,7 @@ int	check_token_values(t_token *current)
 {
 	if ((current && !current->next))
 	{
-		printf("minishell: syntax error near unexpected token `%s'\n",
-			current->value);
+		printf("minishell: syntax error near unexpected token `newline'\n");
 		exit(258);
 	}
 	if (current->next->type == IO)
