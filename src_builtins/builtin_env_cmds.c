@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/17 17:07:10 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:00:35 by fcullen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char	**init_env(char **envp)
 	char	**tmp1;
 	char	**tmp2;
 	int		shlvl;
+	char	*shlvl_itoa;
 
 	g_data->env = ft_ptrdup(envp, ft_argcount(envp));
 	tmp1 = malloc(sizeof(char *) * 3);
@@ -95,15 +96,17 @@ char	**init_env(char **envp)
 	tmp1[2] = NULL;
 	g_data->env = ft_unset(g_data->env, tmp1);
 	shlvl = 0;
-	shlvl = ft_atoi(ft_getenv(g_data->env, "SHLVL"));
+	shlvl = ft_atoi(getenv("SHLVL"));
 	shlvl++;
 	tmp2 = malloc(sizeof(char *) * 3);
 	tmp2[0] = ft_strdup("export");
-	tmp2[1] = ft_strjoin("SHLVL=", ft_itoa(shlvl));
+	shlvl_itoa = ft_itoa(shlvl);
+	tmp2[1] = ft_strjoin("SHLVL=", shlvl_itoa);
 	tmp2[2] = NULL;
 	g_data->env = ft_export(g_data->env, tmp2);
 	ft_freeptr(tmp1);
 	ft_freeptr(tmp2);
+	free(shlvl_itoa);
 	g_data->env = ft_export_string(g_data->env, "SHELL=", "minishell");
 	return (g_data->env);
 }
