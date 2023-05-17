@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/10 11:20:06 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/17 17:07:10 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,26 @@ char	**ft_export_string(char **env, char *name, char *value)
 
 char	**init_env(char **envp)
 {
-	char	**tmp;
+	char	**tmp1;
+	char	**tmp2;
+	int		shlvl;
 
 	g_data->env = ft_ptrdup(envp, ft_argcount(envp));
-	tmp = malloc(sizeof(char *) * 3);
-	tmp[0] = ft_strdup("unset");
-	tmp[1] = ft_strdup("_");
-	tmp[2] = NULL;
-	g_data->env = ft_unset(g_data->env, tmp);
-	ft_freeptr(tmp);
+	tmp1 = malloc(sizeof(char *) * 3);
+	tmp1[0] = ft_strdup("unset");
+	tmp1[1] = ft_strdup("_");
+	tmp1[2] = NULL;
+	g_data->env = ft_unset(g_data->env, tmp1);
+	shlvl = 0;
+	shlvl = ft_atoi(ft_getenv(g_data->env, "SHLVL"));
+	shlvl++;
+	tmp2 = malloc(sizeof(char *) * 3);
+	tmp2[0] = ft_strdup("export");
+	tmp2[1] = ft_strjoin("SHLVL=", ft_itoa(shlvl));
+	tmp2[2] = NULL;
+	g_data->env = ft_export(g_data->env, tmp2);
+	ft_freeptr(tmp1);
+	ft_freeptr(tmp2);
 	g_data->env = ft_export_string(g_data->env, "SHELL=", "minishell");
 	return (g_data->env);
 }
