@@ -4,15 +4,6 @@
 
 ### This project is about creating a simple shell
 
-## To Do
-* Initialise an enrionment for the program, i.e. copy data from envp into data->env, so we are not modifying the environment variables of the parent process that launched minishell.
-* Executor
-* Ctrl-D, Ctrl-C, Ctrl-/
-* Handle $?
-* Heredoc
-* Working history
-* Check for leaks
-
 ## Tests
 ### Fork & Execve
 * Run minishell, then run the following command `$> foo`. It must fail with a proper error message and then give back the prompt.
