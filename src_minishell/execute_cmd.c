@@ -92,7 +92,7 @@ int	exec_cmd(t_cmd *cmd, t_token *current, t_token *last, int tmpfd)
 {
 	dup2(tmpfd, 0);
 	close(tmpfd);
-	while ((current != last && current) || current->type == IO)
+	while ((current && current != last) || (current && current->type == IO))
 		if (set_in_out(&current, cmd, &tmpfd))
 			return (1);
 	if (builtin_pipe(cmd))

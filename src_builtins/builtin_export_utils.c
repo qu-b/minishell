@@ -6,12 +6,14 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:30:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/23 16:11:54 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:38:33 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+// checks if a variable name is valid (alphanumeric)
+// prints error and returns -1 if not valid
 int	check_varname(char **args, int argi, int eqa)
 {
 	int	i;
@@ -33,6 +35,7 @@ int	check_varname(char **args, int argi, int eqa)
 	return (0);
 }
 
+// adds declare -x and quotes to env variables(..?)
 char	**env_quote(char **env, char **envtmp, int i, int j)
 {
 	int	k;
@@ -58,6 +61,7 @@ char	**env_quote(char **env, char **envtmp, int i, int j)
 	return (envtmp);
 }
 
+// sorts quoted declare -x env variables by name
 char	**env_sort(char **envtmp)
 {
 	char	*tmp;
@@ -81,6 +85,7 @@ char	**env_sort(char **envtmp)
 	return (envtmp);
 }
 
+// mimics the functionality of export without arguments
 void	ft_export_export(char **env)
 {
 	char	**envtmp;
@@ -92,6 +97,7 @@ void	ft_export_export(char **env)
 	ft_freeptr(envtmp);
 }
 
+// counts the number of strings in **args
 int	ft_argcount(char **args)
 {
 	int	i;

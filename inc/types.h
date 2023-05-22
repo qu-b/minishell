@@ -38,7 +38,6 @@ typedef struct s_cmd
 	char	**args;
 	int		pipe[2];
 	int		tmpfd;
-	int		heredoc;
 }	t_cmd;
 
 // Define Data Structure

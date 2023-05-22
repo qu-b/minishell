@@ -12,39 +12,16 @@
 
 #include "minishell.h"
 
-int	exec_builtins(char **args)
+// frees and exits the minishell
+int	exec_exit(void)
 {
-	int		len;
-
-	len = builtin_cmd_len(args[0]);
-	if (ft_strncmp(args[0], "echo", len) == 0)
-		ft_echo(args);
-	else if (ft_strncmp(args[0], "env", len) == 0)
-		ft_env(g_data->env);
-	else if (ft_strncmp(args[0], "pwd", len) == 0)
-		ft_pwd();
-	else if (ft_strncmp(args[0], "cd", len) == 0)
-		g_data->env = ft_cd(g_data->env, args);
-	else if (ft_strncmp(args[0], "export", len) == 0)
-		g_data->env = exec_export(args);
-	else if (ft_strncmp(args[0], "unset", len) == 0)
-		g_data->env = ft_unset(g_data->env, args);
-	else if (ft_strncmp(args[0], "exit", len) == 0)
-		exec_exit(args);
-	else if (ft_strncmp(args[0], "getenv", len) == 0)
-		printf("%s\n", ft_getenv(g_data->env, args[1]));
-	return (0);
-}
-
-int	exec_exit(char **args)
-{
-	(void) args;
 	free_cmd(&g_data->cmd);
 	free(g_data->pid);
 	free_data();
 	exit(0);
 }
 
+// executes the export builtin
 char	**exec_export(char **args)
 {
 	if (args[1] == NULL)
@@ -54,6 +31,7 @@ char	**exec_export(char **args)
 	return (g_data->env);
 }
 
+// finds the lenght of *cmd until first space or end of string
 int	builtin_cmd_len(char *cmd)
 {
 	int	len;

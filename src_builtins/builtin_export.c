@@ -6,16 +6,16 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 05:12:37 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/23 16:03:28 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:44:55 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// compare 2 variable names
-// return -1 if either is non valid
-// retur 0 if both are valid but different
-// return varlen if both are the same
+// compares 2 variable names
+// returns -1 if either is non valid
+// returns 0 if both are valid but different
+// returns varlen if both are the same
 int	compare_vars(char **env, char **args, int argi, int envi)
 {
 	int	eqa;
@@ -36,8 +36,8 @@ int	compare_vars(char **env, char **args, int argi, int envi)
 	return (0);
 }
 
-// check if valid args exist in the old env
-// if so, replace them in the new env and mark replaced args for append
+// checks if valid args exist in the old env
+// if so, replaces them in the new env and marks replaced args for append
 int	replace_env(t_export *exp, char **env, char **args)
 {
 	int	envi;
@@ -67,8 +67,8 @@ int	replace_env(t_export *exp, char **env, char **args)
 	return (0);
 }
 
-// check if valid args don't exist in the old env
-// if so, append them to the new env
+// checks if valid args don't exist in the old env
+// if so, appends them to the new env
 int	append_env(t_export *exp, char **env, char **args)
 {
 	int	eq;
@@ -97,6 +97,7 @@ int	append_env(t_export *exp, char **env, char **args)
 	return (0);
 }
 
+// inits the export struct for ft_export
 int	export_init(t_export *exp, char **env, char **args)
 {
 	int	i;
@@ -118,6 +119,9 @@ int	export_init(t_export *exp, char **env, char **args)
 	return (0);
 }
 
+// exports the env variables passed as arguments, until one is invalid
+// returns a new env, frees old env, returns env if fail
+// shows declared env vars if no args
 char	**ft_export(char **env, char **args)
 {
 	char		**new_env;

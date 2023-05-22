@@ -35,7 +35,7 @@ int	builtin(t_cmd *cmd)
 	}
 	else if (!ft_strncmp(cmd->name, "exit", len) && len == 4)
 	{
-		exec_exit(cmd->args);
+		exec_exit();
 		return (1);
 	}
 	return (0);

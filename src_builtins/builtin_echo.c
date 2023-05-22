@@ -6,12 +6,13 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:37:50 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/23 15:49:52 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:43:38 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+// finds the index of the first **args string that isn't an -n option
 int	echo_find_opt(char **args, int argnb)
 {
 	int		i;
@@ -37,6 +38,7 @@ int	echo_find_opt(char **args, int argnb)
 	return (i);
 }
 
+// prints args[1] to args[n] with spaces between
 void	ft_echo(char **args)
 {
 	int	i;

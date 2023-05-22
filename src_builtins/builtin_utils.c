@@ -6,12 +6,13 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 01:59:20 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/07 21:44:58 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:34:09 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+// returns a dup **s for n, terminates with NULL
 char	**ft_ptrdup(char **s, int n)
 {
 	int		i;
@@ -27,6 +28,7 @@ char	**ft_ptrdup(char **s, int n)
 	return (out);
 }
 
+// returns a dup **s for n, terminates with NULL, frees **s
 char	**ft_ptrdup_free(char **s, int n)
 {
 	int		i;
@@ -43,6 +45,7 @@ char	**ft_ptrdup_free(char **s, int n)
 	return (out);
 }
 
+// returns the index of the first occurence of c in s, -1 if none found
 int	ft_strchr_idx(const char *s, int c)
 {
 	int	i;
@@ -61,6 +64,7 @@ int	ft_strchr_idx(const char *s, int c)
 	return (-1);
 }
 
+// prints a char **s, each element on a new line
 void	ft_printptr(char **s)
 {
 	int	i;

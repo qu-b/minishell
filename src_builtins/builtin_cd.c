@@ -6,7 +6,7 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:32:10 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/10 13:19:24 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:52:28 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*ft_cd_change(char *path)
 	return (full_path);
 }
 
+// adds "cd -" and "cd " functionality
 char	*ft_cd_get_new_dir(char **args, char **env)
 {
 	char	*new_dir;

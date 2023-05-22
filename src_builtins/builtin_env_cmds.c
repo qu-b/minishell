@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_cmds.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcullen <fcullen@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:17:58 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/17 18:00:35 by fcullen          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:55:45 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+// prints the environment variables, separates them by newlines
 void	ft_env(char **env)
 {
 	int	i;
@@ -22,6 +23,7 @@ void	ft_env(char **env)
 	return ;
 }
 
+// finds and prints the current working directory
 void	ft_pwd(void)
 {
 	char	*cwd;
@@ -41,6 +43,8 @@ void	ft_pwd(void)
 	}
 }
 
+// returns a malloced string with the value of var in **env
+// returns NULL if none found
 char	*ft_getenv(char **env, char *var)
 {
 	char	**args;
@@ -68,6 +72,7 @@ char	*ft_getenv(char **env, char *var)
 	return (NULL);
 }
 
+// 
 char	**ft_export_string(char **env, char *name, char *value)
 {
 	char	**new_env;
@@ -82,30 +87,26 @@ char	**ft_export_string(char **env, char *name, char *value)
 	return (new_env);
 }
 
+// inits minishell env variable, dups envp, unsets "_"
+// augments and exports "SHLVL", changes "SHELL"
 char	**init_env(char **envp)
 {
-	char	**tmp1;
-	char	**tmp2;
+	char	**tmp;
 	int		shlvl;
 	char	*shlvl_itoa;
 
 	g_data->env = ft_ptrdup(envp, ft_argcount(envp));
-	tmp1 = malloc(sizeof(char *) * 3);
-	tmp1[0] = ft_strdup("unset");
-	tmp1[1] = ft_strdup("_");
-	tmp1[2] = NULL;
-	g_data->env = ft_unset(g_data->env, tmp1);
+	tmp = malloc(sizeof(char *) * 3);
+	tmp[0] = ft_strdup("unset");
+	tmp[1] = ft_strdup("_");
+	tmp[2] = NULL;
+	g_data->env = ft_unset(g_data->env, tmp);
+	ft_freeptr(tmp);
 	shlvl = 0;
 	shlvl = ft_atoi(getenv("SHLVL"));
 	shlvl++;
-	tmp2 = malloc(sizeof(char *) * 3);
-	tmp2[0] = ft_strdup("export");
 	shlvl_itoa = ft_itoa(shlvl);
-	tmp2[1] = ft_strjoin("SHLVL=", shlvl_itoa);
-	tmp2[2] = NULL;
-	g_data->env = ft_export(g_data->env, tmp2);
-	ft_freeptr(tmp1);
-	ft_freeptr(tmp2);
+	g_data->env = ft_export_string(g_data->env, "SHLVL=", shlvl_itoa);
 	free(shlvl_itoa);
 	g_data->env = ft_export_string(g_data->env, "SHELL=", "minishell");
 	return (g_data->env);

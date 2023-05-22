@@ -6,12 +6,14 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:05:01 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/10 19:17:18 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:48:24 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// looks for delimiter after <<, returns it or null if none found
+// sets nldel to 1 if the delimiter is directly followed by a newline
 char	*define_delimiter(t_token **tokens, int *nldel)
 {
 	char	*del;
@@ -39,6 +41,7 @@ char	*define_delimiter(t_token **tokens, int *nldel)
 	return (del);
 }
 
+// checks if s is del, returns 1 if true 0 if false
 int	is_delimiter(char *s, char *del)
 {
 	int	dlen;
@@ -55,6 +58,7 @@ int	is_delimiter(char *s, char *del)
 	return (0);
 }
 
+// joins two arrays of strings
 char	**ft_ptrjoin(char **s1, char **s2)
 {
 	char	**new;
@@ -106,7 +110,8 @@ char	**get_new_args(t_token **tokens, t_cmd *cmd)
 	return (ft_ptrjoin(cmd->args, new_args));
 }
 
-// finds the index of the first heredoc token, 0 if none found
+// checks if "<<" is present in tokens in the current command
+// returns index of << token or 0 if not found
 int	heredoc_find(t_token **tokens, t_cmd *cmd)
 {
 	t_token	*tmp;

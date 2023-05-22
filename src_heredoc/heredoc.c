@@ -6,12 +6,13 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 09:29:03 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/05/11 11:39:01 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:50:59 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+// read loop for read_until_del
 void	read_loop(char **words, char **tmp_in, char **tmp_wrd, char *del)
 {
 	if (words && words[ft_argcount(words) - 1][0] != '\n')
@@ -33,6 +34,9 @@ void	read_loop(char **words, char **tmp_in, char **tmp_wrd, char *del)
 	}
 }
 
+// checks if words already contain the delimiter
+// if not, reads from stdin until delimiter is found
+// returns new words + old words if they exist
 char	**read_until_del(char **words, char *del, char *tmp_in)
 {
 	char	**out;
@@ -80,6 +84,7 @@ int	heredoc_create(t_cmd *cmd, char **words)
 	return (0);
 }
 
+// does the things heredoc is supposed to do
 int	heredoc_main(t_token **tokens, t_cmd *cmd)
 {
 	char	*del;
@@ -91,7 +96,6 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 	del = define_delimiter(tokens, &nldel);
 	if (!del)
 		return (-1);
-	cmd->heredoc = 1;
 	if (nldel)
 		words = get_words(tokens, &del);
 	if (!nldel)
@@ -103,6 +107,7 @@ int	heredoc_main(t_token **tokens, t_cmd *cmd)
 	return (0);
 }
 
+// adds heredoc functionality to minishell
 int	heredoc(t_token **tokens, t_cmd *cmd)
 {
 	int		heredoc_pos;

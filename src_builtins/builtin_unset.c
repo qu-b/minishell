@@ -6,14 +6,14 @@
 /*   By: kpawlows <kpawlows@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 05:12:37 by kpawlows          #+#    #+#             */
-/*   Updated: 2023/04/06 05:49:09 by kpawlows         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:34:55 by kpawlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// check whether args exist in old env
-// if so, skip their copy from the old env to the new env
+// checks whether args exist in old env
+// if so, skips their copy from the old env to the new env
 int	remove_env(t_export *exp, char **env, char **args)
 {
 	int	eq;
@@ -43,6 +43,7 @@ int	remove_env(t_export *exp, char **env, char **args)
 	return (0);
 }
 
+// inits t_export struct for ft_unset
 int	unset_init(t_export *exp, char **env, char **args)
 {
 	exp->argnb = ft_argcount(args);
@@ -54,6 +55,8 @@ int	unset_init(t_export *exp, char **env, char **args)
 	return (0);
 }
 
+// unsets the env variables passed as arguments, returns the new env
+// returns the old env if an error occurs
 char	**ft_unset(char **env, char **args)
 {
 	char		**new_env;
